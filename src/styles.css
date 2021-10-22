@@ -68,3 +68,6 @@ code {
 .hero .app-logo {
   max-width: 10.5rem;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

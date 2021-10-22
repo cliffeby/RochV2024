@@ -14,6 +14,7 @@ import { HomeContentComponent } from './components/home-content/home-content.com
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ExternalApiComponent } from './pages/external-api/external-api.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ExternalApiComponent } from './pages/external-api/external-api.componen
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent],
 })
