@@ -17,7 +17,7 @@ const issuer = process.env.AUTH0_ISSUER;
 if (!issuer || !audience) {
   throw new Error("Please make sure that .env is in place and populated");
 }
-
+console.log('MYENV', process.env.AUTH0_AUDIENCE);
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors({ origin: appOrigin }));

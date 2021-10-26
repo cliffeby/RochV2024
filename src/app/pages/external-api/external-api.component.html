@@ -11,10 +11,10 @@
     role="group"
     aria-label="External API Requests Examples"
   >
-    <button type="button" class="btn btn-primary">
+    <button type="button" (click)="callApi()" class="btn btn-primary">
       Get Public Message
     </button>
-    <button type="button" class="btn btn-primary">
+    <button type="button" (click)='callSecureApi()' class="btn btn-primary">
       Get Protected Message
     </button>
   </div>

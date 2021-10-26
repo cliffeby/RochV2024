@@ -4,14 +4,14 @@ import { AuthService } from '@auth0/auth0-angular';
 import { faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css'],
+  selector: 'app-login-button',
+  templateUrl: './login-button.component.html',
+  styles: [],
 })
-export class NavBarComponent implements OnInit {
-  // isCollapsed = true;
-  // faUser = faUser;
-  // faPowerOff = faPowerOff;
+export class LoginButtonComponent implements OnInit {
+  isCollapsed = true;
+  faUser = faUser;
+  faPowerOff = faPowerOff;
   constructor(
     public auth: AuthService,
     @Inject(DOCUMENT) private doc: Document
