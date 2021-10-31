@@ -1,0 +1,13 @@
+<p>members-list works!</p>
+<div class="col-md-6">
+  <h4>Members List</h4>
+  <ul class="list-group">
+    <li
+      class="list-group-item"
+      *ngFor="let member of members; let i = index"
+      [class.active]="i == currentIndex"
+      (click)="setActiveTutorial(tutorial, i)"
+    >
+      {{ member.firstName }} {{member.lastName}}
+    </li>
+  </ul>

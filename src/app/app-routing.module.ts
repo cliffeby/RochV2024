@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'src/app/pages/home/home.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
+import { MembersCenterComponent } from 'src/app/components/members/members-center/members-center.component';
 import { ExternalApiComponent } from 'src/app/pages/external-api/external-api.component';
 
 const routes: Routes = [
@@ -17,6 +18,12 @@ const routes: Routes = [
   {
     path: 'external-api',
     component: ExternalApiComponent,
+  },
+  {
+    path: 'members',
+    component: MembersCenterComponent,
+    // canActivate: [ScopeGuard],
+    data: { expectedScopes: ['read:members'] },
   },
 ];
 

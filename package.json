@@ -7,7 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dev": "ng serve",
+    "server": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
+
   },
   "private": true,
   "dependencies": {

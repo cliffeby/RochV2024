@@ -16,9 +16,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ExternalApiComponent } from './pages/external-api/external-api.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular'
+import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { environment as env } from 'src/environments/environment';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
+import { MembersCenterComponent } from './components/members/members-center/members-center.component';
+import { MembersListComponent } from './components/members/members-list/members-list.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { LoginButtonComponent } from './components/login-button/login-button.com
     ProfileComponent,
     ExternalApiComponent,
     LoginButtonComponent,
+    MembersCenterComponent,
+    MembersListComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,18 +49,19 @@ import { LoginButtonComponent } from './components/login-button/login-button.com
       ...env.auth,
       httpInterceptor: {
         allowedList: [
-          'http://localhost:7000/api/messages/protected-message'
-        ]
-      }
-    })
+          'http://localhost:7000/api/messages/protected-message',
+          'http://localhost:7000/api/members',
+        ],
+      },
+    }),
   ],
   bootstrap: [AppComponent],
   providers: [
-    { 
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class AppModule {}
