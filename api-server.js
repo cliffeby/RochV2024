@@ -37,7 +37,7 @@ const checkJwt = jwt({
 
 app.get("/api/messages/public-message", (req, res) => {
   res.send({
-    message: "The API doesn't require an access token to share this message.",
+    message: "The API doesn't require an access token to share this message!!!.",
   });
 });
 

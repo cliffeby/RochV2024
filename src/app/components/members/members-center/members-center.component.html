@@ -1,2 +1,49 @@
+<!-- <div class="row">
+  <div *ngIf="!hidenewMember">
+    <h2>New Member</h2>
+    <form  class="well">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" class="form-control" required name="firstName" ngModel>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" class="form-control" required name="lastName" ngModel>
+      </div>
+      <div class="form-group">
+        <label>Current HCap</label>
+        <input type="text" class="form-control" name="currentHCap" ngModel>
+      </div>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+  <member-detail *ngIf="selectedMember && hidenewMember"
+                (updateMemberEvent)="onUpdateMemberEvent($event)"
+                (deleteMemberEvent)="onDeleteMemberEvent($event)"
+                (notify)="onNotifyClicked()"
+                [create]="canCreate"
+                 [update]="canUpdate"
+                 [delete]="canDelete"
+                [member]="selectedMember">
+  </member-detail>
+</div>
+
+<div *ngIf="!selectedMember && hidenewMember && canCreate" class="row">
+  <div class="col-md-12">
+
+    <div class="pull-right">
+      <button class="btn btn-primary" (click)="addMember()">
+        <i class="glyphicon glyphicon-plus"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<member-list *ngIf="!selectedMember && hidenewMember"
+              [members]="members" [create]="canCreate"
+              (SelectMember)="onSelectMember($event)">
+</member-list>
+
 <p>members-center works!</p>
-<app-members-list></app-members-list>
+<li *ngIf="auth.user$ | async as user">
+  {{user.name}} {{user.nickname}} </li>
+<app-members-list></app-members-list> -->

@@ -5,5 +5,6 @@ export enum ItemPermission {
   CreateMember = "create:member",
   ReadMembers = "read:members",
   UpdateMember = "update:member",
-  DeleteMember = "remove:member"
+  DeleteMember = "remove:member",
+  BadPermission = "read:bad"
 }

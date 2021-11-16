@@ -1,24 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/services/members.service';
 
 @Component({
   selector: 'app-members-list',
   templateUrl: './members-list.component.html',
-  styleUrls: ['./members-list.component.css']
+  styleUrls: ['./members-list.component.css'],
+  inputs: ['members', 'create'],
+  outputs: ['SelectMember'],
 })
 export class MembersListComponent implements OnInit {
-  members: Member[];
+  // members: Member[];
+  data1:Member;
   currentMember: Member;
   currentIndex = -1;
-  constructor(private membersService: MembersService) { }
+  public SelectMember = new EventEmitter();
+  public queryString: string;
+  @Input() members;
+  public create: boolean;
+
+  constructor(private membersService: MembersService) {}
 
   ngOnInit(): void {
     this.retrieveMembers();
   }
+  onSelect(mem: Member) {
+    this.SelectMember.emit(mem);
+  }
 
   retrieveMembers(): void {
-    this.membersService.getAll().subscribe(
+    this.membersService.getMembers().subscribe(
       (data) => {
         this.members = data;
         console.log(data, this.members);
@@ -39,7 +50,6 @@ export class MembersListComponent implements OnInit {
     this.currentMember = member;
     this.currentIndex = index;
   }
-
 
   searchTitle(): void {
     // this.currentMembers = {};

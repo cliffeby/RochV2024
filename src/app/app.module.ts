@@ -21,6 +21,14 @@ import { environment as env } from 'src/environments/environment';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
 import { MembersListComponent } from './components/members/members-list/members-list.component';
+import { MembersDetailComponent } from './components/members/members-detail/members-detail.component';
+import { MembersMatListComponent } from './components/members/members-mat-list/members-mat-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { AngularMaterialModule } from './material.module';
+import { MembersMatAddComponent } from './components/members/members-mat-add/members-mat-add.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
+import { MembersMatTestComponent } from './components/members/members-mat-test/members-mat-test.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +45,11 @@ import { MembersListComponent } from './components/members/members-list/members-
     LoginButtonComponent,
     MembersCenterComponent,
     MembersListComponent,
+    MembersDetailComponent,
+    MembersMatListComponent,
+    MembersMatAddComponent,
+    MembersMatEditComponent,
+    MembersMatTestComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,13 +57,18 @@ import { MembersListComponent } from './components/members/members-list/members-
     HttpClientModule,
     FontAwesomeModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    AngularMaterialModule,
     BrowserAnimationsModule,
     AuthModule.forRoot({
       ...env.auth,
       httpInterceptor: {
         allowedList: [
           'http://localhost:7000/api/messages/protected-message',
-          'http://localhost:7000/api/members',
+          'http://localhost:7000/api/members*',
+
         ],
       },
     }),

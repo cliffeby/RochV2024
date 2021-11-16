@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Member } from '../models/member';
 
+
 const baseUrl = 'http://localhost:7000/api/members';
 
 @Injectable({
@@ -11,27 +12,27 @@ const baseUrl = 'http://localhost:7000/api/members';
 export class MembersService {
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Member[]> {
+  getMembers(): Observable<any[]> {
     return this.http.get<Member[]>(baseUrl);
   }
 
-  // get(id: any): Observable<Members> {
-  //   return this.http.get(`${baseUrl}/${id}`);
-  // }
+  getMember(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/${id}`);
+  }
 
-  create(data: any): Observable<any> {
+  createMember(data: Member): Observable<any> {
     return this.http.post(baseUrl, data);
   }
 
-  update(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+  updateMember( data: Member): Observable<any> {
+    return this.http.put(`${baseUrl}/${data._id}`, data);
   }
 
-  delete(id: any): Observable<any> {
+  deleteMember(id: any): Observable<any> {
     return this.http.delete(`${baseUrl}/${id}`);
   }
 
-  deleteAll(): Observable<any> {
+  deleteAllMembers(): Observable<any> {
     return this.http.delete(baseUrl);
   }
 

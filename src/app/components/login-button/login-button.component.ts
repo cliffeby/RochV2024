@@ -17,7 +17,9 @@ export class LoginButtonComponent implements OnInit {
     @Inject(DOCUMENT) private doc: Document
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('Doc', this.doc);
+  }
 
   loginWithRedirect() {
     this.auth.loginWithRedirect();

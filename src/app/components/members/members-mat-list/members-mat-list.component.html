@@ -1,0 +1,72 @@
+<app-members-mat-test></app-members-mat-test>
+<!-- Title group  -->
+<div class="title-group">
+  <h1 class="mat-h1">Members List</h1>
+  <!-- Data {{members$ | json}} -->
+  <!-- Member {{members$ | async | json}} -->
+<!-- <div *ngFor="let member of (members$ |  json)">
+  {{ member._id }} {{ member.firstName }}
+  <button>x</button>
+</div> -->
+  <!-- <app-members-mat-edit>
+   Member1 {{members$ }} -->
+<!-- <div *ngFor="let todo of (members$ | async)">
+  {{ todo._id }} {{ todo.firstName }}
+  <button>x</button>
+</div> -->
+  <!-- </app-members-mat-edit> -->
+
+  <a mat-list-item routerLinkActive="active" routerLink="/add-members">
+    <mat-icon>add</mat-icon> Add Member
+  </a>
+  <mat-divider fxFlex="1 0"></mat-divider>
+</div>
+
+<p *ngIf="members.length <= 0" class="no-data">There is no member added yet!</p>
+
+<div class="container" *ngIf="members.length > 0">
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="_id">
+        <th mat-header-cell *matHeaderCellDef> Member ID </th>
+        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="section">
+        <th mat-header-cell *matHeaderCellDef> Section </th>
+        <td mat-cell *matCellDef="let element"> {{element.section}} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element; let i = index;">
+
+          <a *ngIf="true" class="btn btn-primary" (click)="onSelect(element)">
+            <i class="glyphicon glyphicon-edit"></i>
+          </a>
+
+          <button mat-raised-button color="primary" class="push-right"
+            [routerLink]="['/edit-members/', element._id]">Edit</button>
+          <button mat-raised-button color="accent" (click)="deleteMember(i, element)">Delete</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+<app-members-mat-edit></app-members-mat-edit>
+
