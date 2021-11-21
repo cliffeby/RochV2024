@@ -25,7 +25,8 @@ const routes: Routes = [
   },
   {
     path: 'members',
-    component: MembersMatListComponent,
+    component: MembersCenterComponent,
+    // component: MembersMatListComponent,
     // canActivate: [ScopeGuard],
     data: { expectedScopes: ['read:members'] },
   },

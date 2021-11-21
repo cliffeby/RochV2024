@@ -1,3 +1,26 @@
+<div *ngIf="!hidenewMember">
+    <h2>New Member</h2>
+    <app-members-mat-edit
+                (submitAddMemberEvent)="onSubmitAddMemberEvent($event)"
+                [member]="selectedMember">
+    </app-members-mat-edit>
+</div>
+
+<div  *ngIf="selectedMember && hidenewMember">
+    <h2>Edit Member</h2>
+    <app-members-mat-edit
+                    (updateMemberEvent)="onUpdateMemberEvent($event)"
+                    (deleteMemberEvent)="onDeleteMemberEvent($event)"
+                    (notify)="onNotifyClicked()"
+                    [member]="selectedMember">
+    </app-members-mat-edit>
+</div>
+
+<app-members-mat-list *ngIf="!selectedMember && hidenewMember"
+                [members]="members"
+                (SelectMember)="onSelectMember($event)">
+</app-members-mat-list>
+
 <!-- <div class="row">
   <div *ngIf="!hidenewMember">
     <h2>New Member</h2>
@@ -14,10 +37,10 @@
         <label>Current HCap</label>
         <input type="text" class="form-control" name="currentHCap" ngModel>
       </div>
-      <button type="submit" class="btn btn-success">Save</button>
+      <button type="submit" class="btn btn-success" (click) =onSubmitAddMemberEvent($event) >Save</button>
     </form>
-  </div>
-  <member-detail *ngIf="selectedMember && hidenewMember"
+  </div> -->
+  <!-- <member-detail *ngIf="selectedMember && hidenewMember"
                 (updateMemberEvent)="onUpdateMemberEvent($event)"
                 (deleteMemberEvent)="onDeleteMemberEvent($event)"
                 (notify)="onNotifyClicked()"
@@ -25,9 +48,9 @@
                  [update]="canUpdate"
                  [delete]="canDelete"
                 [member]="selectedMember">
-  </member-detail>
-</div>
-
+  </member-detail> -->
+<!-- </div> -->
+<!-- 
 <div *ngIf="!selectedMember && hidenewMember && canCreate" class="row">
   <div class="col-md-12">
 
@@ -37,13 +60,13 @@
       </button>
     </div>
   </div>
-</div>
-<member-list *ngIf="!selectedMember && hidenewMember"
+</div> -->
+<!-- <member-list *ngIf="!selectedMember && hidenewMember"
               [members]="members" [create]="canCreate"
               (SelectMember)="onSelectMember($event)">
-</member-list>
+</member-list> -->
 
-<p>members-center works!</p>
+<!-- <p>members-center works!</p>
 <li *ngIf="auth.user$ | async as user">
   {{user.name}} {{user.nickname}} </li>
 <app-members-list></app-members-list> -->

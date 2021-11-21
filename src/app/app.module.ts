@@ -28,7 +28,6 @@ import { AngularMaterialModule } from './material.module';
 import { MembersMatAddComponent } from './components/members/members-mat-add/members-mat-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
-import { MembersMatTestComponent } from './components/members/members-mat-test/members-mat-test.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +48,6 @@ import { MembersMatTestComponent } from './components/members/members-mat-test/m
     MembersMatListComponent,
     MembersMatAddComponent,
     MembersMatEditComponent,
-    MembersMatTestComponent,
   ],
   imports: [
     BrowserModule,

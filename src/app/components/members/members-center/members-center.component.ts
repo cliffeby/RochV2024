@@ -16,11 +16,13 @@ export class MembersCenterComponent implements OnInit {
   public canCreate: boolean;
   public canUpdate: boolean;
   public canDelete: boolean;
-  public hidenewMember = false;
+  public hidenewMember = true;
   members: Array<Member>;
 
-  constructor(public auth: AuthService,
-    private _membersService : MembersService) {}
+  constructor(
+    public auth: AuthService,
+    private _membersService: MembersService
+  ) {}
 
   ngOnInit() {
     this._membersService
@@ -32,13 +34,25 @@ export class MembersCenterComponent implements OnInit {
     // console.log('canCreate', this.canCreate, this.canUpdate, this.canDelete);
   }
 
-  onSelectMember(member: any) {
-    this.selectedMember = member;
-    console.log("Center",this.selectedMember);
+  onSelectMember(member: Member) {
+    if (member === null) {
+      // this.selectedMember = member;
+      this.hidenewMember = false;
+      console.log('Center', this.selectedMember, this.hidenewMember);
+    } else {
+      this.selectedMember = member;
+      this.hidenewMember = true;
+      console.log('Center', this.selectedMember);
+    }
+  }
+  onAddMemberEvent(){
+    this.hidenewMember = false;
+    this.selectedMember = null;
   }
 
   addMember() {
     this.hidenewMember = false;
+    this.selectedMember = null;
   }
 
   onSubmitAddMember(member: Member) {
@@ -62,6 +76,15 @@ export class MembersCenterComponent implements OnInit {
     this._membersService
       .getMembers()
       .subscribe((resMemberData) => (this.members = resMemberData));
+  }
+  onSubmitAddMemberEvent(member: any) {
+    this._membersService
+      .createMember(member)
+      .subscribe((resNewMember) => {
+        this.members.push(resNewMember);
+        this.hidenewMember = true;
+        this.selectedMember = null;
+      });
   }
 
   onDeleteMemberEvent(member: any) {

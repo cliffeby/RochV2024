@@ -1,6 +1,6 @@
 // import { Member } from '../../../models/member';
 // import { ApiService } from './../../shared/api.service';
-import { Component, ViewChild, OnInit, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MembersService } from 'src/app/services/members.service';
@@ -17,29 +17,20 @@ export class MembersMatListComponent implements OnInit {
   data1:any;
   members: any[] = [];
   members$:Observable<any[]>;
-  public SelectMember = new EventEmitter();
+  @Output() public SelectMember = new EventEmitter();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   displayedColumns: string[] = [
     '_id',
     'firstName',
     'lastName',
-    // 'section',
     'action',
   ];
 
-  // constructor(private studentApi: ApiService) {
-  //   this.studentApi.GetStudents().subscribe((data) => {
-  //     this.StudentData = data;
-  //     this.dataSource = new MatTableDataSource<Student>(this.StudentData);
-  //     setTimeout(() => {
-  //       this.dataSource.paginator = this.paginator;
-  //     }, 0);
-  //   });
-  // }
+
   constructor(
     private _membersService: MembersService,
-    private _sendMemberService: SendMemberService
+    // private _sendMemberService: SendMemberService
   ) {}
 
   ngOnInit() {
@@ -50,13 +41,20 @@ export class MembersMatListComponent implements OnInit {
 
   sendMember(sendData): void {
     // send message to subscribers via observable subject
-    this._sendMemberService.create(sendData);
-    this._sendMemberService.create2(sendData);
+    // this._sendMemberService.create(sendData);
+    // this._sendMemberService.create2(sendData);
+  }
+  addMember(mem){
+    console.log('Add Member', mem);
+    // this.data1 = mem;
+    // this.sendMember(mem);
+    // mem = null;
+    this.SelectMember.emit(mem);
   }
 
   clearMessages(): void {
     // clear messages
-    this._sendMemberService.remove(11);
+    // this._sendMemberService.remove(11);
   }
 
   retrieveMembers(): void {
@@ -76,9 +74,9 @@ export class MembersMatListComponent implements OnInit {
   }
   onSelect(mem: any) {
     console.log('mem', mem);
-    this.data1 = mem;
-    this.sendMember(mem);
-    // this.SelectMember.emit(mem);
+    // this.data1 = mem;
+    // this.sendMember(mem);
+    this.SelectMember.emit(mem);
   }
 
   deletemember(index: number, e) {
@@ -93,3 +91,28 @@ export class MembersMatListComponent implements OnInit {
     }
   }
 }
+// @Component({
+//   selector: 'member-list',
+//   templateUrl: 'member-list.component.html',
+//   styleUrls: ['member-list.component.css'],
+//   inputs: ['members', 'create'],
+//   outputs: ['SelectMember'],
+// })
+// export class MemberListComponent implements OnInit {
+//   public SelectMember = new EventEmitter();
+//   public queryString: string;
+//   @Input() members;
+//   public create: boolean;
+
+//   constructor() {}
+
+//   ngOnInit() {
+//     this.queryString = '';
+//     console.log('BACK from List ngOnInit', this.create);
+//   }
+
+//   onSelect(mem: Member) {
+//     this.SelectMember.emit(mem);
+//   }
+//   // TODO  Implenet delete member
+// }
