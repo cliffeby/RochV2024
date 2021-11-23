@@ -28,15 +28,10 @@ export class MembersCenterComponent implements OnInit {
     this._membersService
       .getMembers()
       .subscribe((resMemberData) => (this.members = resMemberData));
-    // this.canCreate = this.auth.userHasScopes(['create:member']);
-    // this.canUpdate = this.auth.userHasScopes(['update:member']);
-    // this.canDelete = this.auth.userHasScopes(['remove:member']);
-    // console.log('canCreate', this.canCreate, this.canUpdate, this.canDelete);
   }
 
   onSelectMember(member: Member) {
     if (member === null) {
-      // this.selectedMember = member;
       this.hidenewMember = false;
       console.log('Center', this.selectedMember, this.hidenewMember);
     } else {
@@ -46,11 +41,6 @@ export class MembersCenterComponent implements OnInit {
     }
   }
   onAddMemberEvent(){
-    this.hidenewMember = false;
-    this.selectedMember = null;
-  }
-
-  addMember() {
     this.hidenewMember = false;
     this.selectedMember = null;
   }
@@ -88,15 +78,18 @@ export class MembersCenterComponent implements OnInit {
   }
 
   onDeleteMemberEvent(member: any) {
+    this.selectedMember = member;
     const memberArray = this.members;
-    this._membersService.deleteMember(member).subscribe((resDeletedMember) => {
+    this._membersService.deleteMember(member._id).subscribe((resDeletedMember) => {
       for (let i = 0; i < memberArray.length; i++) {
         if (memberArray[i]._id === member._id) {
           memberArray.splice(i, 1);
         }
       }
+      this.members = memberArray;
     });
     this.selectedMember = null;
+    this.members = memberArray;
   }
   onNotifyClicked(): void {
     this.selectedMember = null;

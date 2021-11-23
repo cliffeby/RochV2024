@@ -1,8 +1,8 @@
 <div *ngIf="!hidenewMember">
     <h2>New Member</h2>
     <app-members-mat-edit
-                (submitAddMemberEvent)="onSubmitAddMemberEvent($event)"
-                [member]="selectedMember">
+                (submitAddMemberEvent)="onSubmitAddMemberEvent($event)">
+                <!-- [member]="selectedMember"> -->
     </app-members-mat-edit>
 </div>
 
@@ -10,7 +10,7 @@
     <h2>Edit Member</h2>
     <app-members-mat-edit
                     (updateMemberEvent)="onUpdateMemberEvent($event)"
-                    (deleteMemberEvent)="onDeleteMemberEvent($event)"
+                    (DeleteMemberEvent)="onDeleteMemberEvent($event)"
                     (notify)="onNotifyClicked()"
                     [member]="selectedMember">
     </app-members-mat-edit>
@@ -18,55 +18,6 @@
 
 <app-members-mat-list *ngIf="!selectedMember && hidenewMember"
                 [members]="members"
-                (SelectMember)="onSelectMember($event)">
+                (SelectMember)="onSelectMember($event)"
+                (DeleteMemberEvent)="onDeleteMemberEvent($event)">
 </app-members-mat-list>
-
-<!-- <div class="row">
-  <div *ngIf="!hidenewMember">
-    <h2>New Member</h2>
-    <form  class="well">
-      <div class="form-group">
-        <label>First Name</label>
-        <input type="text" class="form-control" required name="firstName" ngModel>
-      </div>
-      <div class="form-group">
-        <label>Last Name</label>
-        <input type="text" class="form-control" required name="lastName" ngModel>
-      </div>
-      <div class="form-group">
-        <label>Current HCap</label>
-        <input type="text" class="form-control" name="currentHCap" ngModel>
-      </div>
-      <button type="submit" class="btn btn-success" (click) =onSubmitAddMemberEvent($event) >Save</button>
-    </form>
-  </div> -->
-  <!-- <member-detail *ngIf="selectedMember && hidenewMember"
-                (updateMemberEvent)="onUpdateMemberEvent($event)"
-                (deleteMemberEvent)="onDeleteMemberEvent($event)"
-                (notify)="onNotifyClicked()"
-                [create]="canCreate"
-                 [update]="canUpdate"
-                 [delete]="canDelete"
-                [member]="selectedMember">
-  </member-detail> -->
-<!-- </div> -->
-<!-- 
-<div *ngIf="!selectedMember && hidenewMember && canCreate" class="row">
-  <div class="col-md-12">
-
-    <div class="pull-right">
-      <button class="btn btn-primary" (click)="addMember()">
-        <i class="glyphicon glyphicon-plus"></i>
-      </button>
-    </div>
-  </div>
-</div> -->
-<!-- <member-list *ngIf="!selectedMember && hidenewMember"
-              [members]="members" [create]="canCreate"
-              (SelectMember)="onSelectMember($event)">
-</member-list> -->
-
-<!-- <p>members-center works!</p>
-<li *ngIf="auth.user$ | async as user">
-  {{user.name}} {{user.nickname}} </li>
-<app-members-list></app-members-list> -->

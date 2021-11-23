@@ -8,18 +8,10 @@ const memberRoute = () => {
   const router = Router();
   router.use(checkJwt);
   console.log('Permissions', (ItemPermission.ReadMembers), (ItemPermission.UpdateMember));
+
   router.post('/members',checkPermissions(ItemPermission.CreateMember), createMember);
-
-
-  // router.get(
-  //   '/members',
-  //   checkPermissions(ItemPermission.ReadMembers),
-  //   getAllMembers
-  // );
-  router.get(
-    '/members',checkPermissions(ItemPermission.ReadMembers),
-    getAllMembers
-  );
+  
+  router.get('/members',checkPermissions(ItemPermission.ReadMembers),getAllMembers);
 
   router.get('/members/:id', checkPermissions(ItemPermission.ReadMembers), getMember);
 

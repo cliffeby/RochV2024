@@ -1,12 +1,18 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewChild, NgZone, Input, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  NgZone,
+  Input,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MembersService } from 'src/app/services/members.service';
-import { SendMemberService } from 'src/app/services/send-members.service';
 import { Member } from 'src/app/models/member';
-import { Observable, Subscription } from 'rxjs';
+import { AuthService } from '@auth0/auth0-angular';
 
 export interface Subject {
   name: string;
@@ -19,10 +25,14 @@ export interface Subject {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MembersMatEditComponent implements OnInit, OnDestroy {
-  constructor(private fb: FormBuilder) {
+  public profileJson: string = null;
+  constructor(private fb: FormBuilder, public auth: AuthService) {
     this.memberForm1 = fb.group({
       firstName: '',
       lastName: '',
+      handicap: null,
+      email: '',
+      user: '',
     });
   }
 
@@ -33,24 +43,32 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   @Output() public submitAddMemberEvent = new EventEmitter();
 
   ngOnInit() {
+    this.auth.user$.subscribe((profile) => {
+      this.profileJson = JSON.stringify(profile, null, 2);
+      this.memberForm1.controls['user'].setValue(profile.email);
+    });
     if (this.member == null) {
       this.member = new Member();
       this.member.firstName = '';
       this.member.lastName = '';
+      this.member.handicap = 0;
+      this.member.email = '';
+      // this.member.user = ''; User is set above in form
     }
 
     this.memberForm1 = this.fb.group({
       firstName: [
         this.member.firstName,
-        [Validators.required, Validators.minLength(5)],
+        [Validators.required, Validators.minLength(2)],
       ],
       lastName: [this.member.lastName, [Validators.required]],
+      handicap: [this.member.handicap, [Validators.required]],
+      email: [this.member.email, [Validators.email]],
+      user: [this.member.user, [Validators.required]],
     });
-    console.log('edit ng oninit', this.member);
   }
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
-    // this.subscription.unsubscribe();
   }
 
   /* Get errors */
@@ -61,12 +79,18 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   updateMemberForm() {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
+    this.member.handicap = this.memberForm1.controls['handicap'].value;
+    this.member.email = this.memberForm1.controls['email'].value;
+    this.member.user = this.memberForm1.controls['user'].value;
     this.updateMemberEvent.emit(this.member);
     console.log('Update form', this.member);
   }
   addMember() {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
+    this.member.handicap = this.memberForm1.controls['handicap'].value;
+    this.member.email = this.memberForm1.controls['email'].value;
+    this.member.user = this.memberForm1.controls['user'].value;
     this.submitAddMemberEvent.emit(this.member);
   }
 }

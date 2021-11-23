@@ -20,12 +20,9 @@ import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { environment as env } from 'src/environments/environment';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
-import { MembersListComponent } from './components/members/members-list/members-list.component';
-import { MembersDetailComponent } from './components/members/members-detail/members-detail.component';
 import { MembersMatListComponent } from './components/members/members-mat-list/members-mat-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './material.module';
-import { MembersMatAddComponent } from './components/members/members-mat-add/members-mat-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
 
@@ -43,10 +40,7 @@ import { MembersMatEditComponent } from './components/members/members-mat-edit/m
     ExternalApiComponent,
     LoginButtonComponent,
     MembersCenterComponent,
-    MembersListComponent,
-    MembersDetailComponent,
     MembersMatListComponent,
-    MembersMatAddComponent,
     MembersMatEditComponent,
   ],
   imports: [

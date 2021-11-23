@@ -1,12 +1,8 @@
-// import { Member } from '../../../models/member';
-// import { ApiService } from './../../shared/api.service';
-import { Component, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, ViewChild, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MembersService } from 'src/app/services/members.service';
-import { SendMemberService } from 'src/app/services/send-members.service';
 import { Observable } from 'rxjs';
-
 
 @Component({
   selector: 'app-members-mat-list',
@@ -14,47 +10,32 @@ import { Observable } from 'rxjs';
   styleUrls: ['./members-mat-list.component.css'],
 })
 export class MembersMatListComponent implements OnInit {
-  data1:any;
+  data1: any;
   members: any[] = [];
-  members$:Observable<any[]>;
+  members$: Observable<any[]>;
   @Output() public SelectMember = new EventEmitter();
+  @Output() public DeleteMemberEvent = new EventEmitter();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   displayedColumns: string[] = [
-    '_id',
     'firstName',
     'lastName',
+    'handicap',
+    'email',
+    'user',
     'action',
   ];
 
-
   constructor(
-    private _membersService: MembersService,
-    // private _sendMemberService: SendMemberService
+    private _membersService: MembersService // private _sendMemberService: SendMemberService
   ) {}
 
   ngOnInit() {
     this.retrieveMembers();
-    // this.members$ = this._sendMemberService.members$();
-    // console.log('Members$', this.members$);
   }
 
-  sendMember(sendData): void {
-    // send message to subscribers via observable subject
-    // this._sendMemberService.create(sendData);
-    // this._sendMemberService.create2(sendData);
-  }
-  addMember(mem){
-    console.log('Add Member', mem);
-    // this.data1 = mem;
-    // this.sendMember(mem);
-    // mem = null;
+  addMember(mem) {
     this.SelectMember.emit(mem);
-  }
-
-  clearMessages(): void {
-    // clear messages
-    // this._sendMemberService.remove(11);
   }
 
   retrieveMembers(): void {
@@ -65,7 +46,7 @@ export class MembersMatListComponent implements OnInit {
         setTimeout(() => {
           this.dataSource.paginator = this.paginator;
         }, 0);
-        console.log('From retrieve',data, this.members);
+        console.log('From retrieve', data, this.members);
       },
       (error) => {
         console.log(error);
@@ -73,13 +54,10 @@ export class MembersMatListComponent implements OnInit {
     );
   }
   onSelect(mem: any) {
-    console.log('mem', mem);
-    // this.data1 = mem;
-    // this.sendMember(mem);
     this.SelectMember.emit(mem);
   }
 
-  deletemember(index: number, e) {
+  onDelete(index, member) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(
@@ -87,32 +65,11 @@ export class MembersMatListComponent implements OnInit {
         1
       );
       this.dataSource.data = data;
-      this._membersService.deleteMember(e._id).subscribe();
+      this._membersService.deleteMember(member._id).subscribe();
     }
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }
-// @Component({
-//   selector: 'member-list',
-//   templateUrl: 'member-list.component.html',
-//   styleUrls: ['member-list.component.css'],
-//   inputs: ['members', 'create'],
-//   outputs: ['SelectMember'],
-// })
-// export class MemberListComponent implements OnInit {
-//   public SelectMember = new EventEmitter();
-//   public queryString: string;
-//   @Input() members;
-//   public create: boolean;
-
-//   constructor() {}
-
-//   ngOnInit() {
-//     this.queryString = '';
-//     console.log('BACK from List ngOnInit', this.create);
-//   }
-
-//   onSelect(mem: Member) {
-//     this.SelectMember.emit(mem);
-//   }
-//   // TODO  Implenet delete member
-// }

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Member, MemberInput } from '../models/member.model';
 
 const createMember = async (req: Request, res: Response) => {
-  const { firstName, lastName } = req.body;
+  const { firstName, lastName, handicap, email, user } = req.body;
   if (!firstName || !lastName) {
     console.log(
       'MemberController - The fields firstName and lastName are required - create', req.body
@@ -12,6 +12,9 @@ const createMember = async (req: Request, res: Response) => {
   const memberInput: MemberInput = {
     firstName,
     lastName,
+    handicap,
+    email,
+    user,
   };
   const memberCreated = await Member.create(memberInput);
   console.log('MemberController - Post a member - Success');
@@ -41,7 +44,7 @@ const getMember = async (req: Request, res: Response) => {
 
 const updateMember = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { firstName, lastName } = req.body;
+  const { firstName, lastName, handicap, email, user } = req.body;
   const member = await Member.findOne({ _id: id });
   if (!member) {
     return res.status(404).json({ message: `Member with id "${id}" not found -update.` });
@@ -49,8 +52,17 @@ const updateMember = async (req: Request, res: Response) => {
   if (!firstName || !lastName) {
     return res.status(422).json({ message: 'The fields firstName and lastName are required - update' });
   }
-  await Member.updateOne({ _id: id }, { firstName, lastName });
-  const memberUpdated = await Member.findById(id, { firstName, lastName });
+  await Member.updateOne(
+    { _id: id },
+    { firstName, lastName, handicap, email, user }
+  );
+  const memberUpdated = await Member.findById(id, {
+    firstName,
+    lastName,
+    handicap,
+    email,
+    user,
+  });
   console.log('MemberController - Update a member - Success');
   return res.status(200).json({ memberUpdated });
 };
@@ -58,7 +70,7 @@ const updateMember = async (req: Request, res: Response) => {
 const deleteMember = async (req: Request, res: Response) => {
   const { id } = req.params;
   await Member.findByIdAndDelete(id);
-  console.log('Delete request for a single member - success');
+  console.log('Delete request for a single member - success', id);
   return res.status(200).json({ message: 'Member deleted successfully.' });
 };
 

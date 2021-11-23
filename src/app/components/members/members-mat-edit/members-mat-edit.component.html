@@ -1,31 +1,42 @@
 <!-- Title group  -->
-<!-- <div class="title-group">
-  <h1 class="mat-h1">Edit Member</h1>
-  <mat-divider fxFlex="1 0"></mat-divider>
-</div> -->
+
 <!-- Form -->
+
 <div class="inner-wrapper">
-  <form [formGroup]="memberForm1" >
-    <!-- Left block -->
-      <div class="controlers-wrapper">
-        Name
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="firstName" formControlName="firstName">
-          <!-- <input class="form-control" [(ngModel)]="member.firstName" placeholder="First name"/> -->
-          <mat-error *ngIf="handleError('firstName', 'required')">
-            You must provide a<strong>first name</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="lastName" formControlName="lastName">
-          <!-- <input class="form-control" [(ngModel)]="member.firstName" placeholder="Last name"/> -->
-          <mat-error *ngIf="handleError('lastName', 'required')">
-            You must provide a<strong>last name</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
+  <form [formGroup]="memberForm1">
+    <div class="controlers-wrapper">
+      Name
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="firstName" formControlName="firstName" />
+        <mat-error *ngIf="handleError('firstName', 'required')">
+          You must provide a<strong>first name</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="lastName" formControlName="lastName" />
+        <mat-error *ngIf="handleError('lastName', 'required')">
+          You must provide a<strong>last name</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="handicap" formControlName="handicap" />
+        <mat-error *ngIf="handleError('email', 'required')">
+          You must provide a<strong>handicap</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="email" formControlName="email" />
+        <mat-error *ngIf="handleError('email', 'required')">
+          You must provide a<strong>email</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
     <!-- Submit & Reset -->
   </form>
-  <button *ngIf="member._id" mat-raised-button color="primary" id="btnUpdate" (click)="updateMemberForm()" class="btn btn-primary">Update</button>
-  <button *ngIf="!member._id" id = "addbtn1" mat-raised-button color="primary" (click)="addMember()">Add</button>
+  <button *ngIf="member._id" mat-raised-button color="primary" (click)="updateMemberForm()">
+    Update
+  </button>
+  <button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMember()">
+    Add
+  </button>
 </div>
