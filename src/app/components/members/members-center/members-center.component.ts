@@ -1,7 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MembersService } from '../../../services/members.service';
-// import { ScoreService } from '../../services/score.service';
-
 import { Member } from '../../../models/member';
 import { AuthService } from '@auth0/auth0-angular';
 
@@ -13,9 +11,6 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class MembersCenterComponent implements OnInit {
   selectedMember: Member;
-  public canCreate: boolean;
-  public canUpdate: boolean;
-  public canDelete: boolean;
   public hidenewMember = true;
   members: Array<Member>;
 
@@ -91,7 +86,7 @@ export class MembersCenterComponent implements OnInit {
     this.selectedMember = null;
     this.members = memberArray;
   }
-  onNotifyClicked(): void {
-    this.selectedMember = null;
-  }
+  // onNotifyClicked(): void {
+  //   this.selectedMember = null;
+  // }
 }

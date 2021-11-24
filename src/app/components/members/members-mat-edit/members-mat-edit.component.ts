@@ -1,12 +1,8 @@
-import { Router, ActivatedRoute } from '@angular/router';
 import {
   Component,
   OnInit,
-  ViewChild,
-  NgZone,
   Input,
   OnDestroy,
-  ChangeDetectionStrategy,
   Output,
   EventEmitter,
 } from '@angular/core';
@@ -14,15 +10,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Member } from 'src/app/models/member';
 import { AuthService } from '@auth0/auth0-angular';
 
-export interface Subject {
-  name: string;
-}
-
 @Component({
   selector: 'app-members-mat-edit',
   templateUrl: './members-mat-edit.component.html',
   styleUrls: ['./members-mat-edit.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MembersMatEditComponent implements OnInit, OnDestroy {
   public profileJson: string = null;
@@ -35,15 +26,14 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       user: '',
     });
   }
-
-  @Input() public member: Member;
+  private authSubscription
   public memberForm1: FormGroup;
+  @Input() public member: Member;
   @Output() public updateMemberEvent = new EventEmitter();
-  @Output() public deleteMemberEvent = new EventEmitter();
   @Output() public submitAddMemberEvent = new EventEmitter();
 
   ngOnInit() {
-    this.auth.user$.subscribe((profile) => {
+    this.authSubscription = this.auth.user$.subscribe((profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.memberForm1.controls['user'].setValue(profile.email);
     });
@@ -68,7 +58,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
+    this.authSubscription.unsubscribe();
   }
 
   /* Get errors */
@@ -83,9 +73,8 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
     this.updateMemberEvent.emit(this.member);
-    console.log('Update form', this.member);
   }
-  addMember() {
+  addMemberForm() {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
     this.member.handicap = this.memberForm1.controls['handicap'].value;

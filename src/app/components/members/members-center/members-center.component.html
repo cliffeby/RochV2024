@@ -1,23 +1,19 @@
 <div *ngIf="!hidenewMember">
-    <h2>New Member</h2>
-    <app-members-mat-edit
-                (submitAddMemberEvent)="onSubmitAddMemberEvent($event)">
-                <!-- [member]="selectedMember"> -->
-    </app-members-mat-edit>
+  <h2>New Member</h2>
+  <app-members-mat-edit
+    (submitAddMemberEvent)="onSubmitAddMemberEvent($event)">
+  </app-members-mat-edit>
 </div>
 
-<div  *ngIf="selectedMember && hidenewMember">
-    <h2>Edit Member</h2>
-    <app-members-mat-edit
-                    (updateMemberEvent)="onUpdateMemberEvent($event)"
-                    (DeleteMemberEvent)="onDeleteMemberEvent($event)"
-                    (notify)="onNotifyClicked()"
-                    [member]="selectedMember">
-    </app-members-mat-edit>
+<div *ngIf="selectedMember && hidenewMember">
+  <h2>Edit Member</h2>
+  <app-members-mat-edit
+    (updateMemberEvent)="onUpdateMemberEvent($event)"
+    [member]="selectedMember">
+  </app-members-mat-edit>
 </div>
 
 <app-members-mat-list *ngIf="!selectedMember && hidenewMember"
-                [members]="members"
-                (SelectMember)="onSelectMember($event)"
-                (DeleteMemberEvent)="onDeleteMemberEvent($event)">
+  (SelectMemberEvent)="onSelectMember($event)"
+  (DeleteMemberEvent)="onDeleteMemberEvent($event)">
 </app-members-mat-list>
