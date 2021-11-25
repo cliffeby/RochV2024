@@ -1,0 +1,94 @@
+<!-- Title group  -->
+
+<!-- Form -->
+
+<div class="inner-wrapper">
+  <form [formGroup]="scorecardForm1">
+    <div class="controlers-wrapper">
+      <mat-form-field class = "detail-full-width">
+        <input matInput type="text" placeholder="NAME COURSE TEES" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class = "detail-full-width">
+        <input matInput type="text" placeholder="RATING" formControlName="rating">
+      </mat-form-field>
+
+      <mat-form-field class = "detail-full-width">
+        <input matInput  type="text"  placeholder="SLOPE" formControlName="slope">
+      </mat-form-field>
+
+      <mat-form-field class = "detail-full-width">
+          <textarea matInput placeholder="PARS - Starting at hole #1, enter hole Par separated by commas"
+           formControlName="parInputString">
+          </textarea>
+      </mat-form-field>
+
+      <mat-form-field class = "detail-full-width">
+          <textarea matInput placeholder="HANDICAPS - Starting at hole #1, enter hole Handicap separated by commas"
+           formControlName="hCapInputString">
+          </textarea>
+      </mat-form-field>
+
+      <mat-form-field class = "detail-full-width">
+          <textarea matInput placeholder="YARDS - Starting at hole #1, enter hole yardage separated by commas"
+           formControlName="yardsInputString">
+          </textarea>
+      </mat-form-field>
+
+    </div>
+    <!-- Submit & Reset -->
+  </form>
+  <button *ngIf="scorecard._id" mat-raised-button color="primary" (click)="updateScorecardForm()">
+    Update
+  </button>
+  <button *ngIf="!scorecard._id" id="addbtn1" mat-raised-button color="primary" (click)="addScorecardForm()">
+    Add
+  </button>
+  <table class="stripe row-border order-column" cellspacing="0" width="35%">
+    <th style = "text-align: center;">Name</th>
+    <th style = "text-align: center;">1</th>
+    <th style = "text-align: center;">2</th>
+    <th style = "text-align: center;">3</th>
+    <th style = "text-align: center;">4</th>
+    <th style = "text-align: center;">5</th>
+    <th style = "text-align: center;">6</th>
+    <th style = "text-align: center;">7</th>
+    <th style = "text-align: center;">8</th>
+    <th style = "text-align: center;">9</th>
+    <th style = "text-align: center;">Front</th>
+    <th style = "text-align: center;">10</th>
+    <th style = "text-align: center;">11</th>
+    <th style = "text-align: center;">12</th>
+    <th style = "text-align: center;">13</th>
+    <th style = "text-align: center;">14</th>
+    <th style = "text-align: center;">15</th>
+    <th style = "text-align: center;">16</th>
+    <th style = "text-align: center;">17</th>
+    <th style = "text-align: center;">18</th>
+    <th style = "text-align: center;">Back</th>
+    <th style = "text-align: center;">Total</th>
+    <tr md-row md-auto-select >
+      <td  style= "text-align: center;" *ngFor ="let pars of scorecard.pars" [class.active]="scorecard === selectedScorecard">
+        <span>{{pars}}</span>
+      </td>
+    </tr>
+    <tr md-row md-auto-select >
+      <td style= "text-align: center;" *ngFor="let yards of scorecard.yards" [class.active]="scorecard === selectedScorecard">
+        <span >{{yards}}</span>
+      </td>
+    </tr>
+    <tr md-row md-auto-select >
+      <td style= "text-align: center;" *ngFor="let hCaps of scorecard.hCaps" [class.active]="scorecard === selectedScorecard">
+        <span>{{hCaps}}</span>
+      </td>
+    </tr>
+  </table>
+  <div>
+      <h4> Warnings:</h4>
+      <control-messages [control] = "scorecardForm1.controls['name']"></control-messages>
+      <control-messages [control] = "scorecardForm1.controls['parInputString']"></control-messages>
+      <control-messages [control] = "scorecardForm1.controls['hCapInputString']"></control-messages>
+      <control-messages [control] = "scorecardForm1.controls['yardsInputString']"></control-messages>
+</div>
+</div>
+

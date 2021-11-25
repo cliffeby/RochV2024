@@ -25,7 +25,10 @@ import { MatTableModule } from '@angular/material/table';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
-
+import { ScorecardsMatListComponent } from './components/scorecards/scorecards-mat-list/scorecards-mat-list.component';
+import { ScorecardsMatEditComponent } from './components/scorecards/scorecards-mat-edit/scorecards-mat-edit.component';
+import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
+import { ControlMessagesComponent } from './helpers/control-messages/control-messages.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,10 @@ import { MembersMatEditComponent } from './components/members/members-mat-edit/m
     MembersCenterComponent,
     MembersMatListComponent,
     MembersMatEditComponent,
+    ScorecardsMatListComponent,
+    ScorecardsMatEditComponent,
+    ScorecardsMatCenterComponent,
+    ControlMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +68,7 @@ import { MembersMatEditComponent } from './components/members/members-mat-edit/m
         allowedList: [
           'http://localhost:7000/api/messages/protected-message',
           'http://localhost:7000/api/members*',
-
+          'http://localhost:7000/api/scorecards*',
         ],
       },
     }),

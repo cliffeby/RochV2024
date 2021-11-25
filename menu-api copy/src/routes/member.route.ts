@@ -9,15 +9,64 @@ const memberRoute = () => {
   router.use(checkJwt);
   console.log('Permissions', (ItemPermission.ReadMembers), (ItemPermission.UpdateMember));
 
-  router.post('/members',checkPermissions(ItemPermission.CreateMember), createMember);
-  
-  router.get('/members',checkPermissions(ItemPermission.ReadMembers),getAllMembers);
+  // router.post(
+  //   '/members',
+  //   checkPermissions(ItemPermission.CreateMember),
+  //   createMember
+  // );
 
-  router.get('/members/:id', checkPermissions(ItemPermission.ReadMembers), getMember);
+  // router.get(
+  //   '/members',
+  //   checkPermissions(ItemPermission.ReadMembers),
+  //   getAllMembers
+  // );
 
-  router.put('/members/:id', checkPermissions(ItemPermission.UpdateMember), updateMember);
+  // router.get(
+  //   '/members/:id',
+  //   checkPermissions(ItemPermission.ReadMembers),
+  //   getMember
+  // );
 
-  router.delete('/members/:id', checkPermissions(ItemPermission.DeleteMember), deleteMember);
+  // router.put(
+  //   '/members/:id',
+  //   checkPermissions(ItemPermission.UpdateMember),
+  //   updateMember
+  // );
+
+  // router.delete(
+  //   '/members/:id',
+  //   checkPermissions(ItemPermission.DeleteMember),
+  //   deleteMember
+  // );
+    router.post(
+      '/',
+      checkPermissions(ItemPermission.CreateMember),
+      createMember
+    );
+
+    router.get(
+      '/',
+      checkPermissions(ItemPermission.ReadMembers),
+      getAllMembers
+    );
+
+    router.get(
+      '/:id',
+      checkPermissions(ItemPermission.ReadMembers),
+      getMember
+    );
+
+    router.put(
+      '/:id',
+      checkPermissions(ItemPermission.UpdateMember),
+      updateMember
+    );
+
+    router.delete(
+      '/:id',
+      checkPermissions(ItemPermission.DeleteMember),
+      deleteMember
+    );
 
   return router;
 };

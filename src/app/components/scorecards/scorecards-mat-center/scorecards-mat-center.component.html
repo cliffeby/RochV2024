@@ -1,0 +1,20 @@
+<div *ngIf="!hidenewScorecard">
+  <h2>New Scorecard</h2>
+  <app-scorecards-mat-edit
+    (submitAddScorecardEvent)="onSubmitAddScorecardEvent($event)">
+  </app-scorecards-mat-edit>
+</div>
+
+<div *ngIf="selectedScorecard && hidenewScorecard">
+  <h2>Edit Scorecard</h2>
+  <app-scorecards-mat-edit
+    (updateScorecardEvent)="onUpdateScorecardEvent($event)"
+    [scorecard]="selectedScorecard">
+  </app-scorecards-mat-edit>
+</div>
+
+<app-scorecards-mat-list *ngIf="!selectedScorecard && hidenewScorecard"
+  (SelectScorecardEvent)="onSelectScorecard($event)"
+  (DeleteScorecardEvent)="onDeleteScorecardEvent($event)">
+</app-scorecards-mat-list>
+

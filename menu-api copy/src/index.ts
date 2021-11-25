@@ -7,6 +7,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { itemsRouter } from "./items/items.router";
 import { memberRoute } from './routes/member.route';
+import { scorecardRoute } from './routes/scorecard.route';
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
 import { connectToDatabase } from './databaseConnection';
@@ -30,7 +31,8 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use("/api/menu/items", itemsRouter);
-app.use('/api/', memberRoute());
+app.use('/api/members', memberRoute());
+app.use('/api/scorecards/', scorecardRoute());
 app.use(errorHandler);
 app.use(notFoundHandler);
 
