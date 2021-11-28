@@ -10,29 +10,29 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { ScorecardsService } from '../../../services/scorecards.service';
-
+import { MatchesService } from '../../../services/matches.service';
+import { Match } from 'src/app/models/match';
 @Component({
-  selector: 'app-scorecards-mat-list',
-  templateUrl: './scorecards-mat-list.component.html',
-  styleUrls: ['./scorecards-mat-list.component.css'],
+  selector: 'app-matches-mat-list',
+  templateUrl: './matches-mat-list.component.html',
+  styleUrls: ['./matches-mat-list.component.css']
 })
-export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
+export class MatchesMatListComponent implements OnInit, AfterViewInit {
   private subscription: any;
-  @Input() scorecards: any[] = [];
-  @Output() public SelectScorecardEvent = new EventEmitter();
-  @Output() public DeleteScorecardEvent = new EventEmitter();
+  @Input() matches: Match[] = [];
+  @Output() public SelectMatchEvent = new EventEmitter();
+  @Output() public DeleteMatchEvent = new EventEmitter();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  displayedColumns: string[] = ['name', 'rating', 'user', 'action'];
+  displayedColumns: string[] = ['name', 'scorecardId', 'datePlayed','user', 'action'];
 
-  constructor(private _scorecardsService: ScorecardsService) {}
+  constructor(private _matchesService: MatchesService) {}
 
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.retrieveScorecards();
+    this.retrieveMatches();
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -43,11 +43,11 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  retrieveScorecards(): void {
-    this.subscription = this._scorecardsService.getScorecards().subscribe(
+  retrieveMatches(): void {
+    this.subscription = this._matchesService.getMatches().subscribe(
       (data) => {
-        this.scorecards = data;
-        this.dataSource = new MatTableDataSource<any>(this.scorecards);
+        this.matches = data;
+        this.dataSource = new MatTableDataSource<any>(this.matches);
         this.dataSource.sort = this.sort;
         console.log('Sort2', this.sort);
       },
@@ -58,14 +58,14 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
   }
 
   onAdd(mem) {
-    this.SelectScorecardEvent.emit(mem);
+    this.SelectMatchEvent.emit(mem);
   }
 
   onSelect(mem: any) {
-    this.SelectScorecardEvent.emit(mem);
+    this.SelectMatchEvent.emit(mem);
   }
 
-  onDelete(index, scorecard) {
+  onDelete(index, match) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(
@@ -73,8 +73,8 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
         1
       );
       this.dataSource.data = data;
-      this.subscription = this._scorecardsService
-        .deleteScorecard(scorecard._id)
+      this.subscription = this._matchesService
+        .deleteMatch(match._id)
         .subscribe();
     }
   }

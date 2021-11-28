@@ -7,6 +7,7 @@ import { ExternalApiComponent } from 'src/app/pages/external-api/external-api.co
 import { MembersMatListComponent } from './components/members/members-mat-list/members-mat-list.component';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
 import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
+import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,11 @@ const routes: Routes = [
     path: 'scorecards',
     component: ScorecardsMatCenterComponent,
     data: { expectedScopes: ['read: scorecards'] },
+  },
+  {
+    path: 'matches',
+    component: MatchesMatCenterComponent,
+    data: { expectedScopes: ['read: matches'] },
   },
   {
     path: 'members',

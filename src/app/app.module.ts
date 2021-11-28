@@ -29,6 +29,9 @@ import { ScorecardsMatListComponent } from './components/scorecards/scorecards-m
 import { ScorecardsMatEditComponent } from './components/scorecards/scorecards-mat-edit/scorecards-mat-edit.component';
 import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
 import { ControlMessagesComponent } from './helpers/control-messages/control-messages.component';
+import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
+import { MatchesMatListComponent } from './components/matches/matches-mat-list/matches-mat-list.component';
+import { MatchesMatEditComponent } from './components/matches/matches-mat-edit/matches-mat-edit.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { ControlMessagesComponent } from './helpers/control-messages/control-mes
     ScorecardsMatListComponent,
     ScorecardsMatEditComponent,
     ScorecardsMatCenterComponent,
-    ControlMessagesComponent
+    ControlMessagesComponent,
+    MatchesMatCenterComponent,
+    MatchesMatListComponent,
+    MatchesMatEditComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,7 @@ import { ControlMessagesComponent } from './helpers/control-messages/control-mes
           'http://localhost:7000/api/messages/protected-message',
           'http://localhost:7000/api/members*',
           'http://localhost:7000/api/scorecards*',
+          'http://localhost:7000/api/matches*',
         ],
       },
     }),

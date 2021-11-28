@@ -10,5 +10,9 @@ export enum ItemPermission {
   ReadScorecards = 'read:scorecards',
   UpdateScorecard = 'update:scorecard',
   DeleteScorecard = 'remove:scorecard',
+  CreateMatch = 'create:match',
+  ReadMatches = 'read:matches',
+  UpdateMatch = 'update:match',
+  DeleteMatch = 'remove:match',
   BadPermission = 'read:bad',
 }

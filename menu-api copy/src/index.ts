@@ -11,6 +11,7 @@ import { scorecardRoute } from './routes/scorecard.route';
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
 import { connectToDatabase } from './databaseConnection';
+import { matchRoute } from "./routes/match.route";
 // import { ItemPermission } from "./item-permission";
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use("/api/menu/items", itemsRouter);
 app.use('/api/members', memberRoute());
 app.use('/api/scorecards/', scorecardRoute());
+app.use('/api/matches', matchRoute());
 app.use(errorHandler);
 app.use(notFoundHandler);
 
