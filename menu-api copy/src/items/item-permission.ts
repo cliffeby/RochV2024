@@ -14,5 +14,9 @@ export enum ItemPermission {
   ReadMatches = 'read:matches',
   UpdateMatch = 'update:match',
   DeleteMatch = 'remove:match',
+  CreateScore = 'create:member',
+  ReadScores = 'read:members',
+  UpdateScore = 'update:member',
+  DeleteScore = 'remove:member',
   BadPermission = 'read:bad',
 }

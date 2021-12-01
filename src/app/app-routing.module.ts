@@ -8,7 +8,7 @@ import { MembersMatListComponent } from './components/members/members-mat-list/m
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
 import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
 import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
-
+import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/scores-mat-center.component';
 
 const routes: Routes = [
   {
@@ -28,6 +28,11 @@ const routes: Routes = [
     path: 'scorecards',
     component: ScorecardsMatCenterComponent,
     data: { expectedScopes: ['read: scorecards'] },
+  },
+  {
+    path: 'scores',
+    component: ScoresMatCenterComponent,
+    data: { expectedScopes: ['read: scores'] },
   },
   {
     path: 'matches',

@@ -12,6 +12,7 @@
     (updateMatchEvent)="onUpdateMatchEvent($event)"
     [match]="selectedMatch">
   </app-matches-mat-edit>
+  <app-member-block></app-member-block>
 </div>
 
 <app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch"

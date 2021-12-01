@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ScorecardsService } from '../../../services/scorecards.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-scorecards-mat-list',
@@ -18,7 +19,7 @@ import { ScorecardsService } from '../../../services/scorecards.service';
   styleUrls: ['./scorecards-mat-list.component.css'],
 })
 export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
-  private subscription: any;
+  private subscription: Subscription;
   @Input() scorecards: any[] = [];
   @Output() public SelectScorecardEvent = new EventEmitter();
   @Output() public DeleteScorecardEvent = new EventEmitter();

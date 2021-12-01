@@ -1,0 +1,23 @@
+<p>scores-mat-center works!</p>
+
+<!-- <div *ngIf="!hidenewScore">
+  <h2>New Score</h2>
+  <app-scores-mat-edit
+    (submitAddScoreEvent)="onSubmitAddScoreEvent($event)">
+  </app-scores-mat-edit>
+</div>
+
+<div *ngIf="selectedScore && hidenewScore">
+  <h2>Edit Score</h2>
+  <app-scores-mat-edit
+    (updateScoreEvent)="onUpdateScoreEvent($event)"
+    [score]="selectedScore">
+  </app-scores-mat-edit>
+</div> -->
+
+<app-scores-mat-list *ngIf=true
+  (SelectScoreEvent)="onSelectScore($event)"
+  (DeleteScoreEvent)="onDeleteScoreEvent($event)">
+</app-scores-mat-list>
+
+

@@ -32,11 +32,19 @@ import { ControlMessagesComponent } from './helpers/control-messages/control-mes
 import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
 import { MatchesMatListComponent } from './components/matches/matches-mat-list/matches-mat-list.component';
 import { MatchesMatEditComponent } from './components/matches/matches-mat-edit/matches-mat-edit.component';
+import { MemberBlockComponent } from './components/matches/member-block/member-block.component';
+import { SafePipe } from './safe.pipe';
+import { SearchFilterPipe } from './search.pipe';
+import { ScoresMatListComponent } from './components/scores/scores-mat-list/scores-mat-list.component';
+import { ScoresMatEditComponent } from './components/scores/scores-mat-edit/scores-mat-edit.component';
+import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/scores-mat-center.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
+    SafePipe,
+    SearchFilterPipe,
     HeroComponent,
     HomeContentComponent,
     LoadingComponent,
@@ -55,7 +63,11 @@ import { MatchesMatEditComponent } from './components/matches/matches-mat-edit/m
     ControlMessagesComponent,
     MatchesMatCenterComponent,
     MatchesMatListComponent,
-    MatchesMatEditComponent
+    MatchesMatEditComponent,
+    MemberBlockComponent,
+    ScoresMatListComponent,
+    ScoresMatEditComponent,
+    ScoresMatCenterComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +87,7 @@ import { MatchesMatEditComponent } from './components/matches/matches-mat-edit/m
           'http://localhost:7000/api/messages/protected-message',
           'http://localhost:7000/api/members*',
           'http://localhost:7000/api/scorecards*',
+          'http://localhost:7000/api/scores*',
           'http://localhost:7000/api/matches*',
         ],
       },
