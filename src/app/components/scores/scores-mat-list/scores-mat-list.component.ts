@@ -45,7 +45,7 @@ export class ScoresMatListComponent implements OnInit, AfterViewInit {
     this.subscription = this._scoresService.getScores().subscribe(
       (data) => {
         this.scores = data;
-        this.dataSource = new MatTableDataSource(data);
+        this.dataSource = new MatTableDataSource<Score[]>(data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
 
