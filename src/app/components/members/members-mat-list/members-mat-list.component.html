@@ -14,11 +14,7 @@
 
 <div class="container" *ngIf="members.length > 0">
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" mat-sort>
-      <!-- <ng-container matColumnDef="_id">
-        <th mat-header-cell *matHeaderCellDef> Member ID </th>
-        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
-      </ng-container> -->
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange) = "ngAfterViewInit()">
 
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
@@ -48,7 +44,7 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns" mat-sort-header></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 

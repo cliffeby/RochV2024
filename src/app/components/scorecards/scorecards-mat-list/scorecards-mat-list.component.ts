@@ -25,23 +25,20 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
   @Output() public DeleteScorecardEvent = new EventEmitter();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['name', 'rating', 'user', 'action'];
 
   constructor(private _scorecardsService: ScorecardsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+     this.retrieveScorecards();
+  }
 
   ngAfterViewInit() {
-    this.retrieveScorecards();
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log('Sort', this.sort);
-      // this.sort.sortChange.subscribe((x) => {
-      //   console.log(x);
-      // });
-    }, 1000);
+    }, 500);
   }
 
   retrieveScorecards(): void {
@@ -49,8 +46,8 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
       (data) => {
         this.scorecards = data;
         this.dataSource = new MatTableDataSource<any>(this.scorecards);
-        this.dataSource.sort = this.sort;
-        console.log('Sort2', this.sort);
+        // this.dataSource.sort = this.sort;
+        // console.log('Sort2', this.sort);
       },
       (error) => {
         console.log(error);

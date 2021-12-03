@@ -1,1 +1,8 @@
-<p>scores-mat-edit works!</p>
+ <pre>{{score | json}}</pre>
+
+
+  <button *ngIf="score._id" mat-raised-button color="primary" (click)="returnToList()">
+    Cancel
+  </button>
+
+

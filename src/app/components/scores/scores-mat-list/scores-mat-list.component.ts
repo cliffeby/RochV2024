@@ -22,43 +22,35 @@ import { Subscription } from 'rxjs';
 export class ScoresMatListComponent implements OnInit, AfterViewInit {
   public unauth: boolean;
   @Input() scores: Score[];
-  @Output() SelectScore = new EventEmitter();
+  @Output() SelectScoreEvent = new EventEmitter();
   @Output() public DeleteScorecardEvent = new EventEmitter();
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  displayedColumns: string[] = ['name', 'handicap','score', 'user', 'action'];
+  @ViewChild(MatSort) sort: MatSort;
+  displayedColumns: string[] = ['name', 'handicap', 'score', 'user', 'action'];
   subscription: Subscription;
 
   constructor(private _scoresService: ScoresService) {}
 
   ngOnInit() {
- this.retrieveScores();
+     this.subscription = this._scoresService.getScores().subscribe(
+       (data) => {
+         this.scores = data;
+         this.dataSource = new MatTableDataSource<Score[]>(data);
+         this.dataSource.paginator = this.paginator;
+       },
+       (error) => {
+         console.log(error);
+       }
+     );
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
-  retrieveScores(): void {
-    this.subscription = this._scoresService.getScores().subscribe(
-      (data) => {
-        this.scores = data;
-        this.dataSource = new MatTableDataSource<Score[]>(data);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-
-        console.log('Sort2', this.sort);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
 
   onSelectScore(scr: Score) {
-    this.SelectScore.emit(scr);
+    this.SelectScoreEvent.emit(scr);
   }
 
   onDelete(index, score) {

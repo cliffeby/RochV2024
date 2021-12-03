@@ -36,7 +36,7 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log('Sort', this.sort);
+      // console.log('Sort', this.sort);
       // this.sort.sortChange.subscribe((x) => {
       //   console.log(x);
       // });
@@ -48,8 +48,8 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
       (data) => {
         this.matches = data;
         this.dataSource = new MatTableDataSource<any>(this.matches);
-        this.dataSource.sort = this.sort;
-        console.log('Sort2', this.sort);
+        // this.dataSource.sort = this.sort;
+        // console.log('Sort2', this.sort);
       },
       (error) => {
         console.log(error);

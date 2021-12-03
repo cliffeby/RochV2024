@@ -1,14 +1,13 @@
 <h2>Score Info</h2>
 
-<div >
-  <!-- <div *ngIf="!unauth; else unauthcontent"></div> -->
+<!-- <div >
+  <div *ngIf="!unauth; else unauthcontent"></div>
   <ng-container #unauthcontent>UNAUTHORIZED</ng-container>
-</div>
+</div> -->
 <div >
   <div class="row">
     <div class="col-md-12">
       <table mat-table [dataSource]="dataSource" matSort (matSortChange) = "ngAfterViewInit()">
-
 
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>  Name </th>
@@ -33,18 +32,17 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element; let i = index;">
-            <button *ngIf="element._id" mat-raised-button color="primary" (click)="onSelect(element)">Update</button>
+            <button *ngIf="element._id" mat-raised-button color="primary" (click)="onSelectScore(element)">View</button>
             <button mat-raised-button color="warn" (click)="onDelete(i, element)">Delete</button>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" mat-sort-header></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
-
 </div>
 
