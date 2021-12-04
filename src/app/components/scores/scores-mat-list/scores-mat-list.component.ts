@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { ScoresService } from '../../../services/scores.service';
 import { Score } from '../../../models/score';
@@ -13,15 +14,18 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-scores-mat-list',
   templateUrl: './scores-mat-list.component.html',
   styleUrls: ['./scores-mat-list.component.css'],
 })
-export class ScoresMatListComponent implements OnInit, AfterViewInit {
+export class ScoresMatListComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   public unauth: boolean;
-  @Input() scores: Score[];
+  // @Input() scores: Score[];
+  scores: Score[];
   @Output() SelectScoreEvent = new EventEmitter();
   @Output() public DeleteScorecardEvent = new EventEmitter();
   dataSource: MatTableDataSource<Score[]>;
@@ -30,23 +34,31 @@ export class ScoresMatListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'handicap', 'score', 'user', 'action'];
   subscription: Subscription;
 
-  constructor(private _scoresService: ScoresService) {}
+  constructor(
+    private _scoresService: ScoresService,
+    private _activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-     this.subscription = this._scoresService.getScores().subscribe(
-       (data) => {
-         this.scores = data;
-         this.dataSource = new MatTableDataSource<Score[]>(data);
-         this.dataSource.paginator = this.paginator;
-       },
-       (error) => {
-         console.log(error);
-       }
-     );
+    //  this.subscription = this._scoresService.getScores().subscribe(
+    //    (data) => {
+    //      this.scores = data;
+    //      this.dataSource = new MatTableDataSource<Score[]>(data);
+    //      this.dataSource.paginator = this.paginator;
+    //    },
+    //    (error) => {
+    //      console.log(error);
+    //    }
+    //  );
+    this.subscription = this._activatedRoute.data.subscribe((data) => {
+      this.scores = data.scores;
+      this.dataSource = new MatTableDataSource<any>(this.scores);
+    });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   onSelectScore(scr: Score) {
@@ -65,5 +77,8 @@ export class ScoresMatListComponent implements OnInit, AfterViewInit {
         .deleteScore(score._id)
         .subscribe();
     }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
