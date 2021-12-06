@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"ng serve\" \"nodemon api-server.js\"",
+    "start": "concurrently \"ng serve\" \"./menu-api copy/run dev\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

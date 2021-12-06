@@ -19,23 +19,23 @@ export class ScoresMatEditComponent implements OnInit {
   public scoreForm1: FormGroup;
   @Input() public score: Score;
   @Output() public updateScoreEvent = new EventEmitter();
-  scored:any;
+  scored: any;
   constructor(private fb: FormBuilder) {
-  //   this.scoreForm1 = fb.group({
-  //     name: ['', [Validators.required, Validators.minLength(3)]],
-  //     scorecardId : '',
-  //     lineupIds : [''],
-  //     memberIds : [''],
-  //     partnerIds : [''],
-  //     foursomeIds : [''],
-  //     score : null,
-  //     handicap : null,
-  //     wonTwoBall : false,
-  //     wonOneBall : false,
-  //     matchId : '',
-  //     datePlayed : null,
-  //     user : '',
-  //   });
+    //   this.scoreForm1 = fb.group({
+    //     name: ['', [Validators.required, Validators.minLength(3)]],
+    //     scorecardId : '',
+    //     lineupIds : [''],
+    //     memberIds : [''],
+    //     partnerIds : [''],
+    //     foursomeIds : [''],
+    //     score : null,
+    //     usgaIndex : null,
+    //     wonTwoBall : false,
+    //     wonOneBall : false,
+    //     matchId : '',
+    //     datePlayed : null,
+    //     user : '',
+    //   });
   }
   ngOnInit(): void {
     // this.scoreForm1 = this.fb.group({
@@ -46,7 +46,7 @@ export class ScoresMatEditComponent implements OnInit {
     //   partnerIds: [this.score.partnerIds],
     //   foursomeIds: [this.score.foursomeIds],
     //   score: [this.score.score],
-    //   handicap: [this.score.handicap],
+    //   usgaIndex: [this.score.usgaIndex],
 
     //   wonTwoBall: [this.score.wonTwoBall],
     //   wonOneBall: [this.score.wonOneBall],
@@ -55,7 +55,7 @@ export class ScoresMatEditComponent implements OnInit {
     //   user: [this.score.user],
     // });
     // console.log(this.scoreForm1);
-     this.scored = JSON.stringify(this.score, null, 4);
+    this.scored = JSON.stringify(this.score, null, 4);
   }
   ngOnDestroy() {}
 
@@ -68,4 +68,3 @@ export class ScoresMatEditComponent implements OnInit {
     this.updateScoreEvent.emit();
   }
 }
-

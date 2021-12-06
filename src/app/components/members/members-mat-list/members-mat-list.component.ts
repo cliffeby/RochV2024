@@ -29,7 +29,7 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'firstName',
     'lastName',
-    'handicap',
+    'usgaIndex',
     'email',
     'user',
     'action',
@@ -51,8 +51,8 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     }, 500);
   }
 

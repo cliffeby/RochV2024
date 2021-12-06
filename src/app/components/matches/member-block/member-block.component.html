@@ -1,16 +1,18 @@
-<p>member-block works!</p>
-
 {{members | json}}
+Scores
+{{scores | json}}
+Match
+{{match | json}}
 <!-- <div *ngIf="showPairBlock" > -->
 
 <div *ngIf=true >
   <input type="text" [(ngModel)]="queryString" id="search" placeholder="Search Last Name">
-  <i class="glyphicon glyphicon-search"></i>                    Playing: {{match?.players}}
+  <i class="glyphicon glyphicon-search"></i>                    Playing: {{players}}
   <div class ="container">
     <div *ngFor="let member of members | searchfilter: 'lastName' : queryString">
       <div >
       <div class="aligner aligner-item--top card card-block col-xs-2" [ngClass]="{'card-border': member.isPlaying==true}">
-        <p>{{member.firstName}} - {{member.handicap}}</p>
+        <p>{{member.firstName}} - {{member.usgaIndex}}</p>
         <p>{{member.lastName}}</p>
         <label><input type="checkbox" [checked]= "member.isPlaying" (click)="playerinMatch(member)">
           <span *ngIf="member.isPlaying==true">Playing</span>

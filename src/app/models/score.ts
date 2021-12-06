@@ -3,15 +3,15 @@ export class Score {
   name: string;
   scorecardId: string;
   lineupIds: string[];
-  memberIds: string[];
+  memberId: string;
   partnerIds: string[];
   foursomeIds: string[];
   score: number;
-  handicap: number;
+  usgaIndex: number;
   wonTwoBall: Boolean;
   wonOneBall: Boolean;
   wonIndo: Boolean;
   matchId: string;
   datePlayed: Date;
   user: string;
-};
+}

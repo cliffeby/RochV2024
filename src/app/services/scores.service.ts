@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ScoresService {
-
   constructor(private http: HttpClient) {}
 
   getScores(): Observable<any[]> {
@@ -24,7 +23,7 @@ export class ScoresService {
     return this.http.post(baseUrl, data);
   }
 
-  updateScore( data: Score): Observable<any> {
+  updateScore(data: Score): Observable<any> {
     return this.http.put(`${baseUrl}/${data._id}`, data);
   }
 
@@ -38,5 +37,10 @@ export class ScoresService {
 
   findByTitle(title: any): Observable<Score[]> {
     return this.http.get<Score[]>(`${baseUrl}?title=${title}`);
+  }
+
+  getScoreByMatch(matchId: string) {
+    return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
+
   }
 }

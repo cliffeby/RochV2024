@@ -6,13 +6,15 @@
 </div>
 
 <div *ngIf="selectedMatch && hidenewMatch">
-  {{match | json}}
+  <!-- {{match | json}} -->
   <h2>Edit Match</h2>
   <app-matches-mat-edit
     (updateMatchEvent)="onUpdateMatchEvent($event)"
     [match]="selectedMatch">
   </app-matches-mat-edit>
-  <app-member-block></app-member-block>
+  <app-member-block
+    [match]="selectedMatch">
+  </app-member-block>
 </div>
 
 <app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch"

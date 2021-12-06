@@ -24,6 +24,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   public matchForm1: FormGroup;
   public profileJson: string = null;
   public scorecards: Scorecard[];
+
   constructor(
     private fb: FormBuilder,
     public auth: AuthService,
@@ -87,7 +88,8 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   updateMatchForm() {
     this.match.name = this.matchForm1.controls['name'].value;
     this.match.datePlayed = this.matchForm1.controls['date'].value;
-    this.match.scorecardId = this.matchForm1.controls['course'].value;
+    this.match.scorecardId._id = this.matchForm1.controls['course'].value;
+    this.match.scorecardId.name = this.getScorecardName(this.matchForm1.controls['course'].value);
     this.match.user = this.matchForm1.controls['user'].value;
     this.updateMatchEvent.emit(this.match);
   }
@@ -99,5 +101,11 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     this.match.user = this.matchForm1.controls['user'].value;
     console.log('Control2', this.match);
     this.submitAddMatchEvent.emit(this.match);
+  }
+  getScorecardName(id: string) {
+    if (id) {
+      const scorecard = this.scorecards.find((x) => x._id === id);
+      return scorecard.name;
+    }
   }
 }

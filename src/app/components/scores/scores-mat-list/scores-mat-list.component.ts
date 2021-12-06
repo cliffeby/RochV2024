@@ -31,7 +31,7 @@ export class ScoresMatListComponent
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['name', 'handicap', 'score', 'user', 'action'];
+  displayedColumns: string[] = ['name', 'usgaIndex', 'score', 'user', 'action'];
   subscription: Subscription;
 
   constructor(

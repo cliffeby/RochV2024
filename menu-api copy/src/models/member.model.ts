@@ -3,7 +3,7 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 type MemberDocument = Document & {
   firstName: string;
   lastName: string | null;
-  handicap: number;
+  usgaIndex: number;
   user: string;
   email: string;
 };
@@ -11,7 +11,7 @@ type MemberDocument = Document & {
 type MemberInput = {
   firstName: MemberDocument['firstName'];
   lastName: MemberDocument['lastName'];
-  handicap: MemberDocument['handicap'];
+  usgaIndex: MemberDocument['usgaIndex'];
   user: MemberDocument['user'];
   email: MemberDocument['email'];
 };
@@ -28,7 +28,7 @@ const MemberSchema = new Schema(
       required: true,
       unique: false,
     },
-    handicap: {
+    usgaIndex: {
       type: Schema.Types.Number,
       required: false,
       unique: false,
@@ -42,7 +42,7 @@ const MemberSchema = new Schema(
       type: Schema.Types.String,
       required: false,
       unique: false,
-    }
+    },
   },
   {
     collection: 'members',
@@ -50,6 +50,9 @@ const MemberSchema = new Schema(
   }
 );
 
-const Member: Model<MemberDocument> = mongoose.model<MemberDocument>('Member', MemberSchema);
+const Member: Model<MemberDocument> = mongoose.model<MemberDocument>(
+  'Member',
+  MemberSchema
+);
 
 export { Member, MemberInput, MemberDocument };

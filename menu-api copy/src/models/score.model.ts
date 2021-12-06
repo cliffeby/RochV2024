@@ -4,11 +4,11 @@ type ScoreDocument = Document & {
   name: string;
   scorecardId: string;
   lineupIds: string[];
-  memberIds: string[];
+  memberId: string;
   partnerIds: string[];
   foursomeIds: string[];
   score: number;
-  handicap: number;
+  usgaIndex: number;
   wonTwoBall: Boolean;
   wonOneBall: Boolean;
   wonIndo: Boolean;
@@ -21,11 +21,11 @@ type ScoreInput = {
   name: ScoreDocument['name'];
   scorecardId: ScoreDocument['scorecardId'];
   lineupIds: ScoreDocument['lineupIds'];
-  memberIds: ScoreDocument['memberIds'];
+  memberId: ScoreDocument['memberId'];
   partnerIds: ScoreDocument['partnerIds'];
   foursomeIds: ScoreDocument['foursomeIds'];
   score: ScoreDocument['score'];
-  handicap: ScoreDocument['handicap'];
+  usgaIndex: ScoreDocument['usgaIndex'];
   wonTwoBall: ScoreDocument['wonTwoBall'];
   wonOneBall: ScoreDocument['wonOneBall'];
   wonIndo: ScoreDocument['wonIndo'];
@@ -37,7 +37,7 @@ type ScoreInput = {
 const ScoreSchema = new Schema(
   {
     name: String,
-    handicap: Number,
+    usgaIndex: Number,
     score: Number,
     wonTwoBall: Boolean,
     wonOneBall: Boolean,

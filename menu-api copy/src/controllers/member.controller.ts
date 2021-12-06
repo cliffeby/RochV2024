@@ -2,41 +2,51 @@ import { Request, Response } from 'express';
 import { Member, MemberInput } from '../models/member.model';
 
 const createMember = async (req: Request, res: Response) => {
-  const { firstName, lastName, handicap, email, user } = req.body;
+  const { firstName, lastName, usgaIndex, email, user } = req.body;
   if (!firstName || !lastName) {
     console.log(
-      'MemberController - The fields firstName and lastName are required - create', req.body
+      'MemberController - The fields firstName and lastName are required - create',
+      req.body
     );
-    return res.status(422).json({ message: 'The fields firstName and lastName are required - create' });
+    return res
+      .status(422)
+      .json({
+        message: 'The fields firstName and lastName are required - create',
+      });
   }
   const memberInput: MemberInput = {
     firstName,
     lastName,
-    handicap,
+    usgaIndex,
     email,
     user,
   };
   const memberCreated = await Member.create(memberInput);
   console.log('MemberController - Post a member - Success');
-  return res.status(201).json({memberCreated });
+  return res.status(201).json({ memberCreated });
 };
 
 const getAllMembers = async (req: Request, res: Response) => {
-  await Member.find().sort('lastName').exec(function(err, members){
-    console.log('Get request for all members');
-    if (err) {
+  await Member.find()
+    .sort('lastName')
+    .exec(function (err, members) {
+      console.log('Get request for all members');
+      if (err) {
         console.log('Error retrieving members');
       } else {
-    return res.status(200).json(members);
+        return res.status(200).json(members);
       }
-    })};
+    });
+};
 
 const getMember = async (req: Request, res: Response) => {
   const { id } = req.params;
   const member = await Member.findOne({ _id: id });
   if (!member) {
     console.log('Member with id ', id, ' not found - get.');
-    return res.status(404).json({ message: `Member with id "${id}" not found - get.` });
+    return res
+      .status(404)
+      .json({ message: `Member with id "${id}" not found - get.` });
   }
   console.log('Get request for a single member - success');
   return res.status(200).json({ member });
@@ -44,22 +54,28 @@ const getMember = async (req: Request, res: Response) => {
 
 const updateMember = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { firstName, lastName, handicap, email, user } = req.body;
+  const { firstName, lastName, usgaIndex, email, user } = req.body;
   const member = await Member.findOne({ _id: id });
   if (!member) {
-    return res.status(404).json({ message: `Member with id "${id}" not found -update.` });
+    return res
+      .status(404)
+      .json({ message: `Member with id "${id}" not found -update.` });
   }
   if (!firstName || !lastName) {
-    return res.status(422).json({ message: 'The fields firstName and lastName are required - update' });
+    return res
+      .status(422)
+      .json({
+        message: 'The fields firstName and lastName are required - update',
+      });
   }
   await Member.updateOne(
     { _id: id },
-    { firstName, lastName, handicap, email, user }
+    { firstName, lastName, usgaIndex, email, user }
   );
   const memberUpdated = await Member.findById(id, {
     firstName,
     lastName,
-    handicap,
+    usgaIndex,
     email,
     user,
   });

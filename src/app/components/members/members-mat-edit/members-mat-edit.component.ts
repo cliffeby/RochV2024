@@ -21,12 +21,12 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.memberForm1 = fb.group({
       firstName: '',
       lastName: '',
-      handicap: null,
+      usgaIndex: null,
       email: '',
       user: '',
     });
   }
-  private authSubscription
+  private authSubscription;
   public memberForm1: FormGroup;
   @Input() public member: Member;
   @Output() public updateMemberEvent = new EventEmitter();
@@ -41,7 +41,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.member = new Member();
       this.member.firstName = '';
       this.member.lastName = '';
-      this.member.handicap = 0;
+      this.member.usgaIndex = 0;
       this.member.email = '';
       // this.member.user = ''; User is set above in form
     }
@@ -52,7 +52,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.minLength(2)],
       ],
       lastName: [this.member.lastName, [Validators.required]],
-      handicap: [this.member.handicap, [Validators.required]],
+      usgaIndex: [this.member.usgaIndex, [Validators.required]],
       email: [this.member.email, [Validators.email]],
       user: [this.member.user, [Validators.required]],
     });
@@ -69,7 +69,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   updateMemberForm() {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
-    this.member.handicap = this.memberForm1.controls['handicap'].value;
+    this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
     this.updateMemberEvent.emit(this.member);
@@ -77,7 +77,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   addMemberForm() {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
-    this.member.handicap = this.memberForm1.controls['handicap'].value;
+    this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
     this.submitAddMemberEvent.emit(this.member);
