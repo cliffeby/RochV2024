@@ -1,4 +1,4 @@
-import mongoose, { Schema, Model, Document } from 'mongoose';
+import mongoose, { Schema, Model, Document, SchemaType } from 'mongoose';
 
 type MemberDocument = Document & {
   firstName: string;
@@ -49,6 +49,17 @@ const MemberSchema = new Schema(
     timestamps: true,
   }
 );
+// Duplicate the ID field.
+//  This provides a workaround for the _id collision with the Scores collection in Member-Block
+MemberSchema.virtual('id').get(function () {
+  // @ts-ignore
+  return this._id; // _id is not defined until execution
+});
+
+// Ensure virtual fields are serialised.
+MemberSchema.set('toJSON', {
+  virtuals: true,
+});
 
 const Member: Model<MemberDocument> = mongoose.model<MemberDocument>(
   'Member',

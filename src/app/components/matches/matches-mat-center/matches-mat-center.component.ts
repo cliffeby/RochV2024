@@ -6,12 +6,13 @@ import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-matches-mat-center',
   templateUrl: './matches-mat-center.component.html',
-  styleUrls: ['./matches-mat-center.component.css']
+  styleUrls: ['./matches-mat-center.component.css'],
 })
 export class MatchesMatCenterComponent implements OnInit {
-
   selectedMatch: Match;
+
   public hidenewMatch = true;
+  public hideMemberBlock = true;
   matches: Array<Match>;
 
   constructor(
@@ -32,22 +33,23 @@ export class MatchesMatCenterComponent implements OnInit {
     } else {
       this.selectedMatch = match;
       this.hidenewMatch = true;
+      this.hideMemberBlock = false;
       console.log('Center2', this.selectedMatch);
     }
   }
   onAddMatchEvent() {
     this.hidenewMatch = false;
+    this.hideMemberBlock = false;
     this.selectedMatch = null;
   }
 
   onSubmitAddMatch(match: Match) {
-    this._matchesService
-      .createMatch(match)
-      .subscribe((resNewMatch) => {
-        this.matches.push(resNewMatch);
-        this.hidenewMatch = true;
-        this.selectedMatch = null;
-      });
+    this._matchesService.createMatch(match).subscribe((resNewMatch) => {
+      this.matches.push(resNewMatch);
+      this.hidenewMatch = true;
+      this.hideMemberBlock = false;
+      this.selectedMatch = null;
+    });
     // TODO - Is Pipe better to force sort
     this._matchesService
       .getMatches()
@@ -66,29 +68,27 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onSubmitAddMatchEvent(match: Match) {
-    this._matchesService
-      .createMatch(match)
-      .subscribe((resNewMatch) => {
-        this.matches.push(resNewMatch);
-        this.hidenewMatch = true;
-        this.selectedMatch = null;
-      });
+    this._matchesService.createMatch(match).subscribe((resNewMatch) => {
+      this.matches.push(resNewMatch);
+      this.hidenewMatch = true;
+      this.hideMemberBlock = true;
+      this.selectedMatch = null;
+    });
   }
 
   onDeleteMatchEvent(match: Match) {
     this.selectedMatch = match;
     const matchArray = this.matches;
-    this._matchesService
-      .deleteMatch(match._id)
-      .subscribe(() => {
-        for (let i = 0; i < matchArray.length; i++) {
-          if (matchArray[i]._id === match._id) {
-            matchArray.splice(i, 1);
-          }
+    this._matchesService.deleteMatch(match._id).subscribe(() => {
+      for (let i = 0; i < matchArray.length; i++) {
+        if (matchArray[i]._id === match._id) {
+          matchArray.splice(i, 1);
         }
-        this.matches = matchArray;
-      });
+      }
+      this.matches = matchArray;
+    });
     this.selectedMatch = null;
     this.matches = matchArray;
   }
+  onUpdateWhoIsPlayingEvent(pairings) {}
 }

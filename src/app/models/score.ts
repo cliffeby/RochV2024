@@ -1,5 +1,6 @@
 export class Score {
   _id: string;
+  scoreId: string;
   name: string;
   scorecardId: string;
   lineupIds: string[];

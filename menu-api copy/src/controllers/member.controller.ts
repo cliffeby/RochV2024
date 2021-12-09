@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Member, MemberInput } from '../models/member.model';
+import mongoose, { isValidObjectId } from 'mongoose';
 
 const createMember = async (req: Request, res: Response) => {
   const { firstName, lastName, usgaIndex, email, user } = req.body;

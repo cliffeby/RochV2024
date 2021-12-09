@@ -34,7 +34,7 @@
   <br><br><br><br><br><br>
     <div class="button-space">
       <button type = "button" *ngIf="match._id" mat-raised-button color="primary" id="btnUpdate" (click)="updateMatchForm()" class="btn btn-primary">Update</button>
-      <button *ngIf="match._id" type = "button" mat-raised-button color="warn" id="btnArchive" (click)="archiveMatch()" class="btn btn-danger">Archive</button>
+      <button *ngIf="match._id" type = "button" mat-raised-button color="warn" id="btnArchive" (click)="archiveMatch()" class="btn btn-danger">Pair</button>
       <button *ngIf="!match._id" type = "button" mat-raised-button color="primary" id="btnAdd" (click)="addMatchForm()">Add</button>
       <button type = "button" mat-raised-button color="basic" id="btnCancel" routerLink = "../">Cancel</button>
     </div>

@@ -7,4 +7,5 @@ export class Member {
   isPlaying: boolean;
   created: string;
   user: string;
+  scoreId: string;
 }

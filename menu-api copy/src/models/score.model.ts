@@ -8,6 +8,7 @@ type ScoreDocument = Document & {
   partnerIds: string[];
   foursomeIds: string[];
   score: number;
+  scoreId: string;
   usgaIndex: number;
   wonTwoBall: Boolean;
   wonOneBall: Boolean;
@@ -25,6 +26,7 @@ type ScoreInput = {
   partnerIds: ScoreDocument['partnerIds'];
   foursomeIds: ScoreDocument['foursomeIds'];
   score: ScoreDocument['score'];
+  scoreId: ScoreDocument['scoreId'];
   usgaIndex: ScoreDocument['usgaIndex'];
   wonTwoBall: ScoreDocument['wonTwoBall'];
   wonOneBall: ScoreDocument['wonOneBall'];
@@ -39,6 +41,7 @@ const ScoreSchema = new Schema(
     name: String,
     usgaIndex: Number,
     score: Number,
+    // scoreId: String,
     wonTwoBall: Boolean,
     wonOneBall: Boolean,
     wonIndo: Boolean,
@@ -77,11 +80,9 @@ const ScoreSchema = new Schema(
   }
 );
 
-//TODO Add modified date to Score
-// ScoreSchema.pre('save', function(next){
-//   now = new Date();
-//   modified = now;
-// })
+ScoreSchema.virtual('scoreId').get(function () { const scoreId = "llll"; return scoreId; });
+
+
 
 const Score: Model<ScoreDocument> = mongoose.model<ScoreDocument>(
   'Score',

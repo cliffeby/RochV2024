@@ -1,25 +1,20 @@
 <div *ngIf="!hidenewMatch">
   <h2>New Match</h2>
-  <app-matches-mat-edit
-    (submitAddMatchEvent)="onSubmitAddMatchEvent($event)">
+  <app-matches-mat-edit (submitAddMatchEvent)="onSubmitAddMatchEvent($event)">
   </app-matches-mat-edit>
 </div>
 
 <div *ngIf="selectedMatch && hidenewMatch">
   <!-- {{match | json}} -->
   <h2>Edit Match</h2>
-  <app-matches-mat-edit
-    (updateMatchEvent)="onUpdateMatchEvent($event)"
-    [match]="selectedMatch">
+  <app-matches-mat-edit (updateMatchEvent)="onUpdateMatchEvent($event)" [match]="selectedMatch">
   </app-matches-mat-edit>
-  <app-member-block
-    [match]="selectedMatch">
-  </app-member-block>
+  <div *ngIf=!hideMemberBlock>
+    <app-member-block [match]="selectedMatch" (updatewhoisplaying)="onUpdateWhoIsPlayingEvent($event)">
+    </app-member-block>
+  </div>
 </div>
 
-<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch"
-  (SelectMatchEvent)="onSelectMatch($event)"
+<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch" (SelectMatchEvent)="onSelectMatch($event)"
   (DeleteMatchEvent)="onDeleteMatchEvent($event)">
 </app-matches-mat-list>
-
-

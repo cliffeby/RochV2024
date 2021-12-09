@@ -20,6 +20,7 @@ const createScore = async (req: Request, res: Response) => {
     partnerIds,
     datePlayed,
     user,
+    scoreId
   } = req.body;
   console.log('Create score request', req.body);
   if (!name) {
@@ -48,6 +49,7 @@ const createScore = async (req: Request, res: Response) => {
     partnerIds,
     datePlayed,
     user,
+    scoreId
   };
   const scoreCreated = await Score.create(scoreInput);
   console.log('ScoreController - Post a score - Success');
@@ -119,8 +121,9 @@ const deleteScore = async (req: Request, res: Response) => {
 };
 
 const getMatchScores = async (req: Request, res: Response) => {
+  // const {id} = req.params;  // The id of the match is a string with spaces added by Angular???  Hack below seems to fix it.
   const id  = req.params.id.trim();
-  if (!isValidObjectId(id)) {console.log('Invalid id'); return res.status(404).json({message: 'Invalid id'});}
+  if (!isValidObjectId(id)) {console.log('Invalid id', id); return res.status(404).json({message: 'Invalid id'});}
   var query = { matchId: id };
   console.log('Request scores for a match', query);
   await Score.find(query).then((scores) => {
