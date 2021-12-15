@@ -5,16 +5,23 @@
 </div>
 
 <div *ngIf="selectedMatch && hidenewMatch">
-  <!-- {{match | json}} -->
   <h2>Edit Match</h2>
-  <app-matches-mat-edit (updateMatchEvent)="onUpdateMatchEvent($event)" [match]="selectedMatch">
+  <app-matches-mat-edit
+    (updateMatchEvent)="onUpdateMatchEvent($event)"
+   [match]="selectedMatch"
+   (pairMatchEvent) = "onPairMatchEvent()">
   </app-matches-mat-edit>
   <div *ngIf=!hideMemberBlock>
-    <app-member-block [match]="selectedMatch" (updatewhoisplaying)="onUpdateWhoIsPlayingEvent($event)">
+    <app-member-block [match]="selectedMatch">
     </app-member-block>
+  </div>
+  <div *ngIf=!hidePairMatch>
+    <app-match-pair>
+    </app-match-pair>
   </div>
 </div>
 
-<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch" (SelectMatchEvent)="onSelectMatch($event)"
+<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch"
+  (SelectMatchEvent)="onSelectMatchEvent($event)"
   (DeleteMatchEvent)="onDeleteMatchEvent($event)">
 </app-matches-mat-list>

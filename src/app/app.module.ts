@@ -38,6 +38,7 @@ import { SearchFilterPipe } from './search.pipe';
 import { ScoresMatListComponent } from './components/scores/scores-mat-list/scores-mat-list.component';
 import { ScoresMatEditComponent } from './components/scores/scores-mat-edit/scores-mat-edit.component';
 import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/scores-mat-center.component';
+import { MatchPairComponent } from './components/matches/match-pair/match-pair.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/
     ScoresMatListComponent,
     ScoresMatEditComponent,
     ScoresMatCenterComponent,
+    MatchPairComponent,
   ],
   imports: [
     BrowserModule,

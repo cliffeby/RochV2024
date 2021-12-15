@@ -33,6 +33,7 @@ export class ScoresMatListComponent
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ['name', 'usgaIndex', 'score', 'user', 'action'];
   subscription: Subscription;
+  queryString: string;
 
   constructor(
     private _scoresService: ScoresService,
@@ -77,6 +78,11 @@ export class ScoresMatListComponent
         .deleteScore(score._id)
         .subscribe();
     }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

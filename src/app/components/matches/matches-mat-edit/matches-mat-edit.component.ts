@@ -38,9 +38,10 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     // });
   }
 
-  @Input() public match: any; // Model Match contains populated scorecardId which is not valid
+  @Input() public match: any; // Model Match contains populated scorecardId which is not avalid Match model
   @Output() public updateMatchEvent = new EventEmitter();
   @Output() public submitAddMatchEvent = new EventEmitter();
+  @Output() public pairMatchEvent = new EventEmitter();
 
   ngOnInit() {
     // Sets value of user to its email address
@@ -89,7 +90,9 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     this.match.name = this.matchForm1.controls['name'].value;
     this.match.datePlayed = this.matchForm1.controls['date'].value;
     this.match.scorecardId._id = this.matchForm1.controls['course'].value;
-    this.match.scorecardId.name = this.getScorecardName(this.matchForm1.controls['course'].value);
+    this.match.scorecardId.name = this.getScorecardName(
+      this.matchForm1.controls['course'].value
+    );
     this.match.user = this.matchForm1.controls['user'].value;
     this.updateMatchEvent.emit(this.match);
   }
@@ -101,6 +104,16 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     this.match.user = this.matchForm1.controls['user'].value;
     console.log('Control2', this.match);
     this.submitAddMatchEvent.emit(this.match);
+  }
+  archiveMatchForm() {
+    this.match.name = this.matchForm1.controls['name'].value;
+    this.match.datePlayed = this.matchForm1.controls['date'].value;
+    this.match.scorecardId._id = this.matchForm1.controls['course'].value;
+    this.match.scorecardId.name = this.getScorecardName(
+      this.matchForm1.controls['course'].value
+    );
+    this.match.user = this.matchForm1.controls['user'].value;
+    this.pairMatchEvent.emit();
   }
   getScorecardName(id: string) {
     if (id) {

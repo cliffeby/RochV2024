@@ -13,10 +13,11 @@ export class MatchesMatCenterComponent implements OnInit {
 
   public hidenewMatch = true;
   public hideMemberBlock = true;
+  public hidePairMatch = true;
   matches: Array<Match>;
 
+
   constructor(
-    // public auth: AuthService,
     private _matchesService: MatchesService
   ) {}
 
@@ -26,7 +27,7 @@ export class MatchesMatCenterComponent implements OnInit {
       .subscribe((resMatchData) => (this.matches = resMatchData));
   }
 
-  onSelectMatch(match: Match) {
+  onSelectMatchEvent(match: Match) {
     if (match === null) {
       this.hidenewMatch = false;
       console.log('Center1', this.selectedMatch, this.hidenewMatch);
@@ -34,12 +35,14 @@ export class MatchesMatCenterComponent implements OnInit {
       this.selectedMatch = match;
       this.hidenewMatch = true;
       this.hideMemberBlock = false;
+      this.hidePairMatch = true;
       console.log('Center2', this.selectedMatch);
     }
   }
   onAddMatchEvent() {
     this.hidenewMatch = false;
     this.hideMemberBlock = false;
+    this.hidePairMatch = true;
     this.selectedMatch = null;
   }
 
@@ -48,6 +51,7 @@ export class MatchesMatCenterComponent implements OnInit {
       this.matches.push(resNewMatch);
       this.hidenewMatch = true;
       this.hideMemberBlock = false;
+      this.hidePairMatch = true;
       this.selectedMatch = null;
     });
     // TODO - Is Pipe better to force sort
@@ -73,6 +77,10 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hidenewMatch = true;
       this.hideMemberBlock = true;
       this.selectedMatch = null;
+      this.hidePairMatch = true;
+    //   this._matchesService  // Doesn't refresh the view
+    //     .getMatches()
+    //     .subscribe((resMatchData) => (this.matches = resMatchData));
     });
   }
 
@@ -90,5 +98,10 @@ export class MatchesMatCenterComponent implements OnInit {
     this.selectedMatch = null;
     this.matches = matchArray;
   }
-  onUpdateWhoIsPlayingEvent(pairings) {}
+
+  onPairMatchEvent() {
+     this.hidenewMatch = true;
+     this.hideMemberBlock = true;
+     this.hidePairMatch = false;
+  }
 }

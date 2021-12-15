@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Match } from '../models/match';
 
 const baseUrl = 'http://localhost:7000/api/matches';
@@ -10,6 +10,24 @@ const baseUrl = 'http://localhost:7000/api/matches';
 })
 export class MatchesService {
   constructor(private http: HttpClient) {}
+
+  private empDetailSubject = new BehaviorSubject(null);
+
+  sendEmployeeDetail(data) {
+    // this.empDetailSubject.next(data);
+    this.empDetailSubject.next(data.sort((a,b) => a.usgaIndex- b.usgaIndex));
+  }
+  medianUSGAIndex(data){
+    let usgaIndex = data.map(function(data){
+      return data.usgaIndex;
+    });
+    let median = usgaIndex.sort(function(a,b){return a-b})[Math.floor(usgaIndex.length/2)];
+    return median;
+  }
+
+  getEmployeeDetail() {
+    return this.empDetailSubject.asObservable();
+  }
 
   getMatches(): Observable<any[]> {
     return this.http.get<Match[]>(baseUrl);

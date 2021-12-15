@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createScore,
+  deleteMatchScores,
   deleteScore,
   getAllScores,
   getMatchScores,
@@ -25,7 +26,6 @@ const scoreRoute = () => {
   router.get(
     '/scoresByMatch/:id',
     checkPermissions(ItemPermission.ReadScores),
-    
     getMatchScores
   );
 
@@ -33,6 +33,12 @@ const scoreRoute = () => {
 
   router.get('/', checkPermissions(ItemPermission.ReadScores), getAllScores);
   router.put('/:id', checkPermissions(ItemPermission.UpdateScore), updateScore);
+
+  router.delete(
+    '/scoresByMatch/:id',
+    checkPermissions(ItemPermission.ReadScores),
+    deleteMatchScores
+  );
 
   router.delete(
     '/:id',

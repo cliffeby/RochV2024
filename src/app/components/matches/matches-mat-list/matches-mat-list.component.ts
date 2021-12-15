@@ -14,10 +14,11 @@ import { MatchesService } from '../../../services/matches.service';
 import { Match } from 'src/app/models/match';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ScoresService } from 'src/app/services/scores.service';
 @Component({
   selector: 'app-matches-mat-list',
   templateUrl: './matches-mat-list.component.html',
-  styleUrls: ['./matches-mat-list.component.css']
+  styleUrls: ['./matches-mat-list.component.css'],
 })
 export class MatchesMatListComponent implements OnInit, AfterViewInit {
   private subscription: Subscription;
@@ -27,9 +28,19 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  displayedColumns: string[] = ['name', 'scorecardId', 'datePlayed','user', 'action'];
+  displayedColumns: string[] = [
+    'name',
+    'scorecardId',
+    'datePlayed',
+    'user',
+    'action',
+  ];
 
-  constructor(private _matchesService: MatchesService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private _matchesService: MatchesService,
+    private _scoresService: ScoresService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     //  this.subscription = this._matchesService.getMatches().subscribe(
@@ -43,21 +54,21 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
     //      console.log(error);
     //    }
     //  );
-     this.subscription =  this.activatedRoute.data.subscribe(data =>
-        {this.matches = data.matches;
-        this.dataSource = new MatTableDataSource<any>(this.matches);
-      });
+    this.subscription = this.activatedRoute.data.subscribe((data) => {
+      this.matches = data.matches;
+      this.dataSource = new MatTableDataSource<any>(this.matches);
+    });
   }
 
   ngAfterViewInit() {
     // this.retrieveMatches();
     // setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      // console.log('Sort', this.sort);
-      // this.sort.sortChange.subscribe((x) => {
-      //   console.log(x);
-      // });
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    // console.log('Sort', this.sort);
+    // this.sort.sortChange.subscribe((x) => {
+    //   console.log(x);
+    // });
     // },500);
   }
 
@@ -66,8 +77,8 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
     //   (data) => {
     //     this.matches = data;
     //     this.dataSource = new MatTableDataSource<any>(this.matches);
-        // this.dataSource.sort = this.sort;
-        // console.log('Sort2', this.sort);
+    // this.dataSource.sort = this.sort;
+    // console.log('Sort2', this.sort);
     //   },
     //   (error) => {
     //     console.log(error);
@@ -91,6 +102,9 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
         1
       );
       this.dataSource.data = data;
+      this.subscription = this._scoresService
+        .deleteMatchScores(match._id)
+        .subscribe();
       this.subscription = this._matchesService
         .deleteMatch(match._id)
         .subscribe();

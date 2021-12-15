@@ -1,0 +1,22 @@
+
+<h2>MatchPair</h2>
+{{USGAMedian | number:'1.0-1'}}
+<div *ngIf=true class="col-md-12">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Cap</th>
+      <th>Partner</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let mp of matchPairings;">
+     <td>{{mp.firstName}}{{mp.lastName}}</td>
+      <td>{{mp.usgaIndex}}</td>
+    </tr>
+    </tbody>
+    <button mat-icon-button color="primary" (click)="onPairing()">
+     <mat-icon class="mat-18">file_copy</mat-icon>
+   </button>
+   </table>

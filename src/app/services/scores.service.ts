@@ -35,11 +35,15 @@ export class ScoresService {
     return this.http.delete(baseUrl);
   }
 
+  deleteMatchScores(matchId: string): Observable<any>{
+  return this.http.delete(`${baseUrl}` + '/ScoresByMatch/' + matchId);
+  }
+
   findByTitle(title: any): Observable<Score[]> {
     return this.http.get<Score[]>(`${baseUrl}?title=${title}`);
   }
 
-  getScoreByMatch(matchId: string) {
+  getScoresByMatch(matchId: string) {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
 
   }

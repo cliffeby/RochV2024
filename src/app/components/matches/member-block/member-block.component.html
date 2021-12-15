@@ -1,45 +1,15 @@
-<!-- {{members | json}}
-Scores
-{{scores | json}}
-Match
-{{match | json}} -->
-<!-- <div *ngIf="showPairBlock" > -->
-
-<div *ngIf=true >
-  <input type="text" [(ngModel)]="queryString" id="search" placeholder="Search Last Name">
-  <i class="glyphicon glyphicon-search"></i>                    Playing: {{players}}
-  <div class ="container">
+<input type="text" [(ngModel)]="queryString" id="search" placeholder="Search Last Name">
+<i class="glyphicon glyphicon-search"></i> Playing: {{players}}
+<div class="container">
+  <div class="row">
     <div *ngFor="let member of members | searchfilter: 'lastName' : queryString">
-      <div >
-      <div class="aligner aligner-item--top card card-block col-xs-2" [ngClass]="{'card-border': member.isPlaying==true}">
+      <div class="col aligner aligner-item--top card card-block" [ngClass]="{'card-border': member.isPlaying==true}">
         <p>{{member.firstName}} - {{member.usgaIndex}}</p>
         <p>{{member.lastName}}</p>
-        <label><input type="checkbox" [checked]= "member.isPlaying" (click)="playerinMatch(member)">
+        <label><input type="checkbox" [checked]="member.isPlaying" (click)="playerinMatch(member)">
           <span *ngIf="member.isPlaying==true">Playing</span>
         </label>
-          </div>
       </div>
     </div>
   </div>
-  </div>
-
-  <div *ngIf=true class="col-md-12">
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Cap</th>
-        <th>Partner</th>
-      </tr>
-      </thead>
-      <!-- <tbody>
-      <tr *ngFor="let scoredm of scores;">
-       <td>{{scoredm.memberName}}</td>
-
-        <td>{{scoredm.cap}}</td>
-      </tr>
-      </tbody> -->
-      <button mat-icon-button color="primary" (click)="onPairing()">
-       <mat-icon class="mat-18">file_copy</mat-icon>
-     </button>
-     </table>
+</div>

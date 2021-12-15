@@ -122,16 +122,33 @@ const deleteScore = async (req: Request, res: Response) => {
 
 const getMatchScores = async (req: Request, res: Response) => {
   // const {id} = req.params;  // The id of the match is a string with spaces added by Angular???  Hack below seems to fix it.
-  const id  = req.params.id.trim();
-  if (!isValidObjectId(id)) {console.log('Invalid id', id); return res.status(404).json({message: 'Invalid id'});}
+  const id = req.params.id.trim();
+  if (!isValidObjectId(id)) {
+    console.log('Invalid id', id);
+    return res.status(404).json({ message: 'Invalid id' });
+  }
   var query = { matchId: id };
   console.log('Request scores for a match', query);
-  await Score.find(query).then((scores) => {
-            res.status(200).json(scores);
-        }).catch((err) => {
-            console.log(err);
+  await Score.find(query)
+    .then((scores) => {
+      res.status(200).json(scores);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
-  });
+const deleteMatchScores = async (req: Request, res: Response) => {
+  const id = req.params.id
+  if (!isValidObjectId(id)) {
+    console.log('Invalid id', id);
+    return res.status(404).json({ message: 'Invalid id' });
+  }
+  var query = { matchId: id };
+  console.log('Request scores for a match', query);
+  await Score.deleteMany(query)
+   console.log('Delete request for a matchId - success', id);
+   return res.status(200).json({ message: 'Score(s) deleted successfully. Match is clean' });
 };
 
 // exports.getMatchScores = function (req, res) {
@@ -145,4 +162,4 @@ const getMatchScores = async (req: Request, res: Response) => {
 //   });
 // };
 
-export { createScore, deleteScore, getAllScores, getScore, updateScore, getMatchScores };
+export { createScore, deleteScore, getAllScores, getScore, updateScore, getMatchScores, deleteMatchScores };

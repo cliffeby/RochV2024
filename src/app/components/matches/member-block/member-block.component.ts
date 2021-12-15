@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Score } from 'src/app/models/score';
 import { forkJoin, Subscription } from 'rxjs';
 import { Member } from 'src/app/models/member';
@@ -6,8 +13,7 @@ import { MembersService } from 'src/app/services/members.service';
 import { ScoresService } from 'src/app/services/scores.service';
 import { Match } from 'src/app/models/match';
 import { map } from 'rxjs/operators';
-import e from 'menu-api/node_modules/@types/express';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MatchesService } from 'src/app/services/matches.service';
 
 @Component({
   selector: 'app-member-block',
@@ -28,7 +34,8 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
 
   constructor(
     private _membersService: MembersService,
-    private _scoresService: ScoresService
+    private _scoresService: ScoresService,
+    private _matchesService: MatchesService
   ) {
     this.players = 0;
   }
@@ -46,7 +53,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       //Use the Member._id property for Scores.
       this.subscription1 = forkJoin({
         members: this._membersService.getMembers(), //Get all members
-        scores: this._scoresService.getScoreByMatch(this.match._id), //Get omly Scores for this match
+        scores: this._scoresService.getScoresByMatch(this.match._id), //Get omly Scores for this match
       })
         .pipe(
           map((response) => {
@@ -79,42 +86,15 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         this.members[j].isPlaying = true;
         this.players++;
         this.pairings.push(this.members[j]);
+        this.sendEmployeeDetail(this.pairings);
         console.log('Member', this.members[j], this.pairings);
       }
     }
     this.updatewhoisplaying.emit(this.pairings);
   }
-
-  // this.subscription1 = this._membersService.getMembers().subscribe(
-  //   (data) => {
-  //     this.members = data;
-  //     console.log('MBInit-members', this.members);
-  //   },
-  //   (error) => {
-  //     console.log(error);
-  //   }
-  // );
-  // this.queryString = '';
-  // this.subscription2 = this._scoresService
-  //   .getScoreByMatch(this.match._id)
-  //   .subscribe(
-  //     (data) => {
-  //       this.scores = data;
-  //       console.log('MBInit-scores', this.scores);
-  //       for (let i = 0; i < this.scores.length; i++) {
-  //         for (let j = 0; j < this.members.length; j++) {
-  //           if (this.scores[i].memberId === this.members[j]._id) {
-  //             this.members[j].isPlaying = true;
-  //             this.players++;
-  //             console.log('Member', this.members[j]);
-  //           }
-  //         }
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
+  sendEmployeeDetail(member) {
+    this._matchesService.sendEmployeeDetail(member);
+  }
 
   playerinMatch(member) {
     member.isPlaying = !member.isPlaying;
@@ -124,17 +104,16 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       this.score.matchId = this.match._id;
       this.score.memberId = member.id;
       this.score.usgaIndex = member.usgaIndex;
+      this.score.user = '**' + this.match.user;
       this.score.name =
         this.match.name + ' ' + member.firstName + ' ' + member.lastName;
       this.pairings.push(member);
       this.updatewhoisplaying.emit(this.pairings);
+      this.sendEmployeeDetail(this.pairings);
       console.log('score', this.score);
       this.subscription2 = this._scoresService
         .createScore(this.score)
         .subscribe();
-
-      // this.scores = [...this.scores, resNewScore];
-      // this.scores.push(resNewScore);
     } else {
       this.players--;
       this.subscription2 = this._scoresService
@@ -147,7 +126,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         }
       }
       this.updatewhoisplaying.emit(this.pairings);
-      console.log('From member-block2', member, this.pairings);
+      this.sendEmployeeDetail(this.pairings);
     }
   }
 
