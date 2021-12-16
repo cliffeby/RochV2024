@@ -1,5 +1,6 @@
 export class Scorecard {
   _id: string;
+  groupName: string;
   name: string;
   rating: number;
   slope: number;

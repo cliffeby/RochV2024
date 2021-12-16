@@ -26,7 +26,7 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['name', 'rating', 'user', 'action'];
+  displayedColumns: string[] = ['groupName','name', 'rating', 'user', 'action'];
 
   constructor(private _scorecardsService: ScorecardsService) {}
 

@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Member, MemberInput } from '../models/member.model';
-import mongoose, { isValidObjectId } from 'mongoose';
 
 const createMember = async (req: Request, res: Response) => {
   const { firstName, lastName, usgaIndex, email, user } = req.body;
@@ -9,11 +8,9 @@ const createMember = async (req: Request, res: Response) => {
       'MemberController - The fields firstName and lastName are required - create',
       req.body
     );
-    return res
-      .status(422)
-      .json({
-        message: 'The fields firstName and lastName are required - create',
-      });
+    return res.status(422).json({
+      message: 'The fields firstName and lastName are required - create',
+    });
   }
   const memberInput: MemberInput = {
     firstName,
@@ -63,11 +60,9 @@ const updateMember = async (req: Request, res: Response) => {
       .json({ message: `Member with id "${id}" not found -update.` });
   }
   if (!firstName || !lastName) {
-    return res
-      .status(422)
-      .json({
-        message: 'The fields firstName and lastName are required - update',
-      });
+    return res.status(422).json({
+      message: 'The fields firstName and lastName are required - update',
+    });
   }
   await Member.updateOne(
     { _id: id },

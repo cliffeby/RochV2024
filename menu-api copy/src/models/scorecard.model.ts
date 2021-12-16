@@ -1,6 +1,7 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
 
 type ScorecardDocument = Document & {
+  groupName: string;
   name: string;
   rating: number;
   slope: number;
@@ -11,6 +12,7 @@ type ScorecardDocument = Document & {
 };
 
 type ScorecardInput = {
+  groupName: ScorecardDocument['groupName'];
   name: ScorecardDocument['name'];
   rating: ScorecardDocument['rating'];
   slope: ScorecardDocument['slope'];
@@ -21,6 +23,11 @@ type ScorecardInput = {
 };
 
 const ScorecardSchema = new Schema({
+  groupName: {
+    type: Schema.Types.String,
+    required: false,
+    unique: false,
+  },
   name: {
     type: Schema.Types.String,
     unique: false,
@@ -59,7 +66,7 @@ const ScorecardSchema = new Schema({
     type: Schema.Types.String,
     required: false,
     unique: false,
-  }
+  }   
 },
   {
   collection: 'scorecards',

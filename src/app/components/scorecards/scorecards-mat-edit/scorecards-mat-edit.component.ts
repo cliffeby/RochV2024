@@ -5,9 +5,8 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-
 } from '@angular/core';
-import {  FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '../../../services/validation.service';
 import { Scorecard } from 'src/app/models/scorecard';
 import { AuthService } from '@auth0/auth0-angular';
@@ -24,6 +23,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
   public profileJson: string = null;
   constructor(private fb: FormBuilder, public auth: AuthService) {
     this.scorecardForm1 = fb.group({
+      groupName: ['', [Validators.required, ValidationService.nameValidator]],
       name: ['', [Validators.required, ValidationService.nameValidator]],
       // name: '',
       rating: null,
@@ -49,6 +49,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
       this.scorecard.parInputString = '';
       this.scorecard.hCapInputString = '';
       this.scorecard.yardsInputString = '';
+      this.scorecard.groupName = '';
       this.scorecard.name = '';
       this.scorecard.rating = null;
       this.scorecard.slope = null;
@@ -58,6 +59,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
     this.scorecard.pars = this.onInitParsString(this.scorecard);
     // this.scorecard.user = 'g@g.com'; // Set above
     this.scorecardForm1 = this.fb.group({
+      groupName: [this.scorecard.groupName],
       name: [
         this.scorecard.name,
         [Validators.required, Validators.minLength(5)],
@@ -126,6 +128,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
   }
 
   updateScorecardForm() {
+    this.scorecard.groupName = this.scorecardForm1.controls['groupName'].value;
     this.scorecard.name = this.scorecardForm1.controls['name'].value;
     this.scorecard.rating = this.scorecardForm1.controls['rating'].value;
     this.scorecard.slope = this.scorecardForm1.controls['slope'].value;
@@ -143,6 +146,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
   }
 
   addScorecardForm() {
+    this.scorecard.groupName = this.scorecardForm1.controls['groupName'].value;
     this.scorecard.name = this.scorecardForm1.controls['name'].value;
     console.log('SCControl1', this.scorecard);
     this.scorecard.user = this.scorecardForm1.controls['user'].value;

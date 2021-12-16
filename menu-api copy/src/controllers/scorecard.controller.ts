@@ -2,26 +2,34 @@ import { Request, Response } from 'express';
 import { Scorecard, ScorecardInput } from '../models/scorecard.model';
 
 const createScorecard = async (req: Request, res: Response) => {
-  const { name, rating, slope, parInputString, yardsInputString, hCapInputString, user } = req.body;
+  const {
+    groupName,
+    name,
+    rating,
+    slope,
+    parInputString,
+    yardsInputString,
+    hCapInputString,
+    user,
+  } = req.body;
   if (!name || !rating) {
     console.log(
       'ScorecardController - The fields name and rating are required - create',
       req.body
     );
-    return res
-      .status(422)
-      .json({
-        message: 'The fields name and rating are required - create',
-      });
+    return res.status(422).json({
+      message: 'The fields name and rating are required - create',
+    });
   }
   const scorecardInput: ScorecardInput = {
+    groupName,
     name,
     rating,
     slope,
     user,
     parInputString,
     yardsInputString,
-    hCapInputString
+    hCapInputString,
   };
   const scorecardCreated = await Scorecard.create(scorecardInput);
   console.log('ScorecardController - Post a scorecard - Success');
@@ -55,9 +63,10 @@ const getScorecard = async (req: Request, res: Response) => {
 };
 //
 const updateScorecard = async (req: Request, res: Response) => {
-  console.log("REQ", req.body);
+  console.log('REQ', req.body);
   const { id } = req.params;
   const {
+    groupName,
     name,
     rating,
     slope,
@@ -73,17 +82,25 @@ const updateScorecard = async (req: Request, res: Response) => {
       .json({ message: `Scorecard with id "${id}" not found -update.` });
   }
   if (!name || !rating) {
-    return res
-      .status(422)
-      .json({
-        message: 'The fields name and rating are required - update',
-      });
+    return res.status(422).json({
+      message: 'The fields name and rating are required - update',
+    });
   }
   await Scorecard.updateOne(
     { _id: id },
-    { name, rating, slope, user, parInputString, yardsInputString, hCapInputString }
+    {
+      groupName,
+      name,
+      rating,
+      slope,
+      user,
+      parInputString,
+      yardsInputString,
+      hCapInputString,
+    }
   );
   const scorecardUpdated = await Scorecard.findById(id, {
+    groupName,
     name,
     rating,
     slope,
@@ -103,4 +120,10 @@ const deleteScorecard = async (req: Request, res: Response) => {
   return res.status(200).json({ message: 'Scorecard deleted successfully.' });
 };
 
-export { createScorecard, deleteScorecard, getAllScorecards, getScorecard, updateScorecard };
+export {
+  createScorecard,
+  deleteScorecard,
+  getAllScorecards,
+  getScorecard,
+  updateScorecard,
+};
