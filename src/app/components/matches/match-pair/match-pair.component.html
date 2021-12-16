@@ -1,22 +1,25 @@
-
 <h2>MatchPair</h2>
-{{USGAMedian | number:'1.0-1'}}
-<div *ngIf=true class="col-md-12">
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Cap</th>
-      <th>Partner</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let mp of matchPairings;">
-     <td>{{mp.firstName}}{{mp.lastName}}</td>
-      <td>{{mp.usgaIndex}}</td>
-    </tr>
-    </tbody>
-    <button mat-icon-button color="primary" (click)="onPairing()">
-     <mat-icon class="mat-18">file_copy</mat-icon>
-   </button>
-   </table>
+
+<div class="row">
+  <div class="column" *ngFor="let item of todaysLineUp | keyvalue">
+    <table>
+      <tr *ngIf="item.value.playerA && item.key < 2">
+        <th>Name</th>
+        <th>Index</th>
+      </tr>
+
+      <!-- *ngFor="let item of objectList | keyvalue"
+  item.key # refers to the keys (134, 135...) in your example
+  item.value # refers to the object for each key -->
+
+      <tr *ngIf="item.value.playerA">
+        <td> {{item.value.playerA.fullName}}</td>
+        <td>{{item.value.playerA.usgaIndex}}</td>
+      </tr>
+      <tr *ngIf="item.value.playerB">
+        <td>{{item.value.playerB.fullName}}</td>
+        <td>{{item.value.playerB.usgaIndex}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -8,4 +8,17 @@ export class Member {
   created: string;
   user: string;
   scoreId: string;
+  fullName: string;
+}
+export class Team {
+  playerA: Member;
+  playerB: Member;
+  combinedIndex: number;
+}
+export class LineUps {
+  teamA: Team;
+  teamB: Team;
+  teamC: Team;
+  teamD: Team;
+  lineUpSD: number;
 }

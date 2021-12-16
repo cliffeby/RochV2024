@@ -55,6 +55,19 @@ MemberSchema.virtual('id').get(function () {
   // @ts-ignore
   return this._id; // _id is not defined until execution
 });
+MemberSchema.virtual('fullName')
+  .get(function () {
+    //@ts-ignore
+    return `${this.firstName} ${this.lastName}`;
+  })
+  .set(function (v: string) {
+    // `v` is the value being set, so use the value to set
+    // `firstName` and `lastName`.
+    const firstName = v.substring(0, v.indexOf(' '));
+    const lastName = v.substring(v.indexOf(' ') + 1);
+    //@ts-ignore
+    this.set({ firstName, lastName });
+  });
 
 // Ensure virtual fields are serialised.
 MemberSchema.set('toJSON', {

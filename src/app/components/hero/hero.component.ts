@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeroComponent implements OnInit {
   heroLogo = 'https://cdn.auth0.com/blog/auth0-angular-sample/assets/logo.png';
+  
 
   constructor() {}
 
