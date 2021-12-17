@@ -1,7 +1,7 @@
 <h2>MatchPair</h2>
 
 <div class="row">
-  <div class="column" *ngFor="let item of todaysLineUp | keyvalue">
+  <div class="column" *ngFor="let item of todaysLineUp[index] | keyvalue">
     <table>
       <tr *ngIf="item.value.playerA && item.key < 2">
         <th>Name</th>
@@ -23,3 +23,8 @@
     </table>
   </div>
 </div>
+<mat-icon *ngIf="index<3" (click)="onSelect()">album</mat-icon>
+
+<mat-icon *ngIf="index==3" color = "warn">stop</mat-icon>
+<a *ngIf="index==3" color = "warn">No more spins</a>
+

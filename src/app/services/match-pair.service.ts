@@ -13,7 +13,7 @@ export class MatchPairService {
 
   constructor() {}
 
-  createRandomPairings(rPlaying: Member[]) {
+  async createRandomPairings(rPlaying: Member[]) {
     const pairings: Team[] = [];
     const randomPlayers: Member[] = rPlaying.sort(() => Math.random() - 0.5);
     for (let j = 0; j < randomPlayers.length; j = j + 2) {
@@ -42,14 +42,14 @@ export class MatchPairService {
     return pairings;
   }
 
-  generateLineUps(rPlaying: Member[]): LineUps[] {
+  async generateLineUps(rPlaying) {
     let sd: number;
     let foursomeUSGAIndex: Number[] = [];
     let combos = [];
     let combo = [];
 
     for (let i = 0; i < 10000; i++) {
-      combo = this.createRandomPairings(rPlaying);
+      combo = await this.createRandomPairings(rPlaying)
       for (let j = 0; j < 4; j++) {
         if (combo[j].combinedIndex) {
           foursomeUSGAIndex.push(combo[j].combinedIndex);
@@ -60,10 +60,11 @@ export class MatchPairService {
       foursomeUSGAIndex = [];
     }
 
+
     combos.sort((a, b) => (a.lineUpSD > b.lineUpSD ? 1 : -1));
     combos = this.removeItemsWithDuplicateSD(combos);
-    // console.log('Combo', combos);
-    return combos[0];
+    console.log('Combo', combos.slice(0,4));
+    return combos.slice(0,4);
   }
 
   removeItemsWithDuplicateSD(items:LineUps[]) {

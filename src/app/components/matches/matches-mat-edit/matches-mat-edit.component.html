@@ -2,7 +2,7 @@
   <h2>{{match.name}} | {{match.scName}} | {{match.datePlayed | date: "longDate"}}</h2>
 </div>
 <form *ngIf="true" class="detail-form" [formGroup]="matchForm1">
-
+ <div *ngIf=!hidePairMatch>
   <mat-form-field class="detail-full-width">
     <input matInput type="text" placeholder=" Name" formControlName="name">
   </mat-form-field>
@@ -25,7 +25,7 @@
       <mat-error *ngIf="matchForm1.controls['course'].hasError('required')">Please choose a course</mat-error>
     </mat-select>
   </mat-form-field>
-
+</div>
   <br><br>
   <div class="button-space">
     <mat-icon *ngIf="match._id" color="primary" (click)="updateMatchForm()"
