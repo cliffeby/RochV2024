@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Member, MemberInput } from '../models/member.model';
 
 const createMember = async (req: Request, res: Response) => {
-  const { firstName, lastName, usgaIndex, email, user } = req.body;
+  const { firstName, lastName, usgaIndex, scorecards, email, user } = req.body;
   if (!firstName || !lastName) {
     console.log(
       'MemberController - The fields firstName and lastName are required - create',
@@ -16,6 +16,7 @@ const createMember = async (req: Request, res: Response) => {
     firstName,
     lastName,
     usgaIndex,
+    scorecards,
     email,
     user,
   };
@@ -52,7 +53,7 @@ const getMember = async (req: Request, res: Response) => {
 
 const updateMember = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { firstName, lastName, usgaIndex, email, user } = req.body;
+  const { firstName, lastName, usgaIndex, scorecards, email, user } = req.body;
   const member = await Member.findOne({ _id: id });
   if (!member) {
     return res
@@ -66,12 +67,13 @@ const updateMember = async (req: Request, res: Response) => {
   }
   await Member.updateOne(
     { _id: id },
-    { firstName, lastName, usgaIndex, email, user }
+    { firstName, lastName, usgaIndex, scorecards, email, user }
   );
   const memberUpdated = await Member.findById(id, {
     firstName,
     lastName,
     usgaIndex,
+    scorecards,
     email,
     user,
   });

@@ -2,6 +2,7 @@ export class Scorecard {
   _id: string;
   groupName: string;
   name: string;
+  courseTeeName: string;
   rating: number;
   slope: number;
   parInputString: string;

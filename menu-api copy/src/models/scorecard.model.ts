@@ -66,13 +66,31 @@ const ScorecardSchema = new Schema({
     type: Schema.Types.String,
     required: false,
     unique: false,
-  }   
+  }
 },
   {
   collection: 'scorecards',
   timestamps: true,
 }
 );
+ScorecardSchema.virtual('courseTeeName')
+  .get(function () {
+    //@ts-ignore
+    return `${this.groupName} ${this.name}`;
+  })
+  .set(function (v: string) {
+    // `v` is the value being set, so use the value to set
+    // `firstName` and `lastName`.
+    const groupName = v.substring(0, v.indexOf(' '));
+    const name = v.substring(v.indexOf(' ') + 1);
+    //@ts-ignore
+    this.set({groupName, name });
+  });
+
+  // Ensure virtual fields are serialised.
+ScorecardSchema.set('toJSON', {
+  virtuals: true,
+});
 
 const Scorecard: Model<ScorecardDocument> = mongoose.model<ScorecardDocument>('Scorecard', ScorecardSchema);
 export { Scorecard, ScorecardInput, ScorecardDocument };
