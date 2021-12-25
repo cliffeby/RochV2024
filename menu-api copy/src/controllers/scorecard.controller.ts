@@ -38,11 +38,24 @@ const createScorecard = async (req: Request, res: Response) => {
 
 const getAllScorecards = async (req: Request, res: Response) => {
   await Scorecard.find()
-    .sort('name')
+    .sort('groupName')
     .exec(function (err, scorecards) {
-      console.log('Get request for all scorecards');
+      console.log('Get request for all scorecards', scorecards);
       if (err) {
         console.log('Error retrieving scorecards');
+      } else {
+        return res.status(200).json(scorecards);
+      }
+    });
+};
+
+const getAllScorecardGroups = async (req: Request, res: Response) => {
+  await Scorecard.find()
+    .distinct('groupName')
+    .exec(function (err, scorecards) {
+      console.log('Get request for all scorecard groupss', scorecards);
+      if (err) {
+        console.log('Error retrieving scorecard groups');
       } else {
         return res.status(200).json(scorecards);
       }
@@ -124,6 +137,7 @@ export {
   createScorecard,
   deleteScorecard,
   getAllScorecards,
+  getAllScorecardGroups,
   getScorecard,
   updateScorecard,
 };

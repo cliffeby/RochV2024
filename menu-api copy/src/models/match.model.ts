@@ -2,7 +2,8 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 
 type MatchDocument = Document & {
   name: string;
-  scorecardId: string;
+  // scorecardId: string;
+  scorecard: {},
   lineupIds: string[];
   memberIds: string[];
   datePlayed: Date;
@@ -11,7 +12,8 @@ type MatchDocument = Document & {
 
 type MatchInput = {
   name: MatchDocument['name'];
-  scorecardId: MatchDocument['scorecardId'];
+  // scorecardId: MatchDocument['scorecardId'];
+  scorecard: MatchDocument['scorecard'];
   lineupIds: MatchDocument['lineupIds'];
   memberIds: MatchDocument['memberIds'];
   datePlayed: MatchDocument['datePlayed'];
@@ -30,6 +32,11 @@ const MatchSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Scorecard',
     },
+    scorecard: {
+      type:Schema.Types.ObjectId,
+      ref: 'Scorecard',
+    },
+
     memberIds: [
       {
         type: Schema.Types.ObjectId,

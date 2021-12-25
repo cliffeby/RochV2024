@@ -4,7 +4,7 @@ import { Match, MatchInput } from '../models/match.model';
 const createMatch = async (req: Request, res: Response) => {
   const {
     name,
-    scorecardId,
+    scorecard,
     memberIds,
     lineupIds,
     datePlayed,
@@ -14,7 +14,7 @@ const createMatch = async (req: Request, res: Response) => {
      'MatchController Mcreate0',
      req.body
    );
-  if (!name || !scorecardId) {
+  if (!name ) {
     console.log(
       'MatchController - The fields name and scorecardId are required - Mcreate1',
       req.body
@@ -25,7 +25,7 @@ const createMatch = async (req: Request, res: Response) => {
   }
   const matchInput: MatchInput = {
     name,
-    scorecardId,
+    scorecard,
     memberIds,
     lineupIds,
     datePlayed,
@@ -38,7 +38,7 @@ const createMatch = async (req: Request, res: Response) => {
 
 const getAllMatches = async (req: Request, res: Response) => {
   await Match.find()
-    .populate('scorecardId', 'name') // This makes scorecardId an object of _id and name
+    .populate('scorecard', 'groupName') // This makes scorecard an object of _id and name
     .sort({ datePlayed: 'desc' })
     .exec(function (err: any, matches: any) {
       console.log('Get request for all matches');
@@ -73,7 +73,7 @@ const updateMatch = async (req: Request, res: Response) => {
   const { id } = req.params;
   const {
     name,
-    scorecardId,
+    scorecard,
     memberIds,
     lineupIds,
     datePlayed,
@@ -85,7 +85,7 @@ const updateMatch = async (req: Request, res: Response) => {
       .status(404)
       .json({ message: `Match with id "${id}" not found -update.` });
   }
-  if (!name || !scorecardId) {
+  if (!name ) {
     return res.status(422).json({
       message: 'The fields name and scorecard are required - update',
     });
@@ -94,7 +94,7 @@ const updateMatch = async (req: Request, res: Response) => {
     { _id: id },
     {
       name,
-      scorecardId,
+      scorecard,
       memberIds,
       lineupIds,
       datePlayed,
@@ -103,7 +103,7 @@ const updateMatch = async (req: Request, res: Response) => {
   );
   const matchUpdated = await Match.findById(id, {
     name,
-    scorecardId,
+    scorecard,
     memberIds,
     lineupIds,
     datePlayed,

@@ -1,7 +1,10 @@
+import { Scorecard } from "./scorecard";
+
 export class Match {
   _id: string;
   name: string;
   scorecardId: string;
+  scorecard: Scorecard;
   scName: string;
   datePlayed: string;
   dateFlag: boolean;
@@ -20,5 +23,6 @@ export class Match {
     this.lineUpIds = [];
     this.playersHCap = [];
     this.scoreIds = [];
+    this.scorecard = new Scorecard();
   }
 }

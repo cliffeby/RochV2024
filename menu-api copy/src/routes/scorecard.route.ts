@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { createScorecard, deleteScorecard, getAllScorecards, getScorecard, updateScorecard } from '../controllers/scorecard.controller';
+import { createScorecard, deleteScorecard, getAllScorecards,
+  getAllScorecardGroups, getScorecard, updateScorecard } from '../controllers/scorecard.controller';
 import { checkJwt } from '../middleware/authz.middleware';
 import { checkPermissions } from '../middleware/permissions.middleware';
 import { ItemPermission } from '../items/item-permission';
@@ -12,6 +13,12 @@ const scorecardRoute = () => {
   router.post('/',checkPermissions(ItemPermission.CreateScorecard), createScorecard);
 
   router.get('/',checkPermissions(ItemPermission.ReadScorecards),getAllScorecards);
+
+  router.get(
+    '/',
+    checkPermissions(ItemPermission.ReadScorecards),
+    getAllScorecardGroups
+  );
 
   router.get('/:id', checkPermissions(ItemPermission.ReadScorecards), getScorecard);
 

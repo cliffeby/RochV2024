@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Scorecard } from '../models/scorecard';
+import { distinct, map } from 'rxjs/operators';
 
 
 const baseUrl = 'http://localhost:7000/api/scorecards';
@@ -14,6 +15,10 @@ export class ScorecardsService {
 
   getScorecards(): Observable<any[]> {
     return this.http.get<Scorecard[]>(baseUrl);
+  }
+  getScorecardGroups(): Observable<any[]> {
+    return this.http.get<Scorecard[]>(baseUrl)
+   .pipe(map(res => res.sort()))
   }
 
   getScorecard(id: any): Observable<any> {
