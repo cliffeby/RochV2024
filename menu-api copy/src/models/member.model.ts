@@ -5,6 +5,7 @@ type MemberDocument = Document & {
   lastName: string | null;
   usgaIndex: number;
   scorecards: [];
+  scorecard: {};
   user: string;
   email: string;
 };
@@ -14,6 +15,7 @@ type MemberInput = {
   lastName: MemberDocument['lastName'];
   usgaIndex: MemberDocument['usgaIndex'];
   scorecards: MemberDocument['scorecards'];
+  scorecard: MemberDocument['scorecard'];
   user: MemberDocument['user'];
   email: MemberDocument['email'];
 };
@@ -37,6 +39,11 @@ const MemberSchema = new Schema(
     },
     scorecards: {
       type: Schema.Types.Array,
+      required: false,
+      unique: false,
+    },
+    scorecard: {
+      type: Schema.Types.ObjectId,
       required: false,
       unique: false,
     },

@@ -6,10 +6,12 @@
       <div class="col aligner aligner-item--top card card-block" [ngClass]="{'card-border': member.isPlaying==true}">
         <p>{{member.firstName}} - {{member.usgaIndex}}</p>
         <p>{{member.lastName}}</p>
-        <label><input type="checkbox" [checked]="member.isPlaying" (click)="playerinMatch(member)">
-          <span *ngIf="member.isPlaying==true">Playing</span>
+        <label><input *ngIf="member.scorecard.name !='No Course'" type="checkbox" [checked]="member.isPlaying"
+            (click)="playerinMatch(member)">
+          <span *ngIf="member.isPlaying==true && member.scorecard.name !='No Course'">Playing</span>
+          <span *ngIf="member.scorecard.name =='No Course'" style = "color:red">Assign Course</span>
         </label>
-        <p>White-17</p>
+        <p>{{member.scorecard.name}}</p>
       </div>
     </div>
   </div>

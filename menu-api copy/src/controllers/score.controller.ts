@@ -11,6 +11,7 @@ const createScore = async (req: Request, res: Response) => {
     scorecardId,
     lineupIds,
     usgaIndex,
+    coursePlayerHandicap,
     score,
     wonTwoBall,
     wonOneBall,
@@ -40,6 +41,7 @@ const createScore = async (req: Request, res: Response) => {
     scorecardId,
     lineupIds,
     usgaIndex,
+    coursePlayerHandicap,
     score,
     wonTwoBall,
     wonOneBall,
@@ -106,6 +108,7 @@ const updateScore = async (req: Request, res: Response) => {
     firstName,
     lastName,
     usgaIndex,
+    coursePlayerHandicap,
     email,
     user,
   });

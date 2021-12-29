@@ -10,6 +10,7 @@ type ScoreDocument = Document & {
   score: number;
   scoreId: string;
   usgaIndex: number;
+  coursePlayerHandicap: number;
   wonTwoBall: Boolean;
   wonOneBall: Boolean;
   wonIndo: Boolean;
@@ -28,6 +29,7 @@ type ScoreInput = {
   score: ScoreDocument['score'];
   scoreId: ScoreDocument['scoreId'];
   usgaIndex: ScoreDocument['usgaIndex'];
+  coursePlayerHandicap: ScoreDocument['coursePlayerHandicap'];
   wonTwoBall: ScoreDocument['wonTwoBall'];
   wonOneBall: ScoreDocument['wonOneBall'];
   wonIndo: ScoreDocument['wonIndo'];
@@ -40,6 +42,7 @@ const ScoreSchema = new Schema(
   {
     name: String,
     usgaIndex: Number,
+    coursePlayerHandicap: Number,
     score: Number,
     // scoreId: String,
     wonTwoBall: Boolean,

@@ -8,6 +8,7 @@ const createScorecard = async (req: Request, res: Response) => {
     rating,
     slope,
     parInputString,
+    par,
     yardsInputString,
     hCapInputString,
     user,
@@ -28,6 +29,7 @@ const createScorecard = async (req: Request, res: Response) => {
     slope,
     user,
     parInputString,
+    par,
     yardsInputString,
     hCapInputString,
   };
@@ -49,18 +51,18 @@ const getAllScorecards = async (req: Request, res: Response) => {
     });
 };
 
-const getAllScorecardGroups = async (req: Request, res: Response) => {
-  await Scorecard.find()
-    .distinct('groupName')
-    .exec(function (err, scorecards) {
-      console.log('Get request for all scorecard groupss', scorecards);
-      if (err) {
-        console.log('Error retrieving scorecard groups');
-      } else {
-        return res.status(200).json(scorecards);
-      }
-    });
-};
+// const getAllScorecardGroups = async (req: Request, res: Response) => {
+//   await Scorecard.find()
+//     .distinct('groupName')
+//     .exec(function (err, scorecards) {
+//       console.log('Get request for all scorecard groupss', scorecards);
+//       if (err) {
+//         console.log('Error retrieving scorecard groups');
+//       } else {
+//         return res.status(200).json(scorecards);
+//       }
+//     });
+// };
 
 const getScorecard = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -85,6 +87,7 @@ const updateScorecard = async (req: Request, res: Response) => {
     slope,
     user,
     parInputString,
+    par,
     yardsInputString,
     hCapInputString,
   } = req.body;
@@ -108,10 +111,11 @@ const updateScorecard = async (req: Request, res: Response) => {
       slope,
       user,
       parInputString,
+      par,
       yardsInputString,
       hCapInputString,
     }
-  );
+  );  
   const scorecardUpdated = await Scorecard.findById(id, {
     groupName,
     name,
@@ -119,6 +123,7 @@ const updateScorecard = async (req: Request, res: Response) => {
     slope,
     user,
     parInputString,
+    par,
     yardsInputString,
     hCapInputString,
   });
@@ -137,7 +142,7 @@ export {
   createScorecard,
   deleteScorecard,
   getAllScorecards,
-  getAllScorecardGroups,
+  // getAllScorecardGroups,
   getScorecard,
   updateScorecard,
 };

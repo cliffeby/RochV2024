@@ -53,6 +53,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
       this.scorecard.name = '';
       this.scorecard.rating = null;
       this.scorecard.slope = null;
+      this.scorecard.par = 72;
     }
     this.scorecard.hCaps = this.onInitHcapsString(this.scorecard);
     this.scorecard.yards = this.onInitYardsString(this.scorecard);
@@ -131,6 +132,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
     this.scorecard.groupName = this.scorecardForm1.controls['groupName'].value;
     this.scorecard.name = this.scorecardForm1.controls['name'].value;
     this.scorecard.rating = this.scorecardForm1.controls['rating'].value;
+    this.scorecard.par = 72;
     this.scorecard.slope = this.scorecardForm1.controls['slope'].value;
     this.scorecard.user = this.scorecardForm1.controls['user'].value;
     this.scorecard.parInputString = this.scorecardForm1.controls[
@@ -143,6 +145,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
       'yardsInputString'
     ].value;
     this.updateScorecardEvent.emit(this.scorecard);
+    console.log('updateScorecardEvent emitted', this.scorecard);
   }
 
   addScorecardForm() {
@@ -150,7 +153,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
     this.scorecard.name = this.scorecardForm1.controls['name'].value;
     console.log('SCControl1', this.scorecard);
     this.scorecard.user = this.scorecardForm1.controls['user'].value;
-
+    this.scorecard.par = 72;
     this.scorecard.rating = this.scorecardForm1.controls['rating'].value;
     this.scorecard.slope = this.scorecardForm1.controls['slope'].value;
     this.scorecard.parInputString = this.scorecardForm1.controls[

@@ -67,7 +67,8 @@ const updateMember = async (req: Request, res: Response) => {
   }
   await Member.updateOne(
     { _id: id },
-    { firstName, lastName, usgaIndex, scorecards, email, user }
+    { firstName, lastName, usgaIndex, email, user },
+    { $set: { 'scorecards.$.rating': updateOne.rating, 'items.$.value': updateOne.value } }
   );
   const memberUpdated = await Member.findById(id, {
     firstName,
@@ -77,7 +78,7 @@ const updateMember = async (req: Request, res: Response) => {
     email,
     user,
   });
-  console.log('MemberController - Update a member - Success');
+  console.log('MemberController - Update a member - Success', scorecards, memberUpdated);
   return res.status(200).json({ memberUpdated });
 };
 

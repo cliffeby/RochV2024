@@ -49,9 +49,9 @@ export class MatchPairService {
     let combo = [];
 
     for (let i = 0; i < 10000; i++) {
-      combo = await this.createRandomPairings(rPlaying)
+      combo = await this.createRandomPairings(rPlaying);
       for (let j = 0; j < 4; j++) {
-        if (combo[j].combinedIndex) {
+        if (combo[j]) {
           foursomeUSGAIndex.push(combo[j].combinedIndex);
         }
       }
@@ -60,14 +60,13 @@ export class MatchPairService {
       foursomeUSGAIndex = [];
     }
 
-
     combos.sort((a, b) => (a.lineUpSD > b.lineUpSD ? 1 : -1));
     combos = this.removeItemsWithDuplicateSD(combos);
-    console.log('Combo', combos.slice(0,4));
-    return combos.slice(0,4);
+    console.log('Combo', combos.slice(0, 4));
+    return combos.slice(0, 4);
   }
 
-  removeItemsWithDuplicateSD(items:LineUps[]) {
+  removeItemsWithDuplicateSD(items: LineUps[]) {
     for (let i = 1; i < items.length; i++) {
       if (items[i].lineUpSD === items[i - 1].lineUpSD) {
         items.splice(i--, 1);

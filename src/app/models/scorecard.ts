@@ -6,6 +6,7 @@ export class Scorecard {
   rating: number;
   slope: number;
   parInputString: string;
+  par: number;
   pars: string[];
   hCapInputString: string;
   hCaps: string[];

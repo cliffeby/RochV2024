@@ -60,6 +60,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.memberForm1.controls['user'].setValue(profile.email);
     });
+    (this.member as any).scorecard = {};
     // Get scorecards for scorecard input dropdown
     this._scorecardsservice
       .getScorecards()
@@ -74,6 +75,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.member.usgaIndex = 0;
       this.member.email = '';
       this.member.scorecards;
+      // this.member.scorecard;
       // this.member.user = ''; User is set above in form
     }
 
@@ -116,6 +118,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
     this.member.scorecards = this.mytees;
+    // this.member.scorecard = {};
     console.log('Member', this.member);
     this.updateMemberEvent.emit(this.member);
   }

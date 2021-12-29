@@ -6,6 +6,7 @@
       <tr *ngIf="item.value.playerA && item.key < 2">
         <th>Name</th>
         <th>Index</th>
+        <th>HCap</th>
       </tr>
 
       <!-- *ngFor="let item of objectList | keyvalue"
@@ -15,10 +16,12 @@
       <tr *ngIf="item.value.playerA">
         <td> {{item.value.playerA.fullName}}</td>
         <td>{{item.value.playerA.usgaIndex}}</td>
+        <td>{{item.value.playerA.coursePlayerHandicap}}</td>
       </tr>
       <tr *ngIf="item.value.playerB">
         <td>{{item.value.playerB.fullName}}</td>
         <td>{{item.value.playerB.usgaIndex}}</td>
+        <td>{{item.value.playerB.coursePlayerHandicap}}</td>
       </tr>
     </table>
   </div>

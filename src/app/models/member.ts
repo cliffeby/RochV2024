@@ -9,6 +9,7 @@ export class Member {
   user: string;
   scoreId: string;
   fullName: string;
+  scorecard: {};
   scorecards: [];
 }
 export class Team {
