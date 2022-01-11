@@ -49,7 +49,7 @@
   <button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMemberForm()">
     Add
   </button>
-  <div class="column" *ngFor="let item of mytees, let j = index">
+  <div class="column" *ngFor="let item of myTees, let j = index">
     {{item.courseTeeName}} <mat-icon (click)="removeScorecard(j)">backspace</mat-icon>
   </div>
 </div>

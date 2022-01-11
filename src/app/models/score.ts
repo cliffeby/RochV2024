@@ -8,7 +8,7 @@ export class Score {
          partnerIds: string[];
          foursomeIds: string[];
          score: number;
-         usgaIndex: number;
+        //  usgaIndex: number;
          coursePlayerHandicap: number;
          wonTwoBall: Boolean;
          wonOneBall: Boolean;

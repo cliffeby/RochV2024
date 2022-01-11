@@ -4,13 +4,13 @@ export class Member {
   lastName: string;
   usgaIndex: number;
   email: string;
-  isPlaying: boolean;
+  // isPlaying: boolean;
   created: string;
   user: string;
-  scoreId: string;
+  // scoreId: string;
   fullName: string;
-  scorecard: {};
-  scorecards: [];
+  scorecardId: string;
+  scorecardsId: string[];
 }
 export class Team {
   playerA: Member;

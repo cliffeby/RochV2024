@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -14,13 +16,14 @@ import { ScoresService } from 'src/app/services/scores.service';
 import { Match } from 'src/app/models/match';
 import { map } from 'rxjs/operators';
 import { MatchesService } from 'src/app/services/matches.service';
+import { ScorecardsService } from 'src/app/services/scorecards.service';
 
 @Component({
   selector: 'app-member-block',
   templateUrl: './member-block.component.html',
   styleUrls: ['./member-block.component.css'],
 })
-export class MemberBlockComponent implements OnInit, OnDestroy {
+export class MemberBlockComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscription1: Subscription;
   private subscription2: Subscription;
   @Output() public updatewhoisplaying = new EventEmitter();
@@ -31,11 +34,14 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   @Input() public match: Match; // Model Match contains populated scorecard which is not valid
   score: Score = new Score();
   players: number = 0;
+  scorecards = [];
 
   constructor(
     private _membersService: MembersService,
     private _scoresService: ScoresService,
-    private _matchesService: MatchesService
+    private _matchesService: MatchesService,
+    private _scorecardsService: ScorecardsService,
+    private cd: ChangeDetectorRef
   ) {
     this.players = 0;
   }
@@ -44,13 +50,15 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   //  If the Member is playing, the score record is created.
   //  If the Member is not playing, the score record is deleted.
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
     this.queryString = '';
     if (this.match._id) {
       //Merge the Member and Scores collections for the match into a new Members collection
       //Since Scores are added last, its _id overrides the Member._id.
       //Use the duplicate Member.id property for Members
       //Use the Member._id property for Scores.
+      // this._scorecardsService.getScorecards().subscribe((scorecards) => {this.scorecards = scorecards;})
       this.subscription1 = forkJoin({
         members: this._membersService.getMembers(), //Get all members
         scores: this._scoresService.getScoresByMatch(this.match._id), //Get only Scores for this match
@@ -84,13 +92,15 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       member.scorecard = {};
     });
     for (let j = 0; j < this.members.length; j++) {
-      this.members[j].scorecard = this.whichTees(this.members[j]);
+      // this.members[j].scorecard = this.whichTees(this.members[j]);
+      this.cd.detectChanges();
       if (this.members[j].hasOwnProperty('name')) {
-        this.members[j].isPlaying = true;
+        // this.members[j].isPlaying = true;
         this.players++;
         this.pairings.push(this.members[j]);
         this.sendEmployeeDetail(this.pairings);
         console.log('Member', this.members[j], this.pairings);
+
       }
     }
     this.updatewhoisplaying.emit(this.pairings);
@@ -108,14 +118,15 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       this.players++;
       this.score.matchId = this.match._id;
       this.score.memberId = member.id;
-      this.score.usgaIndex = member.usgaIndex;
+      // this.score.usgaIndex = member.usgaIndex;
       // Course handicap = Handicap Index X Slope Rating/113 + (Course Rating-Par) divided by 113
 
       this.score.user = '**' + this.match.user;
       member.scorecard = this.whichTees(member);
       this.score.coursePlayerHandicap = Math.round(
         (member.usgaIndex * member.scorecard.slope) / 113 +
-        (member.scorecard.rating - 72) );
+          (member.scorecard.rating - 72)
+      );
       this.score.name =
         this.match.name + ' ' + member.firstName + ' ' + member.lastName;
       console.log('score', this.score, member);
@@ -142,15 +153,19 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
     }
   }
 
-  whichTees(member) {
-    for (let i = 0; i < member.scorecards.length; i++) {
-      if (member.scorecards[i].groupName === this.match.scorecard.groupName) {
-        
-        console.log('whichTees', i, member.scorecards[i]);
-        console.log('whichTees', member.scorecards[i].name);
-        return member.scorecards[i];
-      }
-    }
+ whichTees(member) {
+    // for (let i = 0; i < member.scorecards.length; i++) {
+    //   if (member.scorecards[i].groupName === this.match.scorecard.groupName) {
+    //     this._scorecardsService
+    //       .getScorecard(member.scorecards[i]._id)
+    //       .subscribe((scorecard) => {
+    //         const sc = scorecard;
+    //         console.log('whichTees', i, sc);
+    //         this.cd.markForCheck();
+    //         return sc;
+    //       });
+    //   }
+    // }
     return { name: 'No Course' };
   }
 

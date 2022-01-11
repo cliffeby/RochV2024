@@ -22,18 +22,9 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   public scorecards: Scorecard[];
   tees: any;
   temp: any;
-  tempTees: string;
-  mytees: any = [];
-
-  // onChange(event: any) {
-  //   alert('change event triggered');
-  // }
-  // changeValue() {
-  //   this.value = 'Value set';
-  //   // also trigger an event on the input.
-  //   let event = new Event('change');
-  //   this.input.nativeElement.dispatchEvent(event);
-  // }
+  tempTees = null;
+  // mytees: any = [];
+  myTees: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -60,13 +51,11 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.memberForm1.controls['user'].setValue(profile.email);
     });
-    (this.member as any).scorecard = {};
+    // (this.member as any).scorecard = {};
     // Get scorecards for scorecard input dropdown
-    this._scorecardsservice
-      .getScorecards()
-      .subscribe((resSCData) => {
-        this.scorecards = resSCData
-      });
+    this._scorecardsservice.getScorecards().subscribe((resSCData) => {
+      this.scorecards = resSCData;
+    });
 
     if (this.member == null) {
       this.member = new Member();
@@ -74,8 +63,8 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.member.lastName = '';
       this.member.usgaIndex = 0;
       this.member.email = '';
-      this.member.scorecards;
-      // this.member.scorecard;
+      // this.member.scorecardId = null;
+      this.member.scorecardsId = [];
       // this.member.user = ''; User is set above in form
     }
 
@@ -88,9 +77,19 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       usgaIndex: [this.member.usgaIndex, [Validators.required]],
       email: [this.member.email, [Validators.email]],
       user: [this.member.user, [Validators.required]],
-      course: [this.member.scorecards, [Validators.required]],
+      course: [this.member.scorecardId, [Validators.required]],
     });
-    this.mytees = this.member.scorecards;
+    for (let i = 0; i < this.member.scorecardsId.length; i++) {
+      this._scorecardsservice
+        .getScorecard(this.member.scorecardsId[i])
+        .subscribe((resSCData) => {
+          const sc = resSCData;
+          this.myTees.push(sc.scorecard);
+          this.myTees = this.myTees.sort((a, b) =>
+            a.groupName > b.groupName ? 1 : -1
+          );
+        });
+    }
   }
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
@@ -101,11 +100,21 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     return this.memberForm1.controls[controlName].hasError(errorName);
   };
   addScorecard() {
-    this.mytees.push(this.tempTees);
+    if (this.tempTees != null) {
+      console.log('Temp', this.tempTees);
+      this.myTees.push(this.tempTees);
+      const gn = this.myTees[this.myTees.length - 1].groupName;
+      for (let i = 0; i < this.myTees.length - 1; i++) {
+        if (this.myTees[i].groupName === gn) {
+          this.myTees.splice(i, 1);
+        }
+      }
+      this.tempTees = null;
+    }
   }
   removeScorecard(index: number) {
-    this.mytees.splice(index, 1);
-  };
+    this.myTees.splice(index, 1);
+  }
   scorecardchanged(event: string) {
     this.tempTees = event;
     console.log('Temp', this.tempTees, event);
@@ -117,8 +126,8 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
-    this.member.scorecards = this.mytees;
-    // this.member.scorecard = {};
+    this.member.scorecardsId = this.myTees;
+    // this.member.scorecardId = this.memberForm1.controls['course'].value;
     console.log('Member', this.member);
     this.updateMemberEvent.emit(this.member);
   }
@@ -128,7 +137,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
-    this.member.scorecards = this.mytees;
+    this.member.scorecardsId = this.myTees;
     this.submitAddMemberEvent.emit(this.member);
   }
 }
