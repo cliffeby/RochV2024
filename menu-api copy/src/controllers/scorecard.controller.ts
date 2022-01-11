@@ -115,7 +115,7 @@ const updateScorecard = async (req: Request, res: Response) => {
       yardsInputString,
       hCapInputString,
     }
-  );  
+  );
   const scorecardUpdated = await Scorecard.findById(id, {
     groupName,
     name,

@@ -4,8 +4,8 @@ type MemberDocument = Document & {
   firstName: string;
   lastName: string | null;
   usgaIndex: number;
-  scorecards: [];
-  scorecard: {};
+  scorecardsId: [];
+  // scorecardId: {};
   user: string;
   email: string;
 };
@@ -14,8 +14,8 @@ type MemberInput = {
   firstName: MemberDocument['firstName'];
   lastName: MemberDocument['lastName'];
   usgaIndex: MemberDocument['usgaIndex'];
-  scorecards: MemberDocument['scorecards'];
-  scorecard: MemberDocument['scorecard'];
+  scorecardsId: MemberDocument['scorecardsId'];
+  // scorecardId: MemberDocument['scorecardId'];
   user: MemberDocument['user'];
   email: MemberDocument['email'];
 };
@@ -37,16 +37,17 @@ const MemberSchema = new Schema(
       required: false,
       unique: false,
     },
-    scorecards: {
-      type: Schema.Types.Array,
-      required: false,
-      unique: false,
-    },
-    scorecard: {
+    scorecardsId: [{
       type: Schema.Types.ObjectId,
       required: false,
       unique: false,
-    },
+      ref: 'Scorecard',
+    }],
+    // scorecardId: {
+    //   type: Schema.Types.ObjectId,
+    //   required: false,
+    //   unique: false,
+    // },
     email: {
       type: Schema.Types.String,
       required: false,

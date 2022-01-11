@@ -34,7 +34,7 @@ const ScorecardSchema = new Schema(
     name: {
       type: Schema.Types.String,
       unique: false,
-      required: true,
+      required: false,
       // required: 'Please fill Scorecard name',
     },
     rating: {
@@ -66,6 +66,14 @@ const ScorecardSchema = new Schema(
         type: Schema.Types.Number,
       },
     ],
+    scorecardsId: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Scorecard',
+    }],
+    scorecardId: {
+       type: Schema.Types.ObjectId,
+       ref: 'Scorecard'
+      },
     user: {
       type: Schema.Types.String,
       required: false,
@@ -82,14 +90,14 @@ ScorecardSchema.virtual('courseTeeName')
     //@ts-ignore
     return `${this.groupName} ${this.name}`;
   })
-  .set(function (v: string) {
-    // `v` is the value being set, so use the value to set
-    // `firstName` and `lastName`.
-    const groupName = v.substring(0, v.indexOf(' '));
-    const name = v.substring(v.indexOf(' ') + 1);
-    //@ts-ignore
-    this.set({ groupName, name });
-  });
+  // .set(function (v: string) {
+  //   // `v` is the value being set, so use the value to set
+  //   // `firstName` and `lastName`.
+  //   const groupName = v.substring(0, v.indexOf(' '));
+  //   const name = v.substring(v.indexOf(' ') + 1);
+  //   //@ts-ignore
+  //   this.set({ groupName, name });
+  // });
 
 // Ensure virtual fields are serialised.
 ScorecardSchema.set('toJSON', {
