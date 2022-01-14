@@ -43,17 +43,6 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    //  this.subscription = this._matchesService.getMatches().subscribe(
-    //    (data) => {
-    //      this.matches = data;
-    //      this.dataSource = new MatTableDataSource<any>(this.matches);
-    //      // this.dataSource.sort = this.sort;
-    //      // console.log('Sort2', this.sort);
-    //    },
-    //    (error) => {
-    //      console.log(error);
-    //    }
-    //  );
     this.subscription = this.activatedRoute.data.subscribe((data) => {
       this.matches = data.matches;
       this.dataSource = new MatTableDataSource<any>(this.matches);
@@ -61,8 +50,6 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.retrieveMatches();
-    // setTimeout(() => {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     // console.log('Sort', this.sort);
@@ -70,20 +57,6 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
     //   console.log(x);
     // });
     // },500);
-  }
-
-  retrieveMatches(): void {
-    // this.subscription = this._matchesService.getMatches().subscribe(
-    //   (data) => {
-    //     this.matches = data;
-    //     this.dataSource = new MatTableDataSource<any>(this.matches);
-    // this.dataSource.sort = this.sort;
-    // console.log('Sort2', this.sort);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   onAdd(mem) {

@@ -30,14 +30,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     public auth: AuthService,
     public _scorecardservice: ScorecardsService
-  ) {
-    // this.matchForm1 = fb.group({
-    //   name: '',
-    //   date: '',
-    //   course: '',
-    //   user: '',
-    // });
-  }
+  ) {}
 
   @Input() public match: any; // Model Match contains populated scorecardId which is not avalid Match model
   @Output() public updateMatchEvent = new EventEmitter();
@@ -51,32 +44,23 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
       this.matchForm1.controls['user'].setValue(profile.email);
     });
     // Get scorecards for scorecard input dropdown
-    this._scorecardservice
-    // .getScorecards()
-    // .subscribe((scorecards) => {this.scorecards = scorecards;
-    // console.log('SC', this.scorecards);
-    // });
-      .getScorecards()
-      .subscribe((resSCData) => {
-        (this.scorecards = resSCData)
-        let temp = "pp"
-        for (let i = 1; i < this.scorecards.length; i++) {
-          if (this.scorecards[i].groupName === this.scorecards[i-1].groupName) {
-            this.scorecards.splice(i, 1);
-            // console.log(i, this.scorecards[i].groupName)
-            // temp = this.scorecards[i].groupName;
-            i=i-1
-          }
+    this._scorecardservice.getScorecards().subscribe((resSCData) => {
+      this.scorecards = resSCData;
+      for (let i = 1; i < this.scorecards.length; i++) {
+        if (this.scorecards[i].groupName === this.scorecards[i - 1].groupName) {
+          this.scorecards.splice(i, 1);
+          i = i - 1;
         }
-      console.log('SC', this.scorecards);});
-        ;
+      }
+      console.log('SC', this.scorecards);
+    });
     // // Populate form with match data
 
     if (this.match == null) {
       this.match = new Match();
       this.matchForm1 = this.fb.group({
         name: [this.match.name, [Validators.required, Validators.minLength(5)]],
-        course: [this.match.scorecard, [Validators.required]],
+        course: [this.match.scorecardId, [Validators.required]],
         date: [
           this.match.datePlayed,
           [Validators.required, ValidationService.dateValidator],
@@ -86,7 +70,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     } else {
       this.matchForm1 = this.fb.group({
         name: [this.match.name, [Validators.required, Validators.minLength(5)]],
-        course: [this.match.scorecard._id, [Validators.required]],
+        course: [this.match.scorecardId, [Validators.required]],
         date: [
           this.match.datePlayed,
           [Validators.required, ValidationService.dateValidator],
@@ -107,9 +91,8 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   updateMatchForm() {
     this.match.name = this.matchForm1.controls['name'].value;
     this.match.datePlayed = this.matchForm1.controls['date'].value;
-    this.match.scorecard._id = this.matchForm1.controls['course'].value;
-    // this.match.scorecardId._id = this.matchForm1.controls['course'].value;
-    this.match.scorecard.groupName = this.getScorecardName(
+    this.match.scorecardId = this.matchForm1.controls['course'].value;
+    this.match.scGroupName = this.getScorecardName(
       this.matchForm1.controls['course'].value
     );
     console.log('course', this.matchForm1.controls['course'].value, this.match);
@@ -120,9 +103,9 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   addMatchForm() {
     this.match.name = this.matchForm1.controls['name'].value;
     this.match.datePlayed = this.matchForm1.controls['date'].value;
-    this.match.scorecard._id = this.matchForm1.controls['course'].value;
+    this.match.scorecardId = this.matchForm1.controls['course'].value;
     this.match.user = this.matchForm1.controls['user'].value;
-    this.match.scorecard.groupName = this.getScorecardName(
+    this.match.scGroupName = this.getScorecardName(
       this.matchForm1.controls['course'].value
     );
     console.log('Control2', this.match);
@@ -131,17 +114,23 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   archiveMatchForm() {
     this.match.name = this.matchForm1.controls['name'].value;
     this.match.datePlayed = this.matchForm1.controls['date'].value;
-    this.match.scorecard._id = this.matchForm1.controls['course'].value;
-    this.match.scorecard.name = this.getScorecardName(
-      this.matchForm1.controls['course'].value
-    );
+    this.match.scorecardId = this.matchForm1.controls['course'].value;
     this.match.user = this.matchForm1.controls['user'].value;
     this.pairMatchEvent.emit();
   }
   getScorecardName(id: string) {
     if (id) {
       const scorecard = this.scorecards.find((x) => x._id === id);
+      console.log('getscorecardName', id, scorecard);
       return scorecard.groupName;
     }
+  }
+  reset() {
+    console.log('Hwllo');
+    this.match.scorecardId = this.matchForm1.controls['course'].value;
+    this.match.scGroupName = this.getScorecardName(
+      this.matchForm1.controls['course'].value
+    );
+    this.updateMatchEvent.emit(this.match);
   }
 }

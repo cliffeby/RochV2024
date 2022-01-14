@@ -4,9 +4,11 @@ import { Match, MatchInput } from '../models/match.model';
 const createMatch = async (req: Request, res: Response) => {
   const {
     name,
-    scorecard,
-    memberIds,
-    lineupIds,
+    // scorecard,
+    scorecardId,
+    scGroupName,
+    // memberIds,
+    // lineupIds,
     datePlayed,
     user,
   } = req.body;
@@ -25,9 +27,11 @@ const createMatch = async (req: Request, res: Response) => {
   }
   const matchInput: MatchInput = {
     name,
-    scorecard,
-    memberIds,
-    lineupIds,
+    // scorecard,
+    scorecardId,
+    scGroupName,
+    // memberIds,
+    // lineupIds,
     datePlayed,
     user,
   };
@@ -38,7 +42,7 @@ const createMatch = async (req: Request, res: Response) => {
 
 const getAllMatches = async (req: Request, res: Response) => {
   await Match.find()
-    .populate('scorecard', 'groupName') // This makes scorecard an object of _id and name
+    // .populate('scorecard', 'groupName') // This makes scorecard an object of _id and name
     .sort({ datePlayed: 'desc' })
     .exec(function (err: any, matches: any) {
       console.log('Get request for all matches');
@@ -73,13 +77,15 @@ const updateMatch = async (req: Request, res: Response) => {
   const { id } = req.params;
   const {
     name,
-    scorecard,
-    memberIds,
-    lineupIds,
+    // scorecard,
+    scorecardId,
+    scGroupName,
+    // memberIds,
+    // lineupIds,
     datePlayed,
     user,
   } = req.body;
-  const match = await Match.findOne({ _id: id });
+  const match = await Match.findById({ _id: id });
   if (!match) {
     return res
       .status(404)
@@ -94,18 +100,22 @@ const updateMatch = async (req: Request, res: Response) => {
     { _id: id },
     {
       name,
-      scorecard,
-      memberIds,
-      lineupIds,
+      // scorecard,
+      scorecardId,
+      scGroupName,
+      // memberIds,
+      // lineupIds,
       datePlayed,
       user,
     }
   );
   const matchUpdated = await Match.findById(id, {
     name,
-    scorecard,
-    memberIds,
-    lineupIds,
+    // scorecard,
+    scorecardId,
+    scGroupName,
+    // memberIds,
+    // lineupIds,
     datePlayed,
     user,
   });

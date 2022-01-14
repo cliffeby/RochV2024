@@ -12,6 +12,7 @@ export class MatchPairComponent implements OnInit {
   matchPairings: any;
   todaysLineUp = [];
   index = 0;
+  lineUpLocked = false;
 
   constructor(
     public _matchesService: MatchesService,
@@ -32,9 +33,10 @@ export class MatchPairComponent implements OnInit {
     this.index++;
     console.log(this.index);
   }
-  // onPairing() {
-  //   this.USGAMedian = this._matchesService.medianUSGAIndex(this.matchPairings);
-  //   console.log('USGAMedian', this.USGAMedian);
-  //   this.teams5 = this._matchpairService.createRandomPairings(this.matchPairings);
-  // }
+  onLock() {
+    // this._matchlockService.lockLineUps(this.todaysLineUp).then((data) => {
+    //   console.log('Data', data);
+    // });
+    this.lineUpLocked = true;
+  }
 }

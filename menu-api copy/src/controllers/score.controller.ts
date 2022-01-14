@@ -11,8 +11,8 @@ const createScore = async (req: Request, res: Response) => {
     scorecardId,
     lineupIds,
     usgaIndex,
-    coursePlayerHandicap,
-    score,
+    handicap,
+    postedScore,
     wonTwoBall,
     wonOneBall,
     wonIndo,
@@ -41,8 +41,8 @@ const createScore = async (req: Request, res: Response) => {
     scorecardId,
     lineupIds,
     usgaIndex,
-    coursePlayerHandicap,
-    score,
+    handicap,
+    postedScore,
     wonTwoBall,
     wonOneBall,
     wonIndo,
@@ -51,7 +51,7 @@ const createScore = async (req: Request, res: Response) => {
     partnerIds,
     datePlayed,
     user,
-    scoreId
+    // scoreId
   };
   const scoreCreated = await Score.create(scoreInput);
   console.log('ScoreController - Post a score - Success');
@@ -86,14 +86,31 @@ const getScore = async (req: Request, res: Response) => {
 
 const updateScore = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { firstName, lastName, usgaIndex, email, user } = req.body;
+  const {
+    name,
+    matchId,
+    scorecardId,
+    lineupIds,
+    usgaIndex,
+    handicap,
+    postedScore,
+    wonTwoBall,
+    wonOneBall,
+    wonIndo,
+    memberId,
+    foursomeIds,
+    partnerIds,
+    datePlayed,
+    user,
+    scoreId,
+  } = req.body;
   const score = await Score.findOne({ _id: id });
   if (!score) {
     return res
       .status(404)
       .json({ message: `Score with id "${id}" not found -update.` });
   }
-  if (!firstName || !lastName) {
+  if (!name ) {
     return res
       .status(422)
       .json({
@@ -102,15 +119,42 @@ const updateScore = async (req: Request, res: Response) => {
   }
   await Score.updateOne(
     { _id: id },
-    { firstName, lastName, usgaIndex, email, user }
+    {
+      name,
+      matchId,
+      scorecardId,
+      lineupIds,
+      usgaIndex,
+      handicap,
+      postedScore,
+      wonTwoBall,
+      wonOneBall,
+      wonIndo,
+      memberId,
+      foursomeIds,
+      partnerIds,
+      datePlayed,
+      user,
+      scoreId,
+    }
   );
   const scoreUpdated = await Score.findById(id, {
-    firstName,
-    lastName,
+    name,
+    matchId,
+    scorecardId,
+    lineupIds,
     usgaIndex,
-    coursePlayerHandicap,
-    email,
+    handicap,
+    postedScore,
+    wonTwoBall,
+    wonOneBall,
+    wonIndo,
+    memberId,
+    foursomeIds,
+    partnerIds,
+    datePlayed,
     user,
+    scoreId,
   });
   console.log('ScoreController - Update a score - Success');
   return res.status(200).json({ scoreUpdated });

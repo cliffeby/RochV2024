@@ -2,16 +2,16 @@
 <i class="glyphicon glyphicon-search"></i> Playing: {{players}}
 <div class="container">
   <div class="row">
-    <div *ngFor="let member of members | searchfilter: 'lastName' : queryString">
+    <div *ngFor="let member of scplayers | searchfilter: 'lastName' : queryString">
       <div class="col aligner aligner-item--top card card-block" [ngClass]="{'card-border': member.isPlaying==true}">
         <p>{{member.firstName}} - {{member.usgaIndex}}</p>
         <p>{{member.lastName}}</p>
-        <label><input *ngIf="member.scorecard.name !='No Course'" type="checkbox" [checked]="member.isPlaying"
+        <label><input  type="checkbox" [checked]="member.isPlaying"
             (click)="playerinMatch(member)">
-          <span *ngIf="member.isPlaying==true && member.scorecard.name !='No Course'">Playing</span>
-          <span *ngIf="member.scorecard.name =='No Course'" style = "color:red">Assign Course</span>
+          <span *ngIf="member.isPlaying==true && member.sc !='No Course'">Playing</span>
+          <span *ngIf="member.sc =='No Course'" style = "color:red">Assign Course</span>
         </label>
-        <p>{{member.scorecard.name }}</p>
+        <p>{{member.sc}}</p>
       </div>
     </div>
   </div>

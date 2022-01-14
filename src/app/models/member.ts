@@ -11,6 +11,7 @@ export class Member {
   fullName: string;
   scorecardId: string;
   scorecardsId: string[];
+  isPlaying: boolean;
 }
 export class Team {
   playerA: Member;

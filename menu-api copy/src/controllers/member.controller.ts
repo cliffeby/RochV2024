@@ -123,7 +123,7 @@ const updateMemberScorecard = async (req: Request, res: Response) => {
     lastName,
     usgaIndex,
     scorecardsId,
-    // scorecardId,
+    scorecardId,
     email,
     user,
   });

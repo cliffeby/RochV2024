@@ -2,20 +2,22 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 
 type MatchDocument = Document & {
   name: string;
-  // scorecardId: string;
-  scorecard: {},
-  lineupIds: string[];
-  memberIds: string[];
+  scorecardId: string;
+  scGroupName: string;
+  // scorecard: {},
+  // lineupIds: string[];
+  // memberIds: string[];
   datePlayed: Date;
   user: string;
 };
 
 type MatchInput = {
   name: MatchDocument['name'];
-  // scorecardId: MatchDocument['scorecardId'];
-  scorecard: MatchDocument['scorecard'];
-  lineupIds: MatchDocument['lineupIds'];
-  memberIds: MatchDocument['memberIds'];
+  scorecardId: MatchDocument['scorecardId'];
+  scGroupName: MatchDocument['scGroupName'];
+  // scorecard: MatchDocument['scorecard'];
+  // lineupIds: MatchDocument['lineupIds'];
+  // memberIds: MatchDocument['memberIds'];
   datePlayed: MatchDocument['datePlayed'];
   user: MatchDocument['user'];
 };
@@ -30,25 +32,25 @@ const MatchSchema = new Schema(
     },
     scorecardId: {
       type: Schema.Types.ObjectId,
-      ref: 'Scorecard',
     },
-    scorecard: {
-      type:Schema.Types.ObjectId,
-      ref: 'Scorecard',
+    scGroupName: {
+      type: Schema.Types.String,
     },
-
-    memberIds: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Member',
-      },
-    ],
-    lineupIds: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Member',
-      },
-    ],
+    // scorecard: {
+    //   type:Schema.Types.ObjectId,
+    // },
+    // memberIds: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Member',
+    //   },
+    // ],
+    // lineupIds: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Member',
+    //   },
+    // ],
     datePlayed: Date,
     user: {
       type: Schema.Types.String,
