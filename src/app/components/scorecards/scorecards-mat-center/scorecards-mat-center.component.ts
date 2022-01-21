@@ -21,9 +21,6 @@ export class ScorecardsMatCenterComponent implements OnInit {
 
 
   ngOnInit() {
-    // this._scorecardsService
-    //   .getScorecards()
-    //   .subscribe((resScorecardData) => (this.scorecards = resScorecardData));
   }
 
   onSelectScorecard(scorecard: Scorecard) {
@@ -87,7 +84,4 @@ export class ScorecardsMatCenterComponent implements OnInit {
     this.selectedScorecard = null;
     this.scorecards = scorecardArray;
   }
-  // onNotifyClicked(): void {
-  //   this.selectedScorecard = null;
-  // }
 }

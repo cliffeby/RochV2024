@@ -25,6 +25,7 @@ export class MembersService {
   }
 
   updateMember( data: Member): Observable<any> {
+    console.log('update member from service', data);
     return this.http.put(`${baseUrl}/${data._id}`, data);
   }
 

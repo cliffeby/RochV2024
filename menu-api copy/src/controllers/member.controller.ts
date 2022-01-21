@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Member, MemberInput } from '../models/member.model';
+import { Score } from '../models/score.model';
 
 const createMember = async (req: Request, res: Response) => {
   const { firstName, lastName, usgaIndex, scorecardId, scorecardsId, email, user } = req.body;
@@ -59,39 +60,55 @@ const getMember = async (req: Request, res: Response) => {
 };
 
 const updateMember = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { firstName, lastName, usgaIndex, scorecardId, scorecardsId, email, user } = req.body;
-  const member = await Member.findOne({ _id: id });
-  if (!member) {
-    return res
-      .status(404)
-      .json({ message: `Member with id "${id}" not found -update.` });
-  }
-  if (!firstName || !lastName) {
-    return res.status(422).json({
-      message: 'The fields firstName and lastName are required - update',
-    });
-  }
-  await Member.updateOne(
-    { _id: id },
-    { firstName, lastName, usgaIndex, scorecardId, scorecardsId, email, user },
-
-  );
-  const memberUpdated = await Member.findById(id, {
-    firstName,
-    lastName,
-    usgaIndex,
-    // scorecardId,
-    scorecardsId,
-    email,
-    user,
+  Member.findByIdAndUpdate(req.params.id, req.body,  {upsert: true, new: true}, function (
+    err: any,
+    member: any
+  ) {
+    if (err) {
+      res.send(err);
+      console.log('Error updating member', err);}
+      else {
+        res.json(member);
+      }
   });
-  console.log(
-    'MemberController - Update a member - Success',
-    memberUpdated
-  );
-  return res.status(200).json({ memberUpdated });
-};
+}
+
+// const updateMember = async (req: Request, res: Response) => {
+//   const { id } = req.params;
+//   const { firstName, lastName, usgaIndex, scorecardsId, email, user } = req.body;
+//   console.log('Update member request', req.params, req.body);
+//   const member = await Member.findOne({ _id: id });
+//   if (!member) {
+//     return res
+//       .status(404)
+//       .json({ message: `Member with id "${id}" not found -update.` });
+//   }
+//   // if (!firstName || !lastName) {
+//   //   return res.status(422).json({
+//   //     message: 'The fields firstName and lastName are required - update',
+//   //   });
+//   // }
+//   console.log('member findOne', member);
+//   await Member.updateOne(
+//     { _id: id },
+//     { firstName, lastName, usgaIndex,   scorecardsId, email, user },
+
+//   );
+//   const memberUpdated = await Member.findById(id, {
+//     firstName,
+//     lastName,
+//     usgaIndex,
+//     // scorecardId,
+//     scorecardsId,
+//     email,
+//     user,
+//   });
+//   console.log(
+//     'MemberController - Update a member - Success',
+//     memberUpdated
+//   );
+//   return res.status(200).json({ memberUpdated });
+// };
 
 const updateMemberScorecard = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -128,7 +145,7 @@ const updateMemberScorecard = async (req: Request, res: Response) => {
     user,
   });
   console.log(
-    'MemberController - Update a member - Success',
+    'MemberController - Update a member - FindById - Success',
     memberUpdated
   );
   return res.status(200).json({ memberUpdated });

@@ -25,3 +25,9 @@ export class LineUps {
   teamD: Team;
   lineUpSD: number;
 }
+export class Foursome {
+  partnerIds: string[];
+  foursomeIds: string[];
+  memberId: string;
+  _id: string;  //Score _id
+}

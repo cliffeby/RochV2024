@@ -16,10 +16,7 @@ export class MatchesMatCenterComponent implements OnInit {
   public hidePairMatch = true;
   matches: Array<Match>;
 
-
-  constructor(
-    private _matchesService: MatchesService
-  ) {}
+  constructor(private _matchesService: MatchesService) {}
 
   ngOnInit() {
     this._matchesService
@@ -78,9 +75,9 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hideMemberBlock = true;
       this.selectedMatch = null;
       this.hidePairMatch = true;
-    //   this._matchesService  // Doesn't refresh the view
-    //     .getMatches()
-    //     .subscribe((resMatchData) => (this.matches = resMatchData));
+      //   this._matchesService  // Doesn't refresh the view
+      //     .getMatches()
+      //     .subscribe((resMatchData) => (this.matches = resMatchData));
     });
   }
 
@@ -100,8 +97,13 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onPairMatchEvent() {
-     this.hidenewMatch = true;
-     this.hideMemberBlock = true;
-     this.hidePairMatch = false;
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = false;
+  }
+  onLockMatchEvent() {
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = false;
   }
 }

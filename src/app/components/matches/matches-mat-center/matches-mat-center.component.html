@@ -9,7 +9,8 @@
   <app-matches-mat-edit
     (updateMatchEvent)="onUpdateMatchEvent($event)"
    [match]="selectedMatch"
-   (pairMatchEvent) = "onPairMatchEvent()">
+   (pairMatchEvent) = "onPairMatchEvent()"
+   (lockMatchEvent) = "onLockMatchEvent()">
   </app-matches-mat-edit>
   <div *ngIf=!hideMemberBlock>
     <app-member-block [match]="selectedMatch">

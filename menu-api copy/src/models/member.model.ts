@@ -45,7 +45,7 @@ const MemberSchema = new Schema(
     }],
     // scorecardId: {
     //   type: Schema.Types.ObjectId,
-    //   required: false,
+    //   required: false,  
     //   unique: false,
     // },
     email: {

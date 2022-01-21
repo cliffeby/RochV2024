@@ -53,7 +53,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     });
     // (this.member as any).scorecard = {};
     // Get scorecards for scorecard input dropdown
-    this._scorecardsservice.getScorecards().subscribe((resSCData) => {
+    this._scorecardsservice.getScorecards().subscribe((resSCData) => {  
       this.scorecards = resSCData;
     });
 

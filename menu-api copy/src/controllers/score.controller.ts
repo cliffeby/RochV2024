@@ -16,12 +16,14 @@ const createScore = async (req: Request, res: Response) => {
     wonTwoBall,
     wonOneBall,
     wonIndo,
+    isPaired,
+    isScored,
     memberId,
     foursomeIds,
     partnerIds,
     datePlayed,
     user,
-    scoreId
+    // scoreId
   } = req.body;
   console.log('Create score request', req.body);
   if (!name) {
@@ -29,11 +31,9 @@ const createScore = async (req: Request, res: Response) => {
       'ScoreController - The fields  are required - create1',
       req.body
     );
-    return res
-      .status(422)
-      .json({
-        message: 'The fields  are required - create2'
-      });
+    return res.status(422).json({
+      message: 'The fields  are required - create2',
+    });
   }
   const scoreInput: ScoreInput = {
     name,
@@ -46,6 +46,8 @@ const createScore = async (req: Request, res: Response) => {
     wonTwoBall,
     wonOneBall,
     wonIndo,
+    isPaired,
+    isScored,
     memberId,
     foursomeIds,
     partnerIds,
@@ -54,7 +56,7 @@ const createScore = async (req: Request, res: Response) => {
     // scoreId
   };
   const scoreCreated = await Score.create(scoreInput);
-  console.log('ScoreController - Post a score - Success');
+  console.log('ScoreController - Post a score - Success', scoreCreated);
   return res.status(201).json({ scoreCreated });
 };
 
@@ -85,79 +87,20 @@ const getScore = async (req: Request, res: Response) => {
 };
 
 const updateScore = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const {
-    name,
-    matchId,
-    scorecardId,
-    lineupIds,
-    usgaIndex,
-    handicap,
-    postedScore,
-    wonTwoBall,
-    wonOneBall,
-    wonIndo,
-    memberId,
-    foursomeIds,
-    partnerIds,
-    datePlayed,
-    user,
-    scoreId,
-  } = req.body;
-  const score = await Score.findOne({ _id: id });
-  if (!score) {
-    return res
-      .status(404)
-      .json({ message: `Score with id "${id}" not found -update.` });
-  }
-  if (!name ) {
-    return res
-      .status(422)
-      .json({
-        message: 'The fields firstName and lastName are required - update',
-      });
-  }
-  await Score.updateOne(
-    { _id: id },
-    {
-      name,
-      matchId,
-      scorecardId,
-      lineupIds,
-      usgaIndex,
-      handicap,
-      postedScore,
-      wonTwoBall,
-      wonOneBall,
-      wonIndo,
-      memberId,
-      foursomeIds,
-      partnerIds,
-      datePlayed,
-      user,
-      scoreId,
+ Score.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { upsert: true, new: true },
+    function (err: any, score: any) {
+      if (err) {
+        res.send(err);
+        console.log('Error updating score', err);
+      } else {
+         console.log('Update request for a single score - success ', score._id);
+        res.json(score);
+      }
     }
   );
-  const scoreUpdated = await Score.findById(id, {
-    name,
-    matchId,
-    scorecardId,
-    lineupIds,
-    usgaIndex,
-    handicap,
-    postedScore,
-    wonTwoBall,
-    wonOneBall,
-    wonIndo,
-    memberId,
-    foursomeIds,
-    partnerIds,
-    datePlayed,
-    user,
-    scoreId,
-  });
-  console.log('ScoreController - Update a score - Success');
-  return res.status(200).json({ scoreUpdated });
 };
 
 const deleteScore = async (req: Request, res: Response) => {
@@ -186,27 +129,26 @@ const getMatchScores = async (req: Request, res: Response) => {
 };
 
 const deleteMatchScores = async (req: Request, res: Response) => {
-  const id = req.params.id
+  const id = req.params.id;
   if (!isValidObjectId(id)) {
     console.log('Invalid id', id);
     return res.status(404).json({ message: 'Invalid id' });
   }
   var query = { matchId: id };
   console.log('Request scores for a match', query);
-  await Score.deleteMany(query)
-   console.log('Delete request for a matchId - success', id);
-   return res.status(200).json({ message: 'Score(s) deleted successfully. Match is clean' });
+  await Score.deleteMany(query);
+  console.log('Delete request for a matchId - success', id);
+  return res
+    .status(200)
+    .json({ message: 'Score(s) deleted successfully. Match is clean' });
 };
 
-// exports.getMatchScores = function (req, res) {
-//   console.log('Get request for match scores');
-//   Score.find({ matchId: req.params.id }).exec(function (err, score) {
-//     if (err) {
-//       console.log('Error retrieving match score');
-//     } else {
-//       res.json(score);
-//     }
-//   });
-// };
-
-export { createScore, deleteScore, getAllScores, getScore, updateScore, getMatchScores, deleteMatchScores };
+export {
+  createScore,
+  deleteScore,
+  getAllScores,
+  getScore,
+  updateScore,
+  getMatchScores,
+  deleteMatchScores,
+};

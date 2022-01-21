@@ -29,6 +29,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   private subscription2: Subscription;
   @Output() public updatewhoisplaying = new EventEmitter();
   public members: Member[];
+  public myscore: Score;
   public scores: any[] = [];
   @Output() public pairings: any[] = [];
   queryString: String;
@@ -113,7 +114,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       console.log('match SC', msc,'match', this.match, 'mscId',this.match.scorecardId);
       for (var player of players) {
         for (var pscId of player['scorecardsId']) {
-          console.log('pscId', pscId);
+          console.log('pscId', pscId, player);
           const psc: Scorecard | any = scorecards.find(
             (psc) => psc._id == pscId
           );
@@ -177,15 +178,17 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
           (member.scRating - 72)
       );
       this.score.name =
-        this.match.name + ' ' + member.firstName + ' ' + member.lastName;
+        this.match.name + ' ' + member.firstName + ' ' + member.lastName + ' score';
       console.log('score', this.score, member);
+       this.subscription2 = this._scoresService
+         .createScore(this.score)
+         .subscribe((data) => {this.score = data;
+          member._id = data.scoreCreated._id;
       this.pairings.push(member);
       this.updatewhoisplaying.emit(this.pairings);
       this.sendEmployeeDetail(this.pairings);
-      console.log('score', this.score, member);
-      this.subscription2 = this._scoresService
-        .createScore(this.score)
-        .subscribe();
+      console.log('score', this.score, 'member',member, 'pairings', this.pairings);});
+
     } else {
       this.players--;
       this.subscription2 = this._scoresService

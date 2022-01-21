@@ -8,12 +8,13 @@ type ScoreDocument = Document & {
   partnerIds: string[];
   foursomeIds: string[];
   postedScore: number;
-  // scoreId: string;
   usgaIndex: number;
   handicap: number;
   wonTwoBall: Boolean;
   wonOneBall: Boolean;
   wonIndo: Boolean;
+  isPaired: Boolean;
+  isScored: Boolean;
   matchId: string;
   datePlayed: Date;
   user: string;
@@ -27,12 +28,13 @@ type ScoreInput = {
   partnerIds: ScoreDocument['partnerIds'];
   foursomeIds: ScoreDocument['foursomeIds'];
   postedScore: ScoreDocument['postedScore'];
-  // scoreId: ScoreDocument['scoreId'];
   usgaIndex: ScoreDocument['usgaIndex'];
   handicap: ScoreDocument['handicap'];
   wonTwoBall: ScoreDocument['wonTwoBall'];
   wonOneBall: ScoreDocument['wonOneBall'];
   wonIndo: ScoreDocument['wonIndo'];
+  isPaired: ScoreDocument['isPaired'];
+  isScored: ScoreDocument['isScored'];
   matchId: ScoreDocument['matchId'];
   datePlayed: ScoreDocument['datePlayed'];
   user: ScoreDocument['user'];
@@ -44,10 +46,11 @@ const ScoreSchema = new Schema(
     usgaIndex: Number,
     handicap: Number,
     postedScore: Number,
-    // scoreId: String,
-    wonTwoBall: Boolean,
-    wonOneBall: Boolean,
-    wonIndo: Boolean,
+    wonTwoBall: { type: Boolean, default: false },
+    wonOneBall: { type: Boolean, default: false },
+    wonIndo: { type: Boolean, default: false },
+    isPaired: { type: Boolean, default: false },
+    isScored: { type: Boolean, default: false },
     matchId: {
       type: Schema.Types.ObjectId,
       ref: 'Match',
@@ -82,10 +85,6 @@ const ScoreSchema = new Schema(
     timestamps: true,
   }
 );
-
-ScoreSchema.virtual('scoreId').get(function () { const scoreId = "llll"; return scoreId; });
-
-
 
 const Score: Model<ScoreDocument> = mongoose.model<ScoreDocument>(
   'Score',

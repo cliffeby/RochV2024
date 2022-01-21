@@ -36,6 +36,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   @Output() public updateMatchEvent = new EventEmitter();
   @Output() public submitAddMatchEvent = new EventEmitter();
   @Output() public pairMatchEvent = new EventEmitter();
+  @Output() public lockMatchEvent = new EventEmitter();
 
   ngOnInit() {
     // Sets value of user to its email address
@@ -126,7 +127,6 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     }
   }
   reset() {
-    console.log('Hwllo');
     this.match.scorecardId = this.matchForm1.controls['course'].value;
     this.match.scGroupName = this.getScorecardName(
       this.matchForm1.controls['course'].value

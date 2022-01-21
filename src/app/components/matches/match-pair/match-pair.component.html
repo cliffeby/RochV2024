@@ -30,5 +30,6 @@
 
 <mat-icon *ngIf="index==3" color = "warn">stop</mat-icon>
 <a *ngIf="index==3" color = "warn">No more spins</a>
-<mat-icon *ngIf="index<3" (click)="onLock()">lock</mat-icon>
+<mat-icon *ngIf=" !lineUpLocked" (click)="onLock()">lock</mat-icon>
+<mat-icon *ngIf="lineUpLocked" (click)="onUnLock()">lock_open</mat-icon>
 

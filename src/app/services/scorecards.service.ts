@@ -49,19 +49,12 @@ export class ScorecardsService {
     return this.http.get<Scorecard[]>(`${baseUrl}?title=${title}`);
   }
   updateMembersScorecard(scorecard: Scorecard) {
-    console.log('updated member.......................', scorecard);
     this._membersService.getMembers().subscribe({
       next: (data) => {
         for (const member of data) {
           for (let i = 0; i < member.scorecards.length; i++) {
-              if (member.fullName === 'Cliff Eby') {
-                console.log('memberCliff EbyScorecard', member.scorecards[i]._id, scorecard._id);
-              }
             if (member.scorecards[i]._id === scorecard._id) {
               member.scorecards.splice(i, 1);
-              if (member.fullName === "Cliff Eby"){
-                console.log('memberCliff Eby', member);
-              }
               member.scorecards.push(scorecard);
               member.scorecard = scorecard;
               this._membersService.updateMember(member);
@@ -69,10 +62,9 @@ export class ScorecardsService {
             }
           }
         }
-        // this._membersService.updateMember(data);
-              (error: any) => {
+        (error: any) => {
           console.log(error);
-        }
+        };
       },
     });
   }
