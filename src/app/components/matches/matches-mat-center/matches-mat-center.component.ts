@@ -33,9 +33,39 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hidenewMatch = true;
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
+      // if (match.status === 'locked') {
+      //   this.hideMemberBlock = true;
+      //   this.hidePairMatch = false;
+      // } else {
+      //   this.hideMemberBlock = false;
+      //   this.hidePairMatch = true;
+      // }
       console.log('Center2', this.selectedMatch);
     }
   }
+
+  onScoreMatchEvent(match: Match) {
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = false;
+    console.log('Score Match', match.lineUps);
+  }
+
+  onPrintMatchEvent(match: Match) {
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = false;
+    console.log("Print Match", match);
+  }
+
+  onUnLockMatchEvent(match: Match) {
+    this.hidenewMatch = true;
+    this.hideMemberBlock = false;
+    this.hidePairMatch = true;
+    match.status = 'open';
+    console.log('Open Match', match);
+  }
+
   onAddMatchEvent() {
     this.hidenewMatch = false;
     this.hideMemberBlock = false;

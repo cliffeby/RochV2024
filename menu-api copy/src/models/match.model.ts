@@ -4,6 +4,9 @@ type MatchDocument = Document & {
   name: string;
   scorecardId: string;
   scGroupName: string;
+  players: number;
+  status: string;
+  lineUps: [{}];
   // scorecard: {},
   // lineupIds: string[];
   // memberIds: string[];
@@ -15,6 +18,9 @@ type MatchInput = {
   name: MatchDocument['name'];
   scorecardId: MatchDocument['scorecardId'];
   scGroupName: MatchDocument['scGroupName'];
+  players: MatchDocument['players'];
+  status: MatchDocument['status'];
+  lineUps: MatchDocument['lineUps'];
   // scorecard: MatchDocument['scorecard'];
   // lineupIds: MatchDocument['lineupIds'];
   // memberIds: MatchDocument['memberIds'];
@@ -36,21 +42,9 @@ const MatchSchema = new Schema(
     scGroupName: {
       type: Schema.Types.String,
     },
-    // scorecard: {
-    //   type:Schema.Types.ObjectId,
-    // },
-    // memberIds: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Member',
-    //   },
-    // ],
-    // lineupIds: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Member',
-    //   },
-    // ],
+    players: Number,
+    status: { type: Schema.Types.String, default: 'open' },
+    lineUps: {},
     datePlayed: Date,
     user: {
       type: Schema.Types.String,
@@ -63,7 +57,6 @@ const MatchSchema = new Schema(
     timestamps: true,
   }
 );
-
 
 const Match: Model<MatchDocument> = mongoose.model<MatchDocument>(
   'Match',

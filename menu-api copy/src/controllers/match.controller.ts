@@ -7,6 +7,9 @@ const createMatch = async (req: Request, res: Response) => {
     // scorecard,
     scorecardId,
     scGroupName,
+    players,
+    status,
+    lineUps,
     // memberIds,
     // lineupIds,
     datePlayed,
@@ -30,6 +33,9 @@ const createMatch = async (req: Request, res: Response) => {
     // scorecard,
     scorecardId,
     scGroupName,
+    players,
+    status,
+    lineUps,
     // memberIds,
     // lineupIds,
     datePlayed,
@@ -73,55 +79,80 @@ const getMatch = async (req: Request, res: Response) => {
 
 //
 const updateMatch = async (req: Request, res: Response) => {
-  console.log('REQ', req.body);
-  const { id } = req.params;
-  const {
-    name,
-    // scorecard,
-    scorecardId,
-    scGroupName,
-    // memberIds,
-    // lineupIds,
-    datePlayed,
-    user,
-  } = req.body;
-  const match = await Match.findById({ _id: id });
-  if (!match) {
-    return res
-      .status(404)
-      .json({ message: `Match with id "${id}" not found -update.` });
-  }
-  if (!name ) {
-    return res.status(422).json({
-      message: 'The fields name and scorecard are required - update',
-    });
-  }
-  await Match.updateOne(
-    { _id: id },
-    {
-      name,
-      // scorecard,
-      scorecardId,
-      scGroupName,
-      // memberIds,
-      // lineupIds,
-      datePlayed,
-      user,
+  Match.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { upsert: true, new: true },
+    function (err: any, match: any) {
+      if (err) {
+        res.send(err);
+        console.log('Error updating match', err);
+      } else {
+        console.log('Update request for a single score - success ', match._id);
+        res.json(match);
+      }
     }
   );
-  const matchUpdated = await Match.findById(id, {
-    name,
-    // scorecard,
-    scorecardId,
-    scGroupName,
-    // memberIds,
-    // lineupIds,
-    datePlayed,
-    user,
-  });
-  console.log('MatchController - Update a match - Success');
-  return res.status(200).json({ matchUpdated });
 };
+// const updateMatch = async (req: Request, res: Response) => {
+//   console.log('REQ', req.body);
+//   const { id } = req.params;
+//   const {
+//     name,
+//     // scorecard,
+//     scorecardId,
+//     scGroupName,
+//     players,
+//     status,
+//     lineUps,
+//     // memberIds,
+//     // lineupIds,
+//     datePlayed,
+//     user,
+//   } = req.body;
+//   const match = await Match.findById({ _id: id });
+//   if (!match) {
+//     return res
+//       .status(404)
+//       .json({ message: `Match with id "${id}" not found -update.` });
+//   }
+//   if (!name ) {
+//     return res.status(422).json({
+//       message: 'The fields name and scorecard are required - update',
+//     });
+//   }
+//   await Match.updateOne(
+//     { _id: id },
+//     {
+//       name,
+//       // scorecard,
+//       scorecardId,
+//       scGroupName,
+//       players,
+//       status,
+//       lineUps,
+//       // memberIds,
+//       // lineupIds,
+//       datePlayed,
+//       user,
+//     }
+//   );
+//   const matchUpdated = await Match.findById(id, {
+//     name,
+//     // scorecard,
+//     scorecardId,
+//     scGroupName,
+//     players,
+//     status,
+//     lineUps,
+//     // memberIds,
+//     // lineupIds,
+//     datePlayed,
+//     user,
+//   });
+//   console.log('MatchController - Update a match - Success');
+//   return res.status(200).json({ matchUpdated });
+// };
 
 const deleteMatch = async (req: Request, res: Response) => {
   const { id } = req.params;

@@ -148,6 +148,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       if (this.scplayers[j].hasOwnProperty('name')) {
         this.scplayers[j].isPlaying = true;
         this.players++;
+        this._matchesService.numberPlaying(this.players);
         this.pairings.push(this.scplayers[j]);
         this.sendEmployeeDetail(this.pairings);
         console.log('Member', this.scplayers[j], this.pairings);
@@ -166,6 +167,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
 
       //Create a new Score record
       this.players++;
+      this._matchesService.numberPlaying(this.players);
       this.score.matchId = this.match._id;
       this.score.memberId = member.id;
       // Course handicap = Handicap Index X Slope Rating/113 + (Course Rating-Par) divided by 113
@@ -191,6 +193,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
 
     } else {
       this.players--;
+      this._matchesService.numberPlaying(this.players);
       this.subscription2 = this._scoresService
         .deleteScore(member._id)
         .subscribe(); //Actually the original score _id

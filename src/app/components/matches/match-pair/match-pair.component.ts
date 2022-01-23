@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatchPairService } from 'src/app/services/match-pair.service';
 import { MatchLockService } from 'src/app/services/match-lock.service';
 import { MatchesService } from 'src/app/services/matches.service';
 import { Member, Team, LineUps } from 'src/app/models/member';
+import { Match } from 'src/app/models/match';
 
 @Component({
   selector: 'app-match-pair',
@@ -15,6 +16,7 @@ export class MatchPairComponent implements OnInit {
   index = 0;
   lineUpLocked = false;
   @Output() public lockMatchEvent = new EventEmitter();
+  @Input() public match: Match;
 
   constructor(
     public _matchesService: MatchesService,
@@ -36,11 +38,14 @@ export class MatchPairComponent implements OnInit {
     console.log(this.index);
   }
   onLock() {
-    this._matchlockService.lockLineUps(this.todaysLineUp[this.index])
+    this._matchlockService.lockLineUps(this.todaysLineUp[this.index]);
+    this.match = { ...this.match, lineUps: this.todaysLineUp[this.index] };
+    this._matchesService.updateMatch(this.match).subscribe();
     this.lockMatchEvent.emit();
     this.lineUpLocked = true;
   }
-  onUnLock(){
+  onUnLock() {
     this.lineUpLocked = false;
+    this._matchlockService.unLockLineUps(this.todaysLineUp[this.index]);
   }
 }

@@ -14,6 +14,8 @@ export class Score {
          wonTwoBall: Boolean;
          wonOneBall: Boolean;
          wonIndo: Boolean;
+         isPaired: Boolean;
+         isScored: Boolean;
          matchId: string;
          datePlayed: Date;
          user: string;

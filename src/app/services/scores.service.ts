@@ -45,6 +45,20 @@ export class ScoresService {
 
   getScoresByMatch(matchId: string) {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
-
   }
+
+  // getLockedLineups(matchId: string) {
+  //   var fourBall = [];
+  //   const scores = this.getScoresByMatch(matchId).subscribe(scores => {
+  //     scores.filter(score => score.isPaired == true);
+  //     fourBall[0] = {playerA1: scores[0].foursomeIds[0], playerB1: scores[0].foursomeIds[1], playerA2: scores[0].foursomeIds[2],
+  //        playerB2: scores[3].foursomeIds[3]};
+  //     for (let i = 0; i < scores.length; i++) {
+  //       if (scores[i].isPaired == true) {
+  //         return scores[i];
+  //       }
+  //     }
+  //   }
+  //   );
+  // }
 }

@@ -24,6 +24,9 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   private subscription: Subscription;
   @Input() matches: Match[] = [];
   @Output() public SelectMatchEvent = new EventEmitter();
+  @Output() public ScoreMatchEvent = new EventEmitter();
+  @Output() public PrintMatchEvent = new EventEmitter();
+  @Output() public UnLockMatchEvent = new EventEmitter();
   @Output() public DeleteMatchEvent = new EventEmitter();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -31,8 +34,9 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
     'name',
     'scorecardId',
+    '#',
     'datePlayed',
-    'user',
+    'status',
     'action',
   ];
 
@@ -52,11 +56,6 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // console.log('Sort', this.sort);
-    // this.sort.sortChange.subscribe((x) => {
-    //   console.log(x);
-    // });
-    // },500);
   }
 
   onAdd(mem) {
@@ -65,6 +64,16 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
 
   onSelect(mem: any) {
     this.SelectMatchEvent.emit(mem);
+  }
+  onScore(mem: any) {
+    this.ScoreMatchEvent.emit(mem);
+  }
+  onPrint(mem: any) {
+    this.PrintMatchEvent.emit(mem);
+  }
+  onUnLock(mem: any) {
+    this.UnLockMatchEvent.emit(mem);
+    this._matchesService.matchStatusSubject.next("open");
   }
 
   onDelete(index, match) {

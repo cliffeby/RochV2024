@@ -13,6 +13,7 @@ import { ScorecardsService } from '../../../services/scorecards.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Scorecard } from 'src/app/models/scorecard';
 import { distinct } from 'rxjs/operators';
+import { MatchesService } from 'src/app/services/matches.service';
 // import { ControlMessagesComponent } from '../../../helpers/control-messages/control-messages.component';
 
 @Component({
@@ -29,7 +30,8 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     public auth: AuthService,
-    public _scorecardservice: ScorecardsService
+    public _scorecardservice: ScorecardsService,
+    public _matchesService: MatchesService
   ) {}
 
   @Input() public match: any; // Model Match contains populated scorecardId which is not avalid Match model
@@ -78,6 +80,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
         ],
         user: [this.match.user],
       });
+
     }
   }
   ngOnDestroy() {
@@ -98,6 +101,8 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     );
     console.log('course', this.matchForm1.controls['course'].value, this.match);
     this.match.user = this.matchForm1.controls['user'].value;
+    this.match.players = this._matchesService.playersCountSubject.getValue();
+    this.match.status = this._matchesService.matchStatusSubject.getValue();
     this.updateMatchEvent.emit(this.match);
   }
 

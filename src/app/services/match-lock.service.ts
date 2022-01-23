@@ -3,6 +3,7 @@ import e from 'menu-api copy/node_modules/@types/express';
 import { Subscription } from 'rxjs';
 import { Member, Team, LineUps, Foursome } from 'src/app/models/member';
 import { Score } from 'src/app/models/score';
+import { MatchesService } from './matches.service';
 import { ScoresService } from './scores.service';
 
 @Injectable({
@@ -13,12 +14,27 @@ export class MatchLockService {
   scores: Score[];
   playerData: Score[] = [];
 
-  constructor(private _scoresService: ScoresService) {}
+  constructor(private _scoresService: ScoresService,
+    private _matchesService: MatchesService) {}
 
   lockLineUps(lineUps: any[]) {
     console.log('lockLineUps', lineUps);
     this.shapeLineUps(lineUps);
+    this._matchesService.matchStatusSubject.next('locked');
   }
+  unLockLineUps(lineUps: any[]) {
+    this._matchesService.matchStatusSubject.next('open');
+    this._scoresService.getScoresByMatch(lineUps[0].playerA.matchId).subscribe(
+      (data: Score[]) => {this.scores = data;
+    for (let i = 0; i < this.scores.length; i++) {
+      this.scores[i].isPaired = false;
+      this.scores[i].partnerIds = [];
+      this.scores[i].isScored = false;
+      this.scores[i].foursomeIds = [];
+      this._scoresService.updateScore(this.scores[i]).subscribe();
+    }
+  })
+}
   shapeLineUps(lineUps: any[]) {
     let keys: number[] = [];
     for (let key of Object.keys(lineUps)) {
@@ -48,6 +64,7 @@ export class MatchLockService {
         _id: a,
         partnerIds: [w, x],
         foursomeIds: [w, x, y, z],
+        isPaired: true,
       };
       this.updateScores(this.playerData[2 * i]);
     }
@@ -59,6 +76,7 @@ export class MatchLockService {
           _id: b,
           partnerIds: [w, x],
           foursomeIds: [w, x, y, z],
+          isPaired: true,
         };
         this.updateScores(this.playerData[2 * i + 1]);
       }
@@ -70,6 +88,7 @@ export class MatchLockService {
           _id: c,
           partnerIds: [y, z],
           foursomeIds: [w, x, y, z],
+          isPaired: true,
         };
         this.updateScores(this.playerData[2 * i + 2]);
       }
@@ -81,6 +100,7 @@ export class MatchLockService {
           _id: d,
           partnerIds: [y, z],
           foursomeIds: [w, x, y, z],
+          isPaired: true,
         };
         this.updateScores(this.playerData[2 * i + 3]);
       }

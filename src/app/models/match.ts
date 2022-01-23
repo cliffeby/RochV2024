@@ -4,23 +4,24 @@ export class Match {
   _id: string;
   name: string;
   scorecardId: string;
-  // scorecard: Scorecard;
+  status: string;
   scName: string;
   datePlayed: string;
   dateFlag: boolean;
   memberIds: string[];
-  playerNames: string[];
-  lineUpIds: string[];
+  // playerNames: string[];
+  // lineUpIds: string[];
   // playersHCap: string[];
   // scoreIds: string[];
   players: number;
+  lineUps: any;
   created: string;
   user: string;
 
   constructor() {
     this.memberIds = [];
-    this.playerNames = [];
-    this.lineUpIds = [];
+    // this.playerNames = [];
+    // this.lineUpIds = [];
     // this.playersHCap = [];
     // this.scoreIds = [];
     // this.scorecard = new Scorecard();

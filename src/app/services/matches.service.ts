@@ -12,9 +12,14 @@ export class MatchesService {
   constructor(private http: HttpClient) {}
 
   private empDetailSubject = new BehaviorSubject(null);
+  public playersCountSubject = new BehaviorSubject(null);
+  public matchStatusSubject = new BehaviorSubject("open");
+
+  numberPlaying(data){
+    this.playersCountSubject.next(data);
+  }
 
   sendEmployeeDetail(data) {
-    // this.empDetailSubject.next(data);
     this.empDetailSubject.next(data.sort((a,b) => a.usgaIndex- b.usgaIndex));
   }
   medianUSGAIndex(data){
