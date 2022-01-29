@@ -27,7 +27,7 @@ import { Scorecard } from 'src/app/models/scorecard';
 export class MemberBlockComponent implements OnInit, OnDestroy {
   private subscription1: Subscription;
   private subscription2: Subscription;
-  @Output() public updatewhoisplaying = new EventEmitter();
+  // @Output() public updatewhoisplaying = new EventEmitter();
   public members: Member[];
   public myscore: Score;
   public scores: any[] = [];
@@ -154,7 +154,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         console.log('Member', this.scplayers[j], this.pairings);
       }
     }
-    this.updatewhoisplaying.emit(this.pairings);
+    // this.updatewhoisplaying.emit(this.pairings);
   }
   sendEmployeeDetail(member) {
     this._matchesService.sendEmployeeDetail(member);
@@ -179,6 +179,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         (member.usgaIndex * member.scSlope) / 113 +
           (member.scRating - 72)
       );
+      member.handicap = this.score.handicap;
       this.score.name =
         this.match.name + ' ' + member.firstName + ' ' + member.lastName + ' score';
       console.log('score', this.score, member);
@@ -187,7 +188,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
          .subscribe((data) => {this.score = data;
           member._id = data.scoreCreated._id;
       this.pairings.push(member);
-      this.updatewhoisplaying.emit(this.pairings);
+      // this.updatewhoisplaying.emit(this.pairings);
       this.sendEmployeeDetail(this.pairings);
       console.log('score', this.score, 'member',member, 'pairings', this.pairings);});
 
@@ -203,7 +204,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
           this.pairings.splice(i, 1);
         }
       }
-      this.updatewhoisplaying.emit(this.pairings);
+      // this.updatewhoisplaying.emit(this.pairings);
       this.sendEmployeeDetail(this.pairings);
     }
   }

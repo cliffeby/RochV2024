@@ -122,6 +122,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     this.match.datePlayed = this.matchForm1.controls['date'].value;
     this.match.scorecardId = this.matchForm1.controls['course'].value;
     this.match.user = this.matchForm1.controls['user'].value;
+    this.match.players = this._matchesService.playersCountSubject.getValue();
     this.pairMatchEvent.emit();
   }
   getScorecardName(id: string) {
