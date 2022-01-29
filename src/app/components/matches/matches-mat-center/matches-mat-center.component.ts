@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { MatchesService } from '../../../services/matches.service';
 import { Match } from '../../../models/match';
 import { AuthService } from '@auth0/auth0-angular';
+import { PrinterService } from 'src/app/services/printer.service';
 
 @Component({
   selector: 'app-matches-mat-center',
@@ -14,9 +15,13 @@ export class MatchesMatCenterComponent implements OnInit {
   public hidenewMatch = true;
   public hideMemberBlock = true;
   public hidePairMatch = true;
-  matches: Array<Match>;
+  @Output() public matches: Array<Match>;
 
-  constructor(private _matchesService: MatchesService) {}
+
+  constructor(
+    private _matchesService: MatchesService,
+    private _printService: PrinterService,
+  ) {}
 
   ngOnInit() {
     this._matchesService
@@ -33,13 +38,6 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hidenewMatch = true;
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
-      // if (match.status === 'locked') {
-      //   this.hideMemberBlock = true;
-      //   this.hidePairMatch = false;
-      // } else {
-      //   this.hideMemberBlock = false;
-      //   this.hidePairMatch = true;
-      // }
       console.log('Center2', this.selectedMatch);
     }
   }
@@ -55,7 +53,9 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = false;
-    console.log("Print Match", match);
+    console.log('Print Match LineUps', match.lineUps);
+    this._printService.lineUpSubject.next(match.lineUps);
+    this._printService.printDocument('scorecards');
   }
 
   onUnLockMatchEvent(match: Match) {
@@ -105,9 +105,9 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hideMemberBlock = true;
       this.selectedMatch = null;
       this.hidePairMatch = true;
-      //   this._matchesService  // Doesn't refresh the view
-      //     .getMatches()
-      //     .subscribe((resMatchData) => (this.matches = resMatchData));
+        this._matchesService
+          .getMatches()
+          .subscribe((resMatchData) => (this.matches = resMatchData));
     });
   }
 
@@ -131,9 +131,16 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = false;
   }
-  onLockMatchEvent() {
+  onLockMatchEvent(match: Match) {
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
-    this.hidePairMatch = false;
+    this.hidePairMatch = true;
+    this.selectedMatch = null;
+    this._matchesService
+      .getMatches()
+      .subscribe((resMatchData) => {this.matches = resMatchData;
+
+    this._matchesService.matchesSubject.next(this.matches);})
+
   }
 }

@@ -79,6 +79,7 @@ const getMatch = async (req: Request, res: Response) => {
 
 //
 const updateMatch = async (req: Request, res: Response) => {
+  console.log('REQ for Match Update', req.body);
   Match.findByIdAndUpdate(
     req.params.id,
     req.body,

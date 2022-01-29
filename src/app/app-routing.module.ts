@@ -4,13 +4,14 @@ import { HomeComponent } from 'src/app/pages/home/home.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
 import { ExternalApiComponent } from 'src/app/pages/external-api/external-api.component';
-import { MembersMatListComponent } from './components/members/members-mat-list/members-mat-list.component';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
 import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
 import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
 import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/scores-mat-center.component';
 import { MatchResolver } from './components/matches/match.resolver';
 import { ScoresResolver } from './components/scores/scores.resolver';
+import { PrintScorecardComponent } from './components/print/print-scorecard/print-scorecard.component';
+import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
 
 const routes: Routes = [
   {
@@ -46,11 +47,16 @@ const routes: Routes = [
   {
     path: 'members',
     component: MembersCenterComponent,
-    // component: MembersMatListComponent,
     // canActivate: [ScopeGuard],
     data: { expectedScopes: ['read:members'] },
   },
   { path: 'edit-members/:_id', component: MembersMatEditComponent },
+  {
+    path: 'print',
+    outlet: 'print',
+    component: PrintScorecardComponent,
+    children: [{ path: 'scorecards', component: ScorecardsMatPrintComponent }],
+  },
 ];
 
 @NgModule({

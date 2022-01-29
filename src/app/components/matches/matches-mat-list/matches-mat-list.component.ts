@@ -6,6 +6,8 @@ import {
   Output,
   Input,
   AfterViewInit,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,14 +17,15 @@ import { Match } from 'src/app/models/match';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ScoresService } from 'src/app/services/scores.service';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-matches-mat-list',
   templateUrl: './matches-mat-list.component.html',
   styleUrls: ['./matches-mat-list.component.css'],
 })
-export class MatchesMatListComponent implements OnInit, AfterViewInit {
+export class MatchesMatListComponent implements OnInit, AfterViewInit, OnChanges {
   private subscription: Subscription;
-  @Input() matches: Match[] = [];
+  @Input() public matches: any[] = [];
   @Output() public SelectMatchEvent = new EventEmitter();
   @Output() public ScoreMatchEvent = new EventEmitter();
   @Output() public PrintMatchEvent = new EventEmitter();
@@ -47,15 +50,23 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+
     this.subscription = this.activatedRoute.data.subscribe((data) => {
       this.matches = data.matches;
-      this.dataSource = new MatTableDataSource<any>(this.matches);
+
     });
   }
 
   ngAfterViewInit() {
+    this.dataSource = new MatTableDataSource<any>(this.matches);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+  ngOnChanges(changes: SimpleChanges) {
+     this.dataSource = new MatTableDataSource<any>(this.matches);
+         this.dataSource.paginator = this.paginator;
+         this.dataSource.sort = this.sort;
+    console.log(changes);
   }
 
   onAdd(mem) {
@@ -69,11 +80,12 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
     this.ScoreMatchEvent.emit(mem);
   }
   onPrint(mem: any) {
+    console.log('Match for Printing', mem);
     this.PrintMatchEvent.emit(mem);
   }
   onUnLock(mem: any) {
     this.UnLockMatchEvent.emit(mem);
-    this._matchesService.matchStatusSubject.next("open");
+    this._matchesService.matchStatusSubject.next('open');
   }
 
   onDelete(index, match) {
@@ -90,6 +102,7 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit {
       this.subscription = this._matchesService
         .deleteMatch(match._id)
         .subscribe();
+      this.dataSource = this.dataSource;
     }
   }
   applyFilter(event: Event) {

@@ -7,22 +7,19 @@
 <div *ngIf="selectedMatch && hidenewMatch">
   <h2>Edit Match</h2>
   <app-matches-mat-edit (updateMatchEvent)="onUpdateMatchEvent($event)" [match]="selectedMatch"
-    (pairMatchEvent)="onPairMatchEvent()" (lockMatchEvent)="onLockMatchEvent()">
+    (pairMatchEvent)="onPairMatchEvent()">
   </app-matches-mat-edit>
   <div *ngIf=!hideMemberBlock>
     <app-member-block [match]="selectedMatch">
     </app-member-block>
   </div>
   <div *ngIf=!hidePairMatch>
-    <app-match-pair [match]="selectedMatch">
+    <app-match-pair [match]="selectedMatch" (lockMatchEvent)="onLockMatchEvent($event)">
     </app-match-pair>
   </div>
 </div>
 
-<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch"
-  (SelectMatchEvent)="onSelectMatchEvent($event)"
-  (ScoreMatchEvent)="onScoreMatchEvent($event)"
-  (PrintMatchEvent)="onPrintMatchEvent($event)"
-  (UnLockMatchEvent)="onUnLockMatchEvent($event)"
-  (DeleteMatchEvent)="onDeleteMatchEvent($event)">
+<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch" (SelectMatchEvent)="onSelectMatchEvent($event)"
+  (ScoreMatchEvent)="onScoreMatchEvent($event)" (PrintMatchEvent)="onPrintMatchEvent($event)"
+  (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)" [matches]="matches">
 </app-matches-mat-list>

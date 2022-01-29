@@ -14,6 +14,7 @@ export class MatchesService {
   private empDetailSubject = new BehaviorSubject(null);
   public playersCountSubject = new BehaviorSubject(null);
   public matchStatusSubject = new BehaviorSubject("open");
+  public matchesSubject = new BehaviorSubject(null);
 
   numberPlaying(data){
     this.playersCountSubject.next(data);
