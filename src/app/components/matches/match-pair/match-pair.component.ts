@@ -30,7 +30,7 @@ export class MatchPairComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    this._matchesService.getEmployeeDetail().subscribe((data) => {
+    this._matchesService.getShapedPlayers().subscribe((data) => {
       this.matchPairings = data;
     });
     this._matchpairService.generateLineUps(this.matchPairings).then((data) => {

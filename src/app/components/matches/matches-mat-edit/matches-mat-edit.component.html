@@ -30,7 +30,7 @@
   <div class="button-space">
     <mat-icon *ngIf="match._id" color="primary" (click)="updateMatchForm()"
       >save</mat-icon>
-    <mat-icon *ngIf="match._id" color="warn" (click)="archiveMatchForm()"
+    <mat-icon *ngIf="match._id" color="warn" (click)="pairMatch()"
       >people</mat-icon>
     <mat-icon *ngIf="!match._id"  color="primary"
       (click)="addMatchForm()">add_circle_outline</mat-icon>

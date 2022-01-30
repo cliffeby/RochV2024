@@ -62,7 +62,7 @@ export class MembersCenterComponent implements OnInit {
       .getMembers()
       .subscribe((resMemberData) => (this.members = resMemberData));
   }
-  onSubmitAddMemberEvent(member: any) { 
+  onSubmitAddMemberEvent(member: any) {
     this._membersService
       .createMember(member)
       .subscribe((resNewMember) => {
@@ -86,7 +86,4 @@ export class MembersCenterComponent implements OnInit {
     this.selectedMember = null;
     this.members = memberArray;
   }
-  // onNotifyClicked(): void {
-  //   this.selectedMember = null;
-  // }
 }

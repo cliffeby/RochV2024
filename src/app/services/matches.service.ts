@@ -11,30 +11,36 @@ const baseUrl = 'http://localhost:7000/api/matches';
 export class MatchesService {
   constructor(private http: HttpClient) {}
 
-  private empDetailSubject = new BehaviorSubject(null);
+  private sortByIndexSubject = new BehaviorSubject(null); //Players for match from match-mat-edit
   public playersCountSubject = new BehaviorSubject(null);
-  public matchStatusSubject = new BehaviorSubject("open");
+  public matchStatusSubject = new BehaviorSubject('open');
   public matchesSubject = new BehaviorSubject(null);
 
-  numberPlaying(data){
+  numberPlaying(data) {
     this.playersCountSubject.next(data);
   }
 
-  sendEmployeeDetail(data) {
-    this.empDetailSubject.next(data.sort((a,b) => a.usgaIndex- b.usgaIndex));
+  shapePlayers(data) {
+    this.sortByIndexSubject.next(
+      data.sort((a, b) => a.usgaIndex - b.usgaIndex)
+    );
   }
-  medianUSGAIndex(data){
-    let usgaIndex = data.map(function(data){
+
+  getShapedPlayers() {
+    return this.sortByIndexSubject.asObservable();
+  }
+
+  medianUSGAIndex(data) {
+    let usgaIndex = data.map(function (data) {
       return data.usgaIndex;
     });
-    let median = usgaIndex.sort(function(a,b){return a-b})[Math.floor(usgaIndex.length/2)];
+    let median = usgaIndex.sort(function (a, b) {
+      return a - b;
+    })[Math.floor(usgaIndex.length / 2)];
     return median;
   }
 
-  getEmployeeDetail() {
-    return this.empDetailSubject.asObservable();
-  }
-
+//  http handlers
   getMatches(): Observable<any[]> {
     return this.http.get<Match[]>(baseUrl);
   }
