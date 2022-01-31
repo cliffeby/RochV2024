@@ -9,10 +9,6 @@
         <th>HCap</th>
       </tr>
 
-      <!-- *ngFor="let item of objectList | keyvalue"
-  item.key # refers to the keys (134, 135...) in your example
-  item.value # refers to the object for each key -->
-
       <tr *ngIf="item.value.playerA">
         <td> {{item.value.playerA.fullName}}</td>
         <td>{{item.value.playerA.usgaIndex}}</td>
@@ -26,8 +22,8 @@
     </table>
   </div>
 </div>
-<mat-icon *ngIf="index<3" (click)="onSelect()">album</mat-icon>
 
+<mat-icon *ngIf="index<3" (click)="onSelect()">album</mat-icon>
 <mat-icon *ngIf="index==3" color = "warn">stop</mat-icon>
 <a *ngIf="index==3" color = "warn">No more spins</a>
 <mat-icon *ngIf=" !lineUpLocked" (click)="onLock()">lock</mat-icon>

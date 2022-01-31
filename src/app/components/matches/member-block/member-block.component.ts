@@ -27,7 +27,6 @@ import { Scorecard } from 'src/app/models/scorecard';
 export class MemberBlockComponent implements OnInit, OnDestroy {
   private subscription1: Subscription;
   private subscription2: Subscription;
-  // @Output() public updatewhoisplaying = new EventEmitter();
   public members: Member[];
   public myscore: Score;
   public scores: any[] = [];
@@ -187,14 +186,6 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
           member._id = data.scoreCreated._id; //The RESponse document is scoreCreated with a _id property.  Recall member._id was previouly ovwerwritten with the score._id.
           this.pairings.push(member);
           this._matchesService.shapePlayers(this.pairings);// Sorts players by USGAIndex and stores array in BehaviorSubject - sortByIndexSubject
-          console.log(
-            'score',
-            this.score,
-            'member',
-            member,
-            'pairings',
-            this.pairings
-          );
         });
     } else {
       this.players--;
@@ -208,7 +199,6 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
           this.pairings.splice(i, 1);
         }
       }
-      // this.updatewhoisplaying.emit(this.pairings);
       this._matchesService.shapePlayers(this.pairings);
     }
   }
@@ -216,6 +206,5 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription1.unsubscribe();
     // this.subscription2.unsubscribe();
-    // this.subscription3.unsubscribe();
   }
 }

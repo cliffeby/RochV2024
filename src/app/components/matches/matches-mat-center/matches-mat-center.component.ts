@@ -3,6 +3,7 @@ import { MatchesService } from '../../../services/matches.service';
 import { Match } from '../../../models/match';
 import { AuthService } from '@auth0/auth0-angular';
 import { PrinterService } from 'src/app/services/printer.service';
+import { MatchLockService } from 'src/app/services/match-lock.service';
 
 @Component({
   selector: 'app-matches-mat-center',
@@ -20,6 +21,7 @@ export class MatchesMatCenterComponent implements OnInit {
 
   constructor(
     private _matchesService: MatchesService,
+    private _matchlockService: MatchLockService,
     private _printService: PrinterService,
   ) {}
 
@@ -64,6 +66,8 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidePairMatch = true;
     match.status = 'open';
     console.log('Open Match', match);
+    this._matchlockService.unLockLineUps(match.lineUps);
+    this.onUpdateMatchEvent(match);
   }
 
   onAddMatchEvent() {

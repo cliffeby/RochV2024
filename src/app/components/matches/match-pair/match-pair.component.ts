@@ -39,10 +39,12 @@ export class MatchPairComponent implements OnInit {
   }
 
   onSelect() {
+    //Counter to limit nimber of spins that modify the lineup
     this.index++;
-    console.log(this.index);
   }
+
   onLock() {
+    // Locks the lineup for no modification other than printing and recording scores
     this._matchlockService.lockLineUps(this.todaysLineUp[this.index]);
     this.match = { ...this.match, lineUps: this.todaysLineUp[this.index], status: 'locked' };
       this._matchesService

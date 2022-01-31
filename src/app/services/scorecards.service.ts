@@ -48,6 +48,7 @@ export class ScorecardsService {
   findByTitle(title: any): Observable<Scorecard[]> {
     return this.http.get<Scorecard[]>(`${baseUrl}?title=${title}`);
   }
+  // Stores the default tees for a member
   updateMembersScorecard(scorecard: Scorecard) {
     this._membersService.getMembers().subscribe({
       next: (data) => {
@@ -58,7 +59,6 @@ export class ScorecardsService {
               member.scorecards.push(scorecard);
               member.scorecard = scorecard;
               this._membersService.updateMember(member);
-              console.log('updated member', member, scorecard);
             }
           }
         }

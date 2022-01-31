@@ -17,7 +17,6 @@ export class PrinterService {
       '/',
       {
         outlets: {
-          // print: ['print'],
           'print': ['print', documentName],
         },
       },
