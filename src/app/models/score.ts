@@ -2,13 +2,13 @@ export class Score {
          _id: string;
          scoreId: string;
          name: string;
+         score: number;
          scorecardId: string;
          lineupIds: string[];
          memberId: string;
          partnerIds: string[];
          foursomeIds: string[];
          handicap: number;
-         score: number;
          usgaIndex: number;
          coursePlayerHandicap: number;
          wonTwoBall: Boolean;

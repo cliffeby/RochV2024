@@ -26,8 +26,9 @@ export class ScoresMatListComponent
   public unauth: boolean;
   // @Input() scores: Score[];
   scores: Score[];
-  @Output() SelectScoreEvent = new EventEmitter();
+  @Output() ViewScoreEvent = new EventEmitter();
   @Output() public DeleteScorecardEvent = new EventEmitter();
+  @Output() RecordScoreEvent = new EventEmitter();
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -62,8 +63,12 @@ export class ScoresMatListComponent
     this.dataSource.paginator = this.paginator;
   }
 
-  onSelectScore(scr: Score) {
-    this.SelectScoreEvent.emit(scr);
+  onViewScore(scr: Score) {
+    this.ViewScoreEvent.emit(scr);
+  }
+  onRecordScore(scr:Score){
+    this.RecordScoreEvent.emit(scr);
+    console.log('onScoreSelect');
   }
 
   onDelete(index, score) {

@@ -7,15 +7,14 @@
 
 <div *ngIf="selectedScore && hidenewScore">
   <h2>Score Detail</h2>
-  <app-scores-mat-edit
-    (updateScoreEvent)="onUpdateScoreEvent($event)"
+  <app-scores-mat-view *ngIf="selectedScore && hidenewScore" (CloseScoreEvent)="onCloseScoreEvent($event)"
     [score]="selectedScore">
-  </app-scores-mat-edit>
+  </app-scores-mat-view>
 </div>
-
-<app-scores-mat-list *ngIf="!selectedScore && hidenewScore"
-  (SelectScoreEvent)="onSelectScore($event)"
-  (DeleteScoreEvent)="onDeleteScoreEvent($event)">
+<div *ngIf="selectedScore && !hidenewScore">
+  <h2>Score Input</h2>
+  <app-scores-mat-edit (UpdateScoreEvent) = "onUpdateScoreEvent($event) " [score]="selectedScore"></app-scores-mat-edit>
+</div>
+<app-scores-mat-list *ngIf="!selectedScore && hidenewScore" (ViewScoreEvent)="onSelectScore($event)"
+  (RecordScoreEvent)="onRecordScoreEvent($event)" (DeleteScoreEvent)="onDeleteScoreEvent($event)">
 </app-scores-mat-list>
-
-

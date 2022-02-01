@@ -7,6 +7,7 @@ import { checkObjectId } from '../middleware/not-found.middleware';
 const createScore = async (req: Request, res: Response) => {
   const {
     name,
+    score,
     matchId,
     scorecardId,
     lineupIds,
@@ -37,6 +38,7 @@ const createScore = async (req: Request, res: Response) => {
   }
   const scoreInput: ScoreInput = {
     name,
+    score,
     matchId,
     scorecardId,
     lineupIds,
@@ -87,6 +89,7 @@ const getScore = async (req: Request, res: Response) => {
 };
 
 const updateScore = async (req: Request, res: Response) => {
+  console.log('Update score request', req.body);
  Score.findByIdAndUpdate(
     req.params.id,
     req.body,

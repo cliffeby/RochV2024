@@ -31,7 +31,8 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element; let i = index;">
-            <mat-icon *ngIf="element._id"  color="primary" (click)="onSelectScore(element)">pageview</mat-icon>
+            <mat-icon *ngIf="element._id"  color="primary" (click)="onViewScore(element)">pageview</mat-icon>
+            <mat-icon *ngIf="element._id" color="primary" (click)="onRecordScore(element)">edit</mat-icon>
             <mat-icon color="warn" (click)="onDelete(i, element)">delete</mat-icon>
           </td>
         </ng-container>

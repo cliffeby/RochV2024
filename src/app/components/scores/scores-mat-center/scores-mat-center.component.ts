@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ScoresService } from '../../../services/scores.service';
 import { Score } from '../../../models/score';
-import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-scores-mat-center',
@@ -21,9 +20,6 @@ export class ScoresMatCenterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this._scoresService
-    //   .getScores()
-    //   .subscribe((resScoreData) => (this.scores = resScoreData));
   }
 
   onSelectScore(score: Score) {
@@ -37,32 +33,28 @@ export class ScoresMatCenterComponent implements OnInit {
       console.log('Center', this.selectedScore);
     }
   }
+
+  onRecordScoreEvent(score: any) {
+    this.selectedScore = score;
+    this.hidenewScore = false;
+    console.log('onRecordScoreEvent', score);
+  }
+
   onAddScoreEvent() {
     this.hidenewScore = false;
     this.selectedScore = null;
   }
 
-  onSubmitAddScore(score: Score) {
-    this._scoresService.createScore(score).subscribe((resNewScore) => {
-      this.scores.push(resNewScore);
+  onUpdateScoreEvent(score: Score) {
+    this._scoresService.updateScore(score).subscribe((resNewScore) => {
+      // this.scores.push(resNewScore);
       this.hidenewScore = true;
       this.selectedScore = null;
     });
-    // TODO - Is Pipe better to force sort
-    // this._scoresService
-    //   .getScores()
-    //   .subscribe((resScoreData) => (this.scores = resScoreData));
   }
 
-  onUpdateScoreEvent(score: any) {
-    // this._scoresService
-    //   .updateScore(score)
-    //   .subscribe((resUpdatedScore) => (score = resUpdatedScore));
+  onCloseScoreEvent(score: any) {
     this.selectedScore = null;
-    // TODO - Is Pipe better to force sort
-    // this._scoresService
-    //   .getScores()
-    //   .subscribe((resScoreData) => (this.scores = resScoreData));
   }
   onSubmitAddScoreEvent(score: any) {
     this._scoresService.createScore(score).subscribe((resNewScore) => {

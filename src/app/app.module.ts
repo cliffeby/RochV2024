@@ -41,6 +41,7 @@ import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/
 import { MatchPairComponent } from './components/matches/match-pair/match-pair.component';
 import { PrintScorecardComponent } from './components/print/print-scorecard/print-scorecard.component';
 import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
+import { ScoresMatViewComponent } from './components/scores/scores-mat-view/scores-mat-view.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-
     MatchPairComponent,
     PrintScorecardComponent,
     ScorecardsMatPrintComponent,
+    ScoresMatViewComponent,
   ],
   imports: [
     BrowserModule,
