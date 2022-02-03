@@ -16,6 +16,7 @@ export class MatchesMatCenterComponent implements OnInit {
   public hidenewMatch = true;
   public hideMemberBlock = true;
   public hidePairMatch = true;
+  public hideScoreMatch = true;
   @Output() public matches: Array<Match>;
 
 
@@ -45,10 +46,12 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onScoreMatchEvent(match: Match) {
+    this.selectedMatch = match;
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
-    this.hidePairMatch = false;
-    console.log('Score Match', match.lineUps);
+    this.hidePairMatch = true;
+    this.hideScoreMatch = false;
+    console.log('Score Match',this.hideScoreMatch, match.lineUps);
   }
 
   onPrintMatchEvent(match: Match) {
@@ -146,5 +149,12 @@ export class MatchesMatCenterComponent implements OnInit {
 
     this._matchesService.matchesSubject.next(this.matches);})
 
+  }
+  onUpdateScoresEvent() {
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = true;
+    this.hideScoreMatch = true;
+    this.selectedMatch = null;
   }
 }

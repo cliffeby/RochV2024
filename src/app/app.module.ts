@@ -42,6 +42,7 @@ import { MatchPairComponent } from './components/matches/match-pair/match-pair.c
 import { PrintScorecardComponent } from './components/print/print-scorecard/print-scorecard.component';
 import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
 import { ScoresMatViewComponent } from './components/scores/scores-mat-view/scores-mat-view.component';
+import { MatchScoreComponent } from './components/matches/match-score/match-score.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { ScoresMatViewComponent } from './components/scores/scores-mat-view/scor
     PrintScorecardComponent,
     ScorecardsMatPrintComponent,
     ScoresMatViewComponent,
+    MatchScoreComponent,
   ],
   imports: [
     BrowserModule,

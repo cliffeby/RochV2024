@@ -1,0 +1,17 @@
+<h2>Match Score- {{match.name}}-{{match.datePlayed}}</h2>
+
+<form [formGroup]="scoreForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="arr" *ngFor="let a of scoreForm.get('arr')['controls']; let i = index">
+    <div [formGroupName]="i" style="margin-bottom: 10px;">
+      <!-- <label for="name" >Name:</label> -->
+
+      <input type="text" name="name" formControlName="name">
+
+      <label for="pay">Score:</label>
+      <input type="text" name="score" formControlName="score">
+      <br>
+    </div>
+  </div>
+  <br>
+  <button type="submit">Submit</button>
+</form>
