@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Match } from 'src/app/models/match';
+import { LineUps } from 'src/app/models/member';
 import { Score } from 'src/app/models/score';
 import { ScoresService } from 'src/app/services/scores.service';
 
@@ -22,9 +23,7 @@ export class MatchScoreComponent implements OnInit {
   players = [];
   @Output() public UpdateScoresEvent = new EventEmitter();
 
-  constructor(private fb: FormBuilder,
-    private _scoresService: ScoresService) {
-  }
+  constructor(private fb: FormBuilder, private _scoresService: ScoresService) {}
   ngOnInit(): void {
     this.scoreForm = this.fb.group({
       arr: this.fb.array([]),
@@ -36,8 +35,9 @@ export class MatchScoreComponent implements OnInit {
     }
   }
   loadItem(player) {
+    let name_Index = player.fullName + '-' + player.usgaIndex.toString();
     return this.fb.group({
-      name: new FormControl({ value: player.name, disabled: true }),
+      name: new FormControl({ value: name_Index, disabled: true }),
       score: player.score,
     });
   }
@@ -53,7 +53,10 @@ export class MatchScoreComponent implements OnInit {
     }
     for (let i = 0; i < keys.length; i++) {
       players.push(temp[i].playerA);
-      players.push(temp[i].playerB);
+      if (temp[i].playerB) {
+        console.log('playerB', temp[i].playerB);
+        players.push(temp[i].playerB);
+      }
     }
     console.log('shapePlayers', players);
     return players;
@@ -66,11 +69,11 @@ export class MatchScoreComponent implements OnInit {
   onSubmit() {
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].score = Number(
-        this.scoreForm.get('arr')['controls'][i]['controls']['score']['value']);
-        this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {
-          console.log('onSubmit', resScore);
-        });
-
+        this.scoreForm.get('arr')['controls'][i]['controls']['score']['value']
+      );
+      this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {
+        console.log('onSubmit', resScore);
+      });
     }
     console.log(this.match, this.players);
     this.UpdateScoresEvent.emit();

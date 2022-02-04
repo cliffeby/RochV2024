@@ -156,5 +156,6 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidePairMatch = true;
     this.hideScoreMatch = true;
     this.selectedMatch = null;
+    console.log('Scores Updated');
   }
 }
