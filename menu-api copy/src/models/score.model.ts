@@ -3,6 +3,7 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 type ScoreDocument = Document & {
   name: string;
   score: number;
+  scores: number[];
   scorecardId: string;
   lineupIds: string[];
   memberId: string;
@@ -24,6 +25,7 @@ type ScoreDocument = Document & {
 type ScoreInput = {
   name: ScoreDocument['name'];
   score: ScoreDocument['score'];
+  scores: ScoreDocument['scores'];
   scorecardId: ScoreDocument['scorecardId'];
   lineupIds: ScoreDocument['lineupIds'];
   memberId: ScoreDocument['memberId'];
@@ -46,6 +48,7 @@ const ScoreSchema = new Schema(
   {
     name: String,
     score: Number,
+    scores: [Number],
     usgaIndex: Number,
     handicap: Number,
     postedScore: Number,

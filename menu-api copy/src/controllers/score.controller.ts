@@ -8,6 +8,7 @@ const createScore = async (req: Request, res: Response) => {
   const {
     name,
     score,
+    scores,
     matchId,
     scorecardId,
     lineupIds,
@@ -39,6 +40,7 @@ const createScore = async (req: Request, res: Response) => {
   const scoreInput: ScoreInput = {
     name,
     score,
+    scores,
     matchId,
     scorecardId,
     lineupIds,

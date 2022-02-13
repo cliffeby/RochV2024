@@ -9,9 +9,7 @@ import { faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  // isCollapsed = true;
-  // faUser = faUser;
-  // faPowerOff = faPowerOff;
+
   constructor(
     public auth: AuthService,
     @Inject(DOCUMENT) private doc: Document

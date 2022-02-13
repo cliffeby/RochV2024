@@ -12,6 +12,7 @@ import { MatchResolver } from './components/matches/match.resolver';
 import { ScoresResolver } from './components/scores/scores.resolver';
 import { PrintScorecardComponent } from './components/print/print-scorecard/print-scorecard.component';
 import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
+import { ResultsMatCenterComponent } from './components/results/results-mat-center/results-mat-center.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,11 @@ const routes: Routes = [
     component: PrintScorecardComponent,
     children: [{ path: 'scorecards', component: ScorecardsMatPrintComponent }],
   },
+  {
+    path: 'results',
+    component: ResultsMatCenterComponent,
+    data: { expectedScopes: ['read:matches'] },
+  }
 ];
 
 @NgModule({

@@ -3,12 +3,16 @@
 <form [formGroup]="scoreForm" (ngSubmit)="onSubmit()">
   <div formArrayName="arr" *ngFor="let a of scoreForm.get('arr')['controls']; let i = index">
     <div [formGroupName]="i" style="margin-bottom: 10px;">
-      <!-- <label for="name" >Name:</label> -->
 
       <input type="text" name="name" formControlName="name">
+      <label> Front {{frontTot[i]}}.</label>
+      <label> Back {{backTot[i]}}.</label>
 
-      <label for="pay">Score:</label>
-      <input type="text" name="score" formControlName="score">
+      <label for="score"> Score:</label>
+      <input class="fbscore-cell" type="text" formControlName="score">
+      <td formArrayName="scores" *ngFor="let _ of scores(i).controls; let g = index">
+        <input class="score-cell" type="number" min = "1" (keyup)="onKeyUp($event, g, i)" [formControlName]="g" />
+      </td>
       <br>
     </div>
   </div>

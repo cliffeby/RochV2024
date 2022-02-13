@@ -21,6 +21,8 @@ export class MatchScoreComponent implements OnInit {
   public scoreForm: FormGroup;
   public arr: FormArray;
   players = [];
+  frontTot: number[] = [0];
+  backTot: number[] = [0];
   @Output() public UpdateScoresEvent = new EventEmitter();
 
   constructor(private fb: FormBuilder, private _scoresService: ScoresService) {}
@@ -31,15 +33,41 @@ export class MatchScoreComponent implements OnInit {
     this.players = this.shapePlayers();
     for (let i = 0; i < this.players.length; i++) {
       this.arr = this.scoreForm.get('arr') as FormArray;
-      this.arr.push(this.loadItem(this.players[i]));
+      this.arr.push(this.loadItem(this.players[i], i));
     }
   }
-  loadItem(player) {
+  loadItem(player, i) {
     let name_Index = player.fullName + '-' + player.usgaIndex.toString();
     return this.fb.group({
       name: new FormControl({ value: name_Index, disabled: true }),
+      // front: new FormControl({ value: this.frontTot, disabled: true }),
+      // back: new FormControl({ value: this.backTot, disabled: true }),
       score: player.score,
+      scores: new FormArray(this.loadScoreControls(player, i)),
     });
+  }
+
+  loadScoreControls(person, i) {
+    let y = [];
+    this.frontTot[i] = this.backTot[i] = 0;
+    for (let ii = 0; ii < 18; ii++) {
+      if (person.hasOwnProperty('scores')) {
+        y.push(new FormControl({ value: person.scores[ii], disabled: false }));
+        if (ii < 9) {
+          this.frontTot[i] = this.frontTot[i] + person.scores[ii];
+        } else {
+          this.backTot[i] = this.backTot[i] + person.scores[ii];
+        }
+      } else {
+        y.push(new FormControl({ value: null, disabled: false }));
+      }
+    }
+    return y;
+  }
+
+  // returns the inner FormArray based on the index
+  scores(index: number): FormArray {
+    return this.arr.at(index).get('scores') as FormArray;
   }
   shapePlayers() {
     let players = [];
@@ -66,16 +94,51 @@ export class MatchScoreComponent implements OnInit {
   public handleError = (controlName: string, errorName: string) => {
     return this.scoreForm.controls[controlName].hasError(errorName);
   };
+  
   onSubmit() {
     for (let i = 0; i < this.players.length; i++) {
-      this.players[i].score = Number(
-        this.scoreForm.get('arr')['controls'][i]['controls']['score']['value']
-      );
+      this.players[i].score = this.scoreForm.get('arr')['controls'][i][
+        'controls'
+      ]['score']['value'];
+      this.players[i].scores = this.scoreForm.get('arr')['controls'][i][
+        'controls'
+      ]['scores']['value'];
       this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {
         console.log('onSubmit', resScore);
       });
     }
     console.log(this.match, this.players);
-    this.UpdateScoresEvent.emit();
+    console.log('ScoreForm', this.scoreForm.value[0]);
+    this.UpdateScoresEvent.emit(this.match);
+  }
+
+  onKeyUp(event, index, i) {
+    if (event.keyCode > 47 && event.keyCode < 58) {
+      if ((i * 20 + index + 3) % 20 == 0) {
+        this.backTot[i + 1] = 0;
+        this.frontTot[i + 1] = 0;
+        console.log('new i', i, 'index', index);
+      }
+      if (event.key > 1) {
+        if (index < 9) {
+          this.frontTot[i] =
+            this.frontTot[i] + this.scoreForm.value.arr[i]['scores'][index];
+        } else {
+          this.backTot[i] =
+            this.backTot[i] + this.scoreForm.value.arr[i]['scores'][index];
+        }
+        if ((index + 3) % 20 == 0) {
+          index = index + 2;
+        }
+        let nextInput = event.srcElement.form[i * 20 + index + 3];
+        nextInput.focus();
+        this.arr.controls[i]['controls']['score'].setValue(
+          this.frontTot[i] + this.backTot[i]
+        );
+      }
+    } else {
+      // Input Out of Range -- Why does input accept e/E but no other letters?
+      event.srcElement.form[i * 20 + index + 2].value = 0;
+    }
   }
 }

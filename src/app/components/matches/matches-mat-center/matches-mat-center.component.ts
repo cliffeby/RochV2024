@@ -150,12 +150,20 @@ export class MatchesMatCenterComponent implements OnInit {
     this._matchesService.matchesSubject.next(this.matches);})
 
   }
-  onUpdateScoresEvent() {
+  onUpdateScoresEvent(match: Match) {
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideScoreMatch = true;
     this.selectedMatch = null;
     console.log('Scores Updated');
+    this._matchesService.updateMatch(match).subscribe((resUpdatedMatch) => {
+      match = resUpdatedMatch;
+    }
+    );
+    this._matchesService.getMatches().subscribe((resMatchData) => {
+      this.matches = resMatchData;
+      this._matchesService.matchesSubject.next(this.matches);
+    });
   }
 }

@@ -3,6 +3,7 @@ export class Score {
          scoreId: string;
          name: string;
          score: number;
+         scores: number[];
          scorecardId: string;
          lineupIds: string[];
          memberId: string;
