@@ -89,7 +89,7 @@ const updateMatch = async (req: Request, res: Response) => {
         res.send(err);
         console.log('Error updating match', err);
       } else {
-        console.log('Update request for a single score - success ', match._id);
+        console.log('Update request for a single score - success ', match._id); 
         res.json(match);
       }
     }

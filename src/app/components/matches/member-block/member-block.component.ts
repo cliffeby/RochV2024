@@ -109,7 +109,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       // For each player, find the scorecard associated with the default tees for the course.
       for (var player of players) {
         for (var pscId of player['scorecardsId']) {
-          // console.log('pscId', pscId, player);
+          console.log('pscId', pscId, player);
           const psc: Scorecard | any = scorecards.find(
             (psc) => psc._id == pscId
           );
@@ -117,6 +117,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
           if (msc.groupName == psc.groupName) {
             player = {
               ...player,
+              scorecardId: psc._id,
               sc: psc.name,
               scRating: psc.rating,
               scSlope: psc.slope,
@@ -172,12 +173,11 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         member.usgaIndex * member.scSlope / 113 + (member.scRating - 72));
       member.handicap = this.score.handicap;
       this.score.name =
-        this.match.name +
-        ' ' +
+        // this.match.name +
+        // ' ' +
         member.firstName +
         ' ' +
-        member.lastName +
-        ' score';
+        member.lastName;
       // console.log('score', this.score, member);
       this.subscription2 = this._scoresService
         .createScore(this.score)

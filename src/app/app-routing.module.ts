@@ -62,7 +62,8 @@ const routes: Routes = [
     path: 'results',
     component: ResultsMatCenterComponent,
     data: { expectedScopes: ['read:matches'] },
-  }
+    resolve: { matches: MatchResolver },
+  },
 ];
 
 @NgModule({

@@ -94,9 +94,12 @@ export class MatchScoreComponent implements OnInit {
   public handleError = (controlName: string, errorName: string) => {
     return this.scoreForm.controls[controlName].hasError(errorName);
   };
-  
+
   onSubmit() {
     for (let i = 0; i < this.players.length; i++) {
+      this.players[i].name = this.scoreForm.get('arr')['controls'][i][
+        'controls'
+      ]['name']['value'];
       this.players[i].score = this.scoreForm.get('arr')['controls'][i][
         'controls'
       ]['score']['value'];

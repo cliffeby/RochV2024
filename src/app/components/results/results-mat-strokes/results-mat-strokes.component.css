@@ -1,0 +1,27 @@
+.mat-row {
+  height: auto;
+  vertical-align: bottom;
+}
+
+.mat-cell {
+  padding: 8px 8px 2px 0;
+  text-align: right;
+}
+.mat-header-cell {
+  padding: 0px 0px 0px 0;
+  text-align: right;
+
+}
+.mat-name-cell {
+  padding: 8px 8px 2px 0;
+  text-align: left;
+}
+.mat-name-header-cell {
+  padding: 0px 0px 0px 0;
+  text-align: left;
+}
+.mat-header-row {
+  height: auto;
+  vertical-align: bottom;
+  font-weight: bold;
+}

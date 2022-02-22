@@ -44,6 +44,9 @@ import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-
 import { ScoresMatViewComponent } from './components/scores/scores-mat-view/scores-mat-view.component';
 import { MatchScoreComponent } from './components/matches/match-score/match-score.component';
 import { ResultsMatCenterComponent } from './components/results/results-mat-center/results-mat-center.component';
+import { ResultsMatListComponent } from './components/results/results-mat-list/results-mat-list.component';
+import { ResultsMatAdjustComponent } from './components/results/results-mat-adjust/results-mat-adjust.component';
+import { ResultsMatStrokesComponent } from './components/results/results-mat-strokes/results-mat-strokes.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +83,9 @@ import { ResultsMatCenterComponent } from './components/results/results-mat-cent
     ScoresMatViewComponent,
     MatchScoreComponent,
     ResultsMatCenterComponent,
+    ResultsMatListComponent,
+    ResultsMatAdjustComponent,
+    ResultsMatStrokesComponent,
   ],
   imports: [
     BrowserModule,

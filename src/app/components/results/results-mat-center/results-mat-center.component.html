@@ -1,1 +1,10 @@
-<p>results-mat-center works!</p>
+
+<app-results-mat-list *ngIf="!selectedMatch && !selectedMatch1" (AdjustScoreEvent)="onSelectMatchEvent($event)"
+  (SelectMatchEvent) = "onStrokeMatchEvent($event)" [matches]="matches">
+</app-results-mat-list>
+<app-results-mat-adjust *ngIf="selectedMatch"
+  [match]="selectedMatch">
+</app-results-mat-adjust>
+<app-results-mat-strokes *ngIf="selectedMatch1"
+  [match]="selectedMatch1">
+</app-results-mat-strokes>
