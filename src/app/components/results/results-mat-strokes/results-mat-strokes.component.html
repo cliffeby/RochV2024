@@ -19,7 +19,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="scores[0]">
         <th mat-header-cell *matHeaderCellDef>
-          ----1
+          1
           <div *ngFor="let data of firstTwoRows; let i = index">
             <p *ngIf="i < 2">{{ data.scores[0] }}</p>
           </div>
@@ -29,30 +29,42 @@
       <!-- Name Column -->
       <ng-container matColumnDef="scores[1]">
         <th mat-header-cell *matHeaderCellDef>
-         ---- 2
+          2
           <div *ngFor="let data of firstTwoRows; let i = index">
             <p *ngIf="i < 2">{{ data.scores[1] }}</p>
           </div>
         </th>
-        <td mat-cell *matCellDef="let element">{{ element.scores[2] }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.scores[1] }}</td>
       </ng-container>
+
       <ng-container matColumnDef="scores[2]">
         <th mat-header-cell *matHeaderCellDef>
-          ----3
+          3
           <div *ngFor="let data of firstTwoRows; let i = index">
             <p *ngIf="i < 2">{{ data.scores[2] }}</p>
           </div>
         </th>
         <td mat-cell *matCellDef="let element">{{ element.scores[2] }}</td>
       </ng-container>
+
       <ng-container matColumnDef="scores[3]">
         <th mat-header-cell *matHeaderCellDef>
-          ----4
+          -4-
           <div *ngFor="let data of firstTwoRows; let i = index">
             <p *ngIf="i < 2">{{ data.scores[3] }}</p>
           </div>
         </th>
         <td mat-cell *matCellDef="let element">{{ element.scores[3] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[4]">
+        <th mat-header-cell *matHeaderCellDef>
+          -5-
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[4] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.scores[4] }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

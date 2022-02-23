@@ -37,7 +37,7 @@ export class MatchScoreComponent implements OnInit {
     }
   }
   loadItem(player, i) {
-    let name_Index = player.fullName + '-' + player.usgaIndex.toString();
+    let name_Index = player.fullName + '-' + player.handicap.toString();
     return this.fb.group({
       name: new FormControl({ value: name_Index, disabled: true }),
       // front: new FormControl({ value: this.frontTot, disabled: true }),

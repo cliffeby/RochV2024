@@ -4,24 +4,30 @@
 }
 
 .mat-cell {
-  padding: 8px 8px 2px 0;
+  padding: 8px 8px 4px 4px;
   text-align: right;
+  border-right: 1px solid black;
+  border: 1px solid black;
 }
 .mat-header-cell {
-  padding: 0px 0px 0px 0;
+  padding: 4px 4px 4px 4px;
   text-align: right;
+  border-right: 1px solid black;
 
 }
 .mat-name-cell {
-  padding: 8px 8px 2px 0;
+  padding: 8px 8px 2px 4px;
   text-align: left;
+  border-right: 1px solid black;
 }
 .mat-name-header-cell {
-  padding: 0px 0px 0px 0;
+  padding: 4px 4px 4px 4px;
   text-align: left;
+  border-right: 1px solid black;
 }
 .mat-header-row {
   height: auto;
   vertical-align: bottom;
   font-weight: bold;
+  border-right: 1px solid black;
 }

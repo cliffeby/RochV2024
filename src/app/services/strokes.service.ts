@@ -44,23 +44,41 @@ export class StrokesService {
     }
 
     setTimeout(() => {
-      this.results.splice(2, 0, this.netScores(scs)[1]);
+      for (let i = 0; i < scs.length; i++) {
+        this.results.splice(1 + 2 * i, 0, this.netScores(scs)[i]);
+      }
     }, 1000);
-    console.log('createDataSource',this.netScores(scs),this.results);
+
+    console.log('createDataSource', this.netScores(scs), this.results);
     return this.results;
   }
-  netScores(scs):Results[] {
-    let netScores:Results[] = [];
-    let netScore:Results = new Results();
+  netScores(scs): Results[] {
+    let netScores: Results[] = [];
+    let netScore: Results = new Results();
     for (let i = 0; i < scs.length; i++) {
-      netScore ={
-        name: "Nets",
-        scores: ["6/5","6", "7/6",i]
-      }
+      netScore = {
+        name: 'Nets',
+        scores: ['6/5', '❺/❺', '7/6', i + '**', '⑨'],
+        // scores: this.nets(scs, i),
+      };
       netScores.push(netScore);
     }
-    console.log('netScores', netScores);
+    console.log('netScores1', netScores);
     return netScores;
+  }
+  nets(scs, j): any[] {
+    console.log('results', this.results[0].handicap, this.results[0].handicaps[0]);
+    let nets: any[] = [];
+    let net: any;
+    for (let i = 0; i < 18; i++) {
+      if (this.results[j].handicap >= this.results[j].handicaps[i]) {
+        console.log('if....', this.results[j].scores[i]);
+        net = this.results[j].scores[i].toString() + 'x';
+        nets.push(net);
+      }
+    }
+    console.log('netScores2', net);
+    return nets;
   }
   stringToNumArray(aString: any, name: string) {
     let aNumArray = [];

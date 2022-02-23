@@ -21,7 +21,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   public scorecard: Scorecard;
   dataSource: MatTableDataSource<Score[]>;
   dataSource2;
-  displayedColumns: string[] = ['name', 'scores[0]', 'scores[1]', 'scores[2]', 'scores[3]'];
+  displayedColumns: string[] = ['name', 'scores[0]', 'scores[1]', 'scores[2]', 'scores[3]', 'scores[4]'];
   paginator: any;
   @Input() public match: Match;
   results: Results[] = [new Results()];
