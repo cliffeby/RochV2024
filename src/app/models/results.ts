@@ -3,6 +3,7 @@ export class Results {
          name: string;
          score?: number;
          scores: any[];
+         scoreColor?: string[];
          isCircle?: boolean[];
          course?: string;
          tees?: string[];
