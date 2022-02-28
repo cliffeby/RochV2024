@@ -5,60 +5,15 @@ import { delay } from 'rxjs/operators';
 import { Results } from 'src/app/models/results';
 import { StrokesService } from 'src/app/services/strokes.service';
 
-// import { Item } from './item';
-class Item {
-  color: string;
-  name: string;
-  score: any[];
-}
+export class ItemsDataSource extends DataSource<Results> {  //DataSource requires a connect and disconnect method
 
-export class ItemsDataSource extends DataSource<Results> {
-
-  constructor(private _strokesService: StrokesService) {
+  constructor(private _strokesService: StrokesService) {   //injected service requires a call to super()
     super();
   }
 
-  public connect(collectionViewer: CollectionViewer): Observable<Results[]> {
-    return this._strokesService.matchResultSubject.asObservable();
+  public connect(collectionViewer: CollectionViewer): Observable<Results[]> {  //connect method returns an observable of the data as a DataSource
+    return this._strokesService.matchResultSubject.asObservable();             //data is a BehaviorSubject on strokes.service.ts.  Data is shaped in strokes service
   }
 
   public disconnect(collectionViewer: CollectionViewer): void {}
-
-  // myData() {
-  //   var a: Results[] = [];
-  //   for (var i = 0; i < 10; i++) {
-  //     a.push(new Results());
-
-  //     a[i].name = 'name ' + i + 1;
-  //     a[i].scores = [1, 2, 3, 4, 5, '6/7', '7xx', '8/' + i.toString(), 9, 10];
-  //   }
-
-  //   return of(a);
-  // }
-  //   class Item {
-  //   color: string;
-  //   name: string;
-  //   score: any[];
-  // }
-
-  // export class ItemsDataSource extends DataSource<Item> {
-
-  //   public connect(collectionViewer: CollectionViewer): Observable<Item[]> {
-  //     return (this.myData())
-  //   }
-
-  //   public disconnect(collectionViewer: CollectionViewer): void {}
-
-  //   myData(){
-
-  //     var a: Item[] = [];
-  //     for (var i = 0; i < 10; i++) {
-  //       a.push(new Item());
-  //       a[i].color = 'ff0000';
-  //       a[i].name = 'name ' + i+1;
-  //       a[i].score = [1,2,3,4,5,"6/7","7xx","8/"+i.toString(),9,10];
-  //     }
-
-  //     return of(a);
-  //   }
 }

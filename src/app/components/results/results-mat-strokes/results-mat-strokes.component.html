@@ -1,6 +1,3 @@
-<!-- <p>results-mat-strokes works!</p>
-{{scores | json}} -->
-
 <table mat-table [dataSource]="dataSource3">
 
   <div class="row">
@@ -66,6 +63,136 @@
         <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[4]">{{ element.scores[4] }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="scores[5]">
+        <th mat-header-cell *matHeaderCellDef>
+          -6
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[5] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[5]">{{ element.scores[5] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[6]">
+        <th mat-header-cell *matHeaderCellDef>
+          -7
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[6] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[6]">{{ element.scores[6] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[7]">
+        <th mat-header-cell *matHeaderCellDef>
+          -8
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[7] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[7]">{{ element.scores[7] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[8]">
+        <th mat-header-cell *matHeaderCellDef>
+          -9
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[8] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[8]">{{ element.scores[8] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[9]">
+        <th mat-header-cell *matHeaderCellDef>
+          -10
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[9] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[9]">{{ element.scores[9] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[10]">
+        <th mat-header-cell *matHeaderCellDef>
+          -11
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[10] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[10]">{{ element.scores[10] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[11]">
+        <th mat-header-cell *matHeaderCellDef>
+          -12
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[11] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[11]">{{ element.scores[11] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[12]">
+        <th mat-header-cell *matHeaderCellDef>
+          -13
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[12] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[12]">{{ element.scores[12] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[13]">
+        <th mat-header-cell *matHeaderCellDef>
+          -14
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[13] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[13]">{{ element.scores[13] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[14]">
+        <th mat-header-cell *matHeaderCellDef>
+          -15
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[14] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[14]">{{ element.scores[14] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[15]">
+        <th mat-header-cell *matHeaderCellDef>
+          -16
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[15] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[15]">{{ element.scores[15] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[16]">
+        <th mat-header-cell *matHeaderCellDef>
+          - 17
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[16] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[16]">{{ element.scores[16] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[17]">
+        <th mat-header-cell *matHeaderCellDef>
+          -18
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[17] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[17]">{{ element.scores[17] }}</td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -73,9 +200,9 @@
   </div>
 </table>
 <p></p>
-<button mat-raised-button color="primary" (click)="onRefresh()" >Click me!</button>
+<button mat-raised-button color="primary" (click)="onRefresh()" >Refresh</button>
 
-<p>First column should be filled with a color and be 10px of width.</p>
+<!-- <p>First column should be filled with a color and be 10px of width.</p>
 
 
 <mat-table #table [dataSource]="dataSource3" matSort class="table-items">
@@ -93,4 +220,4 @@
   <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
 
-</mat-table>
+</mat-table> -->
