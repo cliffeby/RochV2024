@@ -35,6 +35,11 @@ export class ResultsMatStrokesComponent implements OnInit {
     'scores[15]',
     'scores[16]',
     'scores[17]',
+    'scores[18]',
+    'scores[19]',
+    'scores[20]',
+    'scores[21]',
+    'scores[22]',
   ];
   // paginator: any;
   @Input() public match: Match;  //match selected from results list
@@ -58,7 +63,8 @@ export class ResultsMatStrokesComponent implements OnInit {
           console.log(error);
         }
       );
+      console.log('datasore', this.dataSource3);
   }
 
-  onRefresh() {}
+  onRefresh() {  }
 }

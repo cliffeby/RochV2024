@@ -53,8 +53,8 @@ export class ScorecardsService {
     this._membersService.getMembers().subscribe({
       next: (data) => {
         for (const member of data) {
-          for (let i = 0; i < member.scorecards.length; i++) {
-            if (member.scorecards[i]._id === scorecard._id) {
+          for (let i = 0; i < member.scorecardsId.length; i++) {
+            if (member.scorecardsId[i] === scorecard._id && member.scorecards) {
               member.scorecards.splice(i, 1);
               member.scorecards.push(scorecard);
               member.scorecard = scorecard;

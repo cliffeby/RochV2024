@@ -62,7 +62,7 @@ export class ScorecardsMatCenterComponent implements OnInit {
   }
   onSubmitAddScorecardEvent(scorecard: any) {
     this._scorecardsService.createScorecard(scorecard).subscribe((resNewScorecard) => {
-      this.scorecards.push(resNewScorecard);
+      // this.scorecards.push(resNewScorecard);
       this.hidenewScorecard = true;
       this.selectedScorecard = null;
     });

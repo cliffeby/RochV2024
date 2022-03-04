@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ARIA_LIVE_DELAY } from '@ng-bootstrap/ng-bootstrap/util/accessibility/live';
 import { BehaviorSubject } from 'rxjs';
 import { Results } from '../models/results';
 import { Scorecard } from '../models/scorecard';
@@ -12,31 +13,34 @@ export class StrokesService {
   results: Results[] = [];
 
   constructor(public _scorecardsService: ScorecardsService) {}
-  public matchResultSubject = new BehaviorSubject(null);  //Shaped datastore for the dataSource table
+  public matchResultSubject = new BehaviorSubject(null); //Shaped datastore for the dataSource table
 
   newData(data) {
-    this.matchResultSubject.next(data);  //Update the dataSource table
+    this.matchResultSubject.next(data); //Update the dataSource table
   }
 
-  createDataSource(scs) {  //Shapes the data for the dataSource table.  scs is the scores:Scores[] for the match
+  createDataSource(scs) {
+    //Shapes the data for the dataSource table.  scs is the scores:Scores[] for the match
     console.log('scs', scs);
     for (let i = 0; i < scs.length; i++) {
       this._scorecardsService
-        .getScorecard(scs[i].scorecardId)  //Get the scorecard in the Score record for the match.  Players are on the same course, but may play different tees
+        .getScorecard(scs[i].scorecardId) //Get the scorecard in the Score record for the match.  Players are on the same course, but may play different tees
         .subscribe((data) => {
           this.scorecard = data;
           this.results[i] = new Results(); //Create a consolidated data sources of scores, scorecard and match data to determine results.
-          this.results[i].scores = scs[i].scores;  // Players scores for each hole.
+          this.results[i].scores = scs[i].scores; // Players scores for each hole.
+          this.results[i].scores = this.fb18(this.results[i].scores); // Add front 9 and back 9 and 18 totals to the array at [18], [19] and [20]
           this.results[i]._id = scs[i].playerId;
-          this.results[i].name = scs[i].name;  //Player name
+          this.results[i].name = scs[i].name; //Player name
           this.results[i].score = scs[i].score; //Player total score
-          this.results[i].course = data.scorecard.courseTeeName;  //tee name
+          this.results[i].course = data.scorecard.courseTeeName; //tee name
           this.results[i].rating = data.scorecard.rating; //Tee rating
           this.results[i].slope = data.scorecard.slope; //Tee slope
-          this.results[i].pars = [];  //Hole pars
+          this.results[i].pars = []; //Hole pars
           this.results[i].pars = this.stringToNumArray(
             data.scorecard.parInputString
           );
+          this.results[i].pars = this.fb18(this.results[i].pars);
           this.results[i].handicaps = []; //Hole handicaps
           this.results[i].handicaps = this.stringToNumArray(
             data.scorecard.hCapInputString
@@ -44,16 +48,13 @@ export class StrokesService {
           this.results[i].usgaIndex = scs[i].usgaIndex; //Player USGA Index
           this.results[i].handicap = scs[i].handicap; //Player tee handicap calculated from USGA Index when match was created
           this.results[i].scoreColor = []; //Player score color used to highlight ESA scores
+          this.results[i].scores[22] = this.results[i].scores[20];
           this.ESAColorNets(i);
 
-          if(i = scs.length - 1){ //When all players have been processed, create the net scores.  If holds the method call untill getScorecard completes
-          this.newData(
-            this.interLaceArrays(
-              this.results,
-              this.netScores(scs),
-              this.netTeamScores(scs)
-            )
-          );}
+          if ((i = scs.length - 1)) {
+            //When all players have been processed, create the net scores.  If holds the newData() method call until getScorecard subscription completes
+            this.newData(this.interWeaveNets(this.netTeamScores(scs)));
+          }
         });
     }
   }
@@ -65,6 +66,26 @@ export class StrokesService {
       e.push(c[i]);
     }
     return e;
+  }
+  interWeaveNets(a: Results[]) {
+    let array = [];
+    for (let i = 0; i < a.length - 1; i++) {
+      array.push(a[i]);
+      array.push(a[i + 1]);
+      array.push({
+        scores: a[i].oneBallNet,
+        name: 'OneBall',
+        scoreColor: [''],
+      });
+      i++;
+      console.log('Array', array);
+    }
+    array.push({
+      scores: this.teamMatch(a, a, 0),
+      name: 'Match',
+      scoreColor: [''],
+    });
+    return array;
   }
   netTeamScores(scs): Results[] {
     let lowCap: number;
@@ -81,42 +102,112 @@ export class StrokesService {
           }
         }
       }
+      const temp = this.teamNets(scs, i, lowCap);
+      let sColor = [];
+      //
+      if (this.results[i].name != 'OneBall') {
+        sColor = this.results[i].scoreColor;
+      } else {
+        console.log('NoColorrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+        sColor = [
+          // '#000000',
+          // '#000000',
+          // '',
+          // '',
+          // '',
+          // '',
+          // '',
+          // '#000000',
+          // '#000000',
+          // '',
+          // '',
+          // '',
+          // '',
+          // '',
+          // '#000000',
+          // '#000000',
+          // '',
+          // '',
+          // '',
+          // '',
+          // '',
+        ];
+      }
       netTeamScore = {
-        name: 'MatchNets',
-        scores: this.nets(scs, i, lowCap),
-        scoreColor: [],
+        name: this.results[i].name,
+        scores: temp[0],
+        scoreColor: sColor,
+        nets1: temp[1],
+        nets2: temp[2],
       };
-
+      console.log('nets i', i, netTeamScore);
       netTeamScores.push(netTeamScore);
-      // console.log('nets i',i, lowCap, this.nets(scs, i, lowCap));
+      //
+    }
+
+    for (let i = 0; i < netTeamScores.length; i++) {
+      netTeamScores[i].oneBallNet = [];
+      netTeamScores[i].betterBallNet = [];
+      for (let j = 0; j < 18; j++) {
+        netTeamScores[i].oneBallNet[j] = Math.min(
+          netTeamScores[i].nets2[j],
+          netTeamScores[i + 1].nets2[j]
+        );
+        netTeamScores[i].betterBallNet[j] = Math.min(
+          netTeamScores[i].nets1[j],
+          netTeamScores[i + 1].nets1[j]
+        );
+      }
+      netTeamScores[i].oneBallNet = this.fb18(netTeamScores[i].oneBallNet);
+      netTeamScores[i].betterBallNet = this.fb18(
+        netTeamScores[i].betterBallNet
+      );
+      console.log('netTeamScores[i]', netTeamScores[i], netTeamScores[i + 1]);
+
+      i++;
     }
     return netTeamScores;
   }
-  netScores(scs): Results[] {
-    let netScores: Results[] = [];
-    let netScore: Results = new Results();
-    for (let i = 0; i < scs.length; i++) {
-      netScore = {
-        name: 'BigMatchNets',
-        // scores: ['6/5', '❺/❺', '7/6', i + '**', '⑨'],
-        scores: this.nets(scs, i, 0),
-        scoreColor: [],
-      };
-      netScores.push(netScore);
-      // console.log('nets i',i, this.nets(scs, i));
+
+  fb18(arr) {
+    let front: number = 0;
+    let back: number = 0;
+    for (let i = 0; i < 9; i++) {
+      front = front + Number(arr[i]);
     }
-    return netScores;
+    for (let i = 9; i < 18; i++) {
+      back = back + Number(arr[i]);
+    }
+    arr[18] = front;
+    arr[19] = back;
+    arr[20] = front + back;
+    return arr;
   }
 
   ESAColorNets(j) {
     let nets: any[] = [];
     let net: any;
+
     for (let i = 0; i < 18; i++) {
       if (
         this.results[j].scores[i] - this.ESAAdjust(j, i) >
         this.results[j].pars[i] + 2
       ) {
         this.results[j].scoreColor[i] = 'ff0000';
+        this.results[j].scores[22] =
+          this.results[j].scores[22] -
+          (this.results[j].scores[i] -
+            this.ESAAdjust(j, i) -
+            this.results[j].pars[i] -
+            2);
+        // console.log(
+        //   'this.results[j].scores[22]',
+        //   this.results[j].scores[22],
+        //   this.results[j].scores[20],
+        //   this.results[j].scores[i],
+        //   this.ESAAdjust(j, i),
+        //   this.results[j].pars[i]
+        // );
       } else {
         this.results[j].scoreColor[i] = 'black';
       }
@@ -136,9 +227,10 @@ export class StrokesService {
   nets(scs, j, lowCap): any[] {
     let nets: any[] = [];
     let net: any;
+    console.log('nets counter', j, this.results[j]);
     for (let i = 0; i < 18; i++) {
       if (this.results[j].handicap - lowCap >= this.results[j].handicaps[i]) {
-        net = this.results[j].scores[i].toString() + '*';
+        net = '*';
         if (
           this.results[j].handicap - lowCap - 18 >=
           this.results[j].handicaps[i]
@@ -146,12 +238,58 @@ export class StrokesService {
           net = net + '*';
         }
       } else {
-        net = this.results[j].scores[i].toString();
+        net = ''; //this.results[j].scores[i].toString();
       }
       nets.push(net);
     }
     console.log('netScores2', nets);
     return nets;
+  }
+  teamNets(scs, j, lowCap): any[] {
+    let nets3: any[] = [];
+    let nets1: any[] = [];
+    let nets2: any[] = [];
+    let net: any;
+    let net2: any;
+    let net3: any;
+    console.log('nets counter', j, this.results[j]);
+    for (let i = 0; i < 21; i++) {
+      if (this.results[j].handicap - lowCap >= this.results[j].handicaps[i]) {
+        net =
+          this.results[j].scores[i].toString() +
+          '/' +
+          (this.results[j].scores[i] - 1).toString();
+        net2 = this.results[j].scores[i] - 1;
+        if (
+          this.results[j].handicap - lowCap - 18 >=
+          this.results[j].handicaps[i]
+        ) {
+          net =
+            this.results[j].scores[i].toString() +
+            '//' +
+            (this.results[j].scores[i] - 2).toString();
+          net2 = this.results[j].scores[i] - 2;
+        }
+      } else {
+        net = this.results[j].scores[i].toString();
+        net2 = this.results[j].scores[i];
+      }
+      net3 = this.results[j].scores[i];
+      if (this.results[j].handicap >= this.results[j].handicaps[i]) {
+        net = net + '*';
+        net3 = this.results[j].scores[i] - 1;
+        if (this.results[j].handicap - 18 >= this.results[j].handicaps[i]) {
+          net = net + '*';
+          net3 = this.results[j].scores[i] - 2;
+        }
+      }
+      nets1.push(net);
+      nets2.push(net2);
+      nets3.push(net3);
+    }
+    nets1.push(nets1[20] - this.results[j].handicap);
+    console.log('netScores2', nets1, nets2, nets3);
+    return [nets1, nets2, nets3];
   }
   stringToNumArray(aString: any) {
     let aNumArray = [];
@@ -159,7 +297,7 @@ export class StrokesService {
     for (let i = 0; i < bb.length; i++) {
       aNumArray.push(Number(bb[i]));
     }
-    return aNumArray;
+    return this.fb18(aNumArray);
   }
   createHeaders(scs) {
     console.log('scs', scs);
@@ -182,5 +320,200 @@ export class StrokesService {
     headers = headers.slice(1, 2);
     console.log('createHeaders', headers);
     return headers;
+  }
+  teamMatch(teamA, teamB, j) {
+    let nassau: string[] = [
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+      '0',
+    ];
+    let m = 0;
+    for (let k = 0; k < 2; k++) {
+      if (k == 1) {
+        m = 9;
+      }
+
+      if (this.betterBall(teamA, teamB, 0 + m, j) < 0) {
+        nassau[0 + m] = '+1';
+      } else if (this.betterBall(teamA, teamB, 0 + m, j) > 0) {
+        nassau[0 + m] = '-1';
+      } else if (this.betterBall(teamA, teamB, 0 + m, j) == 0) {
+        nassau[0 + m] = '0';
+      }
+      for (let i = 1; i < 9; i++) {
+        if (nassau[i - 1 + m] == '0') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '-1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '0';
+          }
+        }
+
+        if (nassau[i - 1 + m] == '+1') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '0';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '+1';
+          }
+        }
+        if (nassau[i - 1 + m] == '-1') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '0';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '-2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '-1';
+          }
+        }
+        if (nassau[i - 1 + m] == '+2/') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+3/+1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '+1/-1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '+2/';
+          }
+        }
+        if (nassau[i - 1 + m] == '-2/') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '-1/+1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '--3/-1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '-2/';
+          }
+        }
+        if (nassau[i - 1 + m] == '+3/+1') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+4/+2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '+2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '+3/+1';
+          }
+        }
+        if (nassau[i - 1 + m] == '-3/-1') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '-2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '-4/-2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '-3/-1';
+          }
+        }
+        if (nassau[i - 1 + m] == '-4/-2/') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '-3/-1/+1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '-5/-3/-1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '-4/-2/';
+          }
+        }
+        if (nassau[i - 1 + m] == '+4/+2/') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+5/+3/+1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '+3/+1/-1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '+4/+2/';
+          }
+        }
+        if (nassau[i - 1 + m] == '+3/+1/-1') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+4/+2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '+2/0/-2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '+3/+1/-1';
+          }
+        }
+        if (nassau[i - 1 + m] == '-3/-1/+1') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '-2/0/+2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '-4/-2/';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '-3/-1/+1';
+          }
+        }
+        if (nassau[i - 1 + m] == '+2/0/-2/') {
+          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
+            nassau[i + m] = '+3/+1/-1/+1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
+            nassau[i + m] = '+1/-1/-3/-1';
+          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
+            nassau[i + m] = '+2/0/-2/';
+          }
+        }
+        console.log('nassau1', i + m, nassau);
+      }
+    }
+    const front = nassau[8].split('+').length - 1;
+    const back = (nassau[17].split('+').length -1 -
+        (nassau[17].split('-').length - 1));
+    const press = this.matchPress(teamA, 0);
+    nassau[18] = front.toString() + 'x';
+    nassau[19] = back.toString() +'x/' + press.toString() + 'x';
+    nassau[20] = (front+back+press).toString() + 'x';
+    console.log('nassauF', nassau);
+
+    return nassau;
+  }
+  betterBall(A, B, i, j) {
+    let betterBall: number;
+    console.log('betterBall', A, B, i, j);
+    betterBall = A[j].betterBallNet[i] - A[j + 2].betterBallNet[i];
+
+    return betterBall;
+  }
+  matchPress(A, k) {
+    let matchScore: number = 0;
+    let matchScorePress: number = 0;
+    let i = 0;
+    while (Math.abs(matchScore) <= 17 - i) {
+      if (A[k].betterBallNet[i] > A[k + 2].betterBallNet[i]) {
+        matchScore--;
+      }
+      if (A[k].betterBallNet[i] < A[k + 2].betterBallNet[i]) {
+        matchScore++;
+      }
+      i++;
+      console.log('matchScorePress1', k, i, matchScore);
+    }
+
+    const p = Math.abs(matchScore);
+    for (let i = 17 - p + 2; i < 18; i++) {
+      if (A[k].betterBallNet[i] > A[k + 2].betterBallNet[i]) {
+        matchScorePress--;
+      }
+      if (A[k].betterBallNet[i] < A[k + 2].betterBallNet[i]) {
+        matchScorePress++;
+      }
+      console.log('matchScorePress2', k, i, p, matchScorePress);
+    }
+
+    return matchScorePress;
   }
 }

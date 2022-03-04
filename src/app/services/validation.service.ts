@@ -13,9 +13,9 @@ export class ValidationService {
       minlength: `A little more please.  Minimum length is ${validatorValue.requiredLength}`,
       invalidName: "Name is like bad - service",
       parsLenShort:
-        "Pars expects more than 18 values of 3, 4, or 5 separated by commas",
+        "Pars expects 18 values of 3, 4, or 5 separated by commas.  You are short",
       parsLenLong:
-        "Pars expects less than 18 values of 3, 4, or 5 separated by commas",
+        "Pars expects 18 values of 3, 4, or 5 separated by commas  You are long",
       parsValue: "Par values should be 3, 4 or 5 separated by commas",
       hCapsLenShort:
         "Handicap expects more than 18 values between 1-18 separated by commas",

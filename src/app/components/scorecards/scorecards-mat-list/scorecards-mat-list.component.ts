@@ -46,8 +46,6 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
       (data) => {
         this.scorecards = data;
         this.dataSource = new MatTableDataSource<any>(this.scorecards);
-        // this.dataSource.sort = this.sort;
-        // console.log('Sort2', this.sort);
       },
       (error) => {
         console.log(error);

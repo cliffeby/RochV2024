@@ -50,10 +50,8 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit, OnChanges
   ) {}
 
   ngOnInit() {
-
     this.subscription = this.activatedRoute.data.subscribe((data) => {
       this.matches = data.matches;
-
     });
   }
 
@@ -87,7 +85,6 @@ export class MatchesMatListComponent implements OnInit, AfterViewInit, OnChanges
     this.UnLockMatchEvent.emit(mem);
     this._matchesService.matchStatusSubject.next('open');
   }
-
   onDelete(index, match) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;

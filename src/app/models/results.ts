@@ -4,6 +4,11 @@ export class Results {
          name: string;
          score?: number;
          scores: any[];
+         nets1: number[];
+          nets2: number[];
+          betterBall?: number[];
+          oneBallNet?: number[];
+          betterBallNet?: number[];
          scoreColor?: string[];
          isCircle?: boolean[];
          course?: string;

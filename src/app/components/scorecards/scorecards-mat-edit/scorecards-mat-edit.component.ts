@@ -93,7 +93,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
   onInitYardsString(scorecard: Scorecard) {
     let front9Yards = 0,
       back9Yards = 0;
-    const yards: string[] = ('YARDS,' + scorecard.yardsInputString).split(',');
+    const yards: string[] = ('3000,' + scorecard.yardsInputString).split(',');
     for (let i = 1; i < yards.length - 9; i++) {
       front9Yards = front9Yards + Number(yards[i]);
     }
@@ -109,7 +109,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
   onInitParsString(scorecard: Scorecard) {
     let front9Par = 0,
       back9Par = 0;
-    const pars: string[] = ('PAR,' + scorecard.parInputString).split(',');
+    const pars: string[] = ('1000,' + scorecard.parInputString).split(',');
     for (let i = 1; i < pars.length - 9; i++) {
       front9Par = front9Par + Number(pars[i]);
     }
@@ -123,7 +123,7 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
     return pars;
   }
   onInitHcapsString(scorecard: Scorecard) {
-    const hCaps: string[] = ('HCAP,' + scorecard.hCapInputString).split(',');
+    const hCaps: string[] = ('2000,' + scorecard.hCapInputString).split(',');
     hCaps.splice(10, 0, '  ');
     return hCaps;
   }
@@ -132,7 +132,8 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
     this.scorecard.groupName = this.scorecardForm1.controls['groupName'].value;
     this.scorecard.name = this.scorecardForm1.controls['name'].value;
     this.scorecard.rating = this.scorecardForm1.controls['rating'].value;
-    this.scorecard.par = 72;
+    this.scorecard.pars= this.onInitParsString(this.scorecard);
+    this.scorecard.par = Number(this.scorecard.pars[21]);
     this.scorecard.slope = this.scorecardForm1.controls['slope'].value;
     this.scorecard.user = this.scorecardForm1.controls['user'].value;
     this.scorecard.parInputString = this.scorecardForm1.controls[
@@ -153,7 +154,8 @@ export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
     this.scorecard.name = this.scorecardForm1.controls['name'].value;
     console.log('SCControl1', this.scorecard);
     this.scorecard.user = this.scorecardForm1.controls['user'].value;
-    this.scorecard.par = 72;
+    this.scorecard.pars = this.onInitParsString(this.scorecard);
+    this.scorecard.par = 0;
     this.scorecard.rating = this.scorecardForm1.controls['rating'].value;
     this.scorecard.slope = this.scorecardForm1.controls['slope'].value;
     this.scorecard.parInputString = this.scorecardForm1.controls[

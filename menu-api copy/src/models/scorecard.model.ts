@@ -7,6 +7,7 @@ type ScorecardDocument = Document & {
   slope: number;
   parInputString: string;
   par: number;
+  pars: number[];
   hCapInputString: string;
   yardsInputString: string;
   user: string;
@@ -19,6 +20,7 @@ type ScorecardInput = {
   slope: ScorecardDocument['slope'];
   parInputString: ScorecardDocument['parInputString'];
   par: ScorecardDocument['par'];
+  pars: ScorecardDocument['pars'];
   hCapInputString: ScorecardDocument['hCapInputString'];
   yardsInputString: ScorecardDocument['yardsInputString'];
   user: ScorecardDocument['user'];

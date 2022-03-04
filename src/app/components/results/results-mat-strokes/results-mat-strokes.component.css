@@ -1,6 +1,6 @@
 .mat-row {
   height: auto;
-  vertical-align: bottom;
+  vertical-align: top;
 }
 
 .mat-cell {
@@ -8,6 +8,9 @@
   text-align: right;
   border-right: 1px solid black;
   border: 1px solid black;
+  word-wrap: break-word;
+  max-width: 55px;
+  text-align: top;
 }
 .mat-header-cell {
   padding: 4px 4px 4px 4px;
@@ -31,3 +34,5 @@
   font-weight: bold;
   border-right: 1px solid black;
 }
+
+

@@ -193,6 +193,55 @@
         <td mat-cell *matCellDef="let element" [style.background-color]="'#' + element.scoreColor[17]">{{ element.scores[17] }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="scores[18]">
+        <th mat-header-cell *matHeaderCellDef>
+          -F
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[18] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="">{{ element.scores[18] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[19]">
+        <th mat-header-cell *matHeaderCellDef>
+          -B
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[19] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="">{{ element.scores[19] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[20]">
+        <th mat-header-cell *matHeaderCellDef>
+          -Gross
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[20] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="">{{ element.scores[20] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[21]">
+        <th mat-header-cell *matHeaderCellDef>
+          -Net
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[21] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="">{{ element.scores[21] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="scores[22]">
+        <th mat-header-cell *matHeaderCellDef>
+          -Post
+          <div *ngFor="let data of firstTwoRows; let i = index">
+            <p *ngIf="i < 2">{{ data.scores[22] }}</p>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [style.background-color]="">{{ element.scores[22] }}</td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
