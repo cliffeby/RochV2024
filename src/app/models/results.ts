@@ -21,6 +21,7 @@ export class Results {
          rating?: number;
          slope?: number;
           pars?: number[];
+          par?: number;
           handicaps?: number[];
           holes?: number[];
          user?: string;
