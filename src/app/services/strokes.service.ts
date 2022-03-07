@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Results } from '../models/results';
 import { Scorecard } from '../models/scorecard';
 import { ScorecardsService } from './scorecards.service';
+import { ScoringUtilitiesService } from './scoring-utilities.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,15 @@ export class StrokesService {
   scorecard: Scorecard;
   results: Results[] = [];
 
-  constructor(public _scorecardsService: ScorecardsService) {}
+  constructor(
+    public _scorecardsService: ScorecardsService,
+    public _scoringUtilService: ScoringUtilitiesService
+  ) {}
+
   public matchResultSubject = new BehaviorSubject(null); //Shaped datastore for the dataSource table
+  public loadingSubject = new BehaviorSubject<boolean>(false);
+
+  public loading$ = this.loadingSubject.asObservable();
 
   newData(data) {
     this.matchResultSubject.next(data); //Update the dataSource table
@@ -41,7 +49,7 @@ export class StrokesService {
           this.results[i].pars = this.stringToNumArray(
             data.scorecard.parInputString
           );
-          this.results[i].pars = this.fb18(this.results[i].pars,0);
+          this.results[i].pars = this.fb18(this.results[i].pars, 0);
           this.results[i].handicaps = []; //Init Hole handicaps
           this.results[i].handicaps = this.stringToNumArray(
             data.scorecard.hCapInputString
@@ -70,12 +78,13 @@ export class StrokesService {
         name: 'OneBall',
         scoreColor: this.initArrayX(22, 'DCDCDC'),
       });
-      if (i%4==0) {
-          array.push({
-            scores: this.teamMatch(a, a, i / 4),
-            name: 'Match',
-            scoreColor: this.initArrayX(22,'ADFF2F')
-          });}
+      if (i % 4 == 0) {
+        array.push({
+          scores: this.teamMatch(a, a, i / 4),
+          name: 'Match',
+          scoreColor: this.initArrayX(22, 'ADFF2F'),
+        });
+      }
       i++;
       console.log('Array', array);
     }
@@ -130,17 +139,22 @@ export class StrokesService {
           netTeamScores[i + 1].nets1[j]
         );
       }
-      netTeamScores[i].oneBallNet = this.fb18(netTeamScores[i].oneBallNet, this.results[i].par);
+      netTeamScores[i].oneBallNet = this.fb18(
+        netTeamScores[i].oneBallNet,
+        this.results[i].par
+      );
       netTeamScores[i].betterBallNet = this.fb18(
-        netTeamScores[i].betterBallNet, this.results[i].par
+        netTeamScores[i].betterBallNet,
+        this.results[i].par
       );
       console.log('netTeamScores[i]', netTeamScores[i], netTeamScores[i + 1]);
 
       i++;
     }
+     this.loadingSubject.next(false); //.complete() did not work
     return netTeamScores;
   }
-  initArrayX(x: number, v:any): any[] {
+  initArrayX(x: number, v: any): any[] {
     let temp: any[] = [];
     for (let i = 0; i < x; i++) {
       temp.push(v);
@@ -148,7 +162,8 @@ export class StrokesService {
     return temp;
   }
 
-  fb18(arr, hcap) {  //Sums the scores on the front 9 and back 9 and adds them to the array at [18] and [19]
+  fb18(arr, hcap) {
+    //Sums the scores on the front 9 and back 9 and adds them to the array at [18] and [19]
     let front: number = 0;
     let back: number = 0;
     for (let i = 0; i < 9; i++) {
@@ -174,19 +189,12 @@ export class StrokesService {
         this.results[j].pars[i] + 2
       ) {
         this.results[j].scoreColor[i] = 'ff0000';
-      this.results[j].scores[22] =      this.results[j].scores[22] -
+        this.results[j].scores[22] =
+          this.results[j].scores[22] -
           (this.results[j].scores[i] -
             this.ESAAdjust(j, i) -
             this.results[j].pars[i] -
             2);
-        // console.log(
-        //   'this.results[j].scores[22]',
-        //   this.results[j].scores[22],
-        //   this.results[j].scores[20],
-        //   this.results[j].scores[i],
-        //   this.ESAAdjust(j, i),
-        //   this.results[j].pars[i]
-        // );
       } else {
         this.results[j].scoreColor[i] = 'black';
       }
@@ -275,7 +283,7 @@ export class StrokesService {
     for (let i = 0; i < bb.length; i++) {
       aNumArray.push(Number(bb[i]));
     }
-    return this.fb18(aNumArray,0);
+    return this.fb18(aNumArray, 0);
   }
   createHeaders(scs) {
     console.log('scs', scs);
@@ -289,7 +297,7 @@ export class StrokesService {
         headers.push({
           name: 'Pars',
           scores: this.stringToNumArray(data.scorecard.parInputString),
-          scoreColor: this.initArrayX(22,'DCDCDC'),
+          scoreColor: this.initArrayX(22, 'DCDCDC'),
         });
         headers.push({
           name: 'HCap',
@@ -302,173 +310,35 @@ export class StrokesService {
     return headers;
   }
   teamMatch(teamA, teamB, j) {
-    let nassau: string[] =this.initArrayX(21,'0')
 
-    let m = 0;
-    for (let k = 0; k < 2; k++) {
-      if (k == 1) {
-        m = 9;
-      }
-
-      if (this.betterBall(teamA, teamB, 0 + m, j) < 0) {
-        nassau[0 + m] = '+1';
-      } else if (this.betterBall(teamA, teamB, 0 + m, j) > 0) {
-        nassau[0 + m] = '-1';
-      } else if (this.betterBall(teamA, teamB, 0 + m, j) == 0) {
-        nassau[0 + m] = '0';
-      }
-      for (let i = 1; i < 9; i++) {
-        if (nassau[i - 1 + m] == '0') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '0';
-          }
-        }
-
-        if (nassau[i - 1 + m] == '+1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '0';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+1';
-          }
-        }
-        if (nassau[i - 1 + m] == '-1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '0';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '-1';
-          }
-        }
-         if (nassau[i - 1 + m] == '+1/-1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '0/-2';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+1/-1';
-          }
-        }
-        if (nassau[i - 1 + m] == '-1/+1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '0/+2';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '-1/+1';
-          }
-        }
-        if (nassau[i - 1 + m] == '+2/') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+3/+1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '+1/-1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+2/';
-          }
-        }
-        if (nassau[i - 1 + m] == '-2/') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '-1/+1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-3/-1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '-2/';
-          }
-        }
-        if (nassau[i - 1 + m] == '+3/+1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+4/+2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '+2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+3/+1';
-          }
-        }
-        if (nassau[i - 1 + m] == '-3/-1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '-2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-4/-2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '-3/-1';
-          }
-        }
-        if (nassau[i - 1 + m] == '-4/-2/') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '-3/-1/+1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-5/-3/-1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '-4/-2/';
-          }
-        }
-        if (nassau[i - 1 + m] == '+4/+2/') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+5/+3/+1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '+3/+1/-1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+4/+2/';
-          }
-        }
-        if (nassau[i - 1 + m] == '+3/+1/-1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+4/+2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '+2/0/-2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+3/+1/-1';
-          }
-        }
-        if (nassau[i - 1 + m] == '-3/-1/+1') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '-2/0/+2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '-4/-2/';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '-3/-1/+1';
-          }
-        }
-        if (nassau[i - 1 + m] == '+2/0/-2/') {
-          if (this.betterBall(teamA, teamB, i + m, j) < 0) {
-            nassau[i + m] = '+3/+1/-1/+1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) > 0) {
-            nassau[i + m] = '+1/-1/-3/-1';
-          } else if (this.betterBall(teamA, teamB, i + m, j) == 0) {
-            nassau[i + m] = '+2/0/-2/';
-          }
-        }
-        console.log('nassau1', i + m, nassau);
-      }
-    }
-    const front = (nassau[8].split('+').length - 1) -
-        (nassau[8].split('-').length - 1);;  //counts the number of +'s  and -'sat nine to determine the front differential
-    const back = (nassau[17].split('+').length -1) -
-        (nassau[17].split('-').length - 1);  //counts the number of +'s and -'s at eighteen to determine the back differential
+    let nassau = this._scoringUtilService.fourBallAutoNassau(teamA, j, 0);
+    const front =
+      nassau[8].split('+').length - 1 - (nassau[8].split('-').length - 1); //counts the number of +'s  and -'sat nine to determine the front differential
+    const back =
+      nassau[17].split('+').length - 1 - (nassau[17].split('-').length - 1); //counts the number of +'s and -'s at eighteen to determine the back differential
     const tempPress = this.matchPress(teamA, 0); //result of the 18-hole press
     let press = 0;
-    if (tempPress >0) {press = 1; } else if (tempPress < 0) {press = -1; } else { press = 0; }
+    if (tempPress > 0) {
+      press = 1;
+    } else if (tempPress < 0) {
+      press = -1;
+    } else {
+      press = 0;
+    }
     nassau[18] = front.toString() + 'x'; // nassau[18,19, and 20] are front, back and 18 results]
-    nassau[19] = back.toString() +'x/' + tempPress.toString() + 'x';
-    nassau[20] = (front+back+press).toString() + 'x';
+    nassau[19] = back.toString() + 'x/' + tempPress.toString() + 'x';
+    nassau[20] = (front + back + press).toString() + 'x';
     console.log('nassauF', nassau);
 
     return nassau;
   }
-  betterBall(A, B, i, j) {
-    let betterBall: number;
-    console.log('betterBall', A, B, i, j);
-    betterBall = A[j*4].betterBallNet[i] - A[j*4 + 2].betterBallNet[i];
+  // betterBall(A, B, i, j) {
+  //   let betterBall: number;
+  //   console.log('betterBall', A, B, i, j);
+  //   betterBall = A[j * 4].betterBallNet[i] - A[j * 4 + 2].betterBallNet[i];
 
-    return betterBall;
-  }
+  //   return betterBall;
+  // }
   matchPress(A, k) {
     let matchScore: number = 0;
     let matchScorePress: number = 0;
@@ -481,7 +351,6 @@ export class StrokesService {
         matchScore++;
       }
       i++;
-      console.log('matchScorePress1', k, i, matchScore);
     }
 
     const p = Math.abs(matchScore);
@@ -492,7 +361,6 @@ export class StrokesService {
       if (A[k].betterBallNet[i] < A[k + 2].betterBallNet[i]) {
         matchScorePress++;
       }
-      console.log('matchScorePress2', k, i, p, matchScorePress);
     }
 
     return matchScorePress;

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, VERSION } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Match } from 'src/app/models/match';
-
 import { ScoresService } from 'src/app/services/scores.service';
 import { StrokesService } from 'src/app/services/strokes.service';
 import { ItemsDataSource } from './items-data-source';
@@ -12,7 +11,7 @@ import { ItemsDataSource } from './items-data-source';
   styleUrls: ['./results-mat-strokes.component.css'],
 })
 export class ResultsMatStrokesComponent implements OnInit {
-  public dataSource3 = new ItemsDataSource(this._strokesService);  //See ItemsDataSource.ts  It creates a data source for the table
+  public dataSource3 = new ItemsDataSource(this._strokesService); //See ItemsDataSource.ts  It creates a data source for the table
   subscription: Subscription;
   public scores;
   displayedColumns: string[] = [
@@ -42,8 +41,9 @@ export class ResultsMatStrokesComponent implements OnInit {
     'scores[22]',
   ];
   // paginator: any;
-  @Input() public match: Match;  //match selected from results list
+  @Input() public match: Match; //match selected from results list
   firstTwoRows; //Fist two rows of table are sticky headers.
+  loading$ = this._strokesService.loadingSubject.asObservable();
 
   constructor(
     private _scoresService: ScoresService,
@@ -51,20 +51,25 @@ export class ResultsMatStrokesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this._strokesService.loadingSubject.next(true);
+    console.log('ResultsMatStrokesComponent.ngOnInit()', this.loading$);
     this.subscription = this._scoresService
       .getScoresByMatch(this.match._id)
       .subscribe(
         (data) => {
           this.scores = data;
           this._strokesService.createDataSource(this.scores); //Shapes data for use by datasource
-          this.firstTwoRows = this._strokesService.createHeaders(this.scores);//creates par and hcap sticky header rows.  TODO add Yards
+          this.firstTwoRows = this._strokesService.createHeaders(this.scores); //creates par and hcap sticky header rows.  TODO add Yards
+
         },
         (error) => {
           console.log(error);
         }
       );
-      console.log('datasore', this.dataSource3);
+        // this._strokesService.loadingSubject.complete(); //.complete() did not work
+        console.log('ResultsMatStrokesComponent.ngOnInit()', this.loading$);
+    console.log('datasore', this.dataSource3);
   }
 
-  onRefresh() {  }
+  onRefresh() {}
 }
