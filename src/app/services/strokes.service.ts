@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ARIA_LIVE_DELAY } from '@ng-bootstrap/ng-bootstrap/util/accessibility/live';
 import { BehaviorSubject } from 'rxjs';
 import { Results } from '../models/results';
+import { Score } from '../models/score';
 import { Scorecard } from '../models/scorecard';
 import { ScorecardsService } from './scorecards.service';
 import { ScoringUtilitiesService } from './scoring-utilities.service';
@@ -9,9 +10,10 @@ import { ScoringUtilitiesService } from './scoring-utilities.service';
 @Injectable({
   providedIn: 'root',
 })
-export class StrokesService {
-  scorecard: Scorecard;
-  results: Results[] = [];
+export class StrokesService {   //A service that determines how hadicap differentials are appled by holes,
+  scorecard: Scorecard;         //adjusts the scores for handicap, ESA, and determines results of matches.
+  results: Results[] = [];      //Results is a datablob of all data needed to determine results.
+                                //Only two properties are required, name and scores[].
 
   constructor(
     public _scorecardsService: ScorecardsService,
@@ -19,18 +21,17 @@ export class StrokesService {
   ) {}
 
   public matchResultSubject = new BehaviorSubject(null); //Shaped datastore for the dataSource table
-  public loadingSubject = new BehaviorSubject<boolean>(false);
+  public loadingSubject = new BehaviorSubject<boolean>(false); //Is data being loaded and calculated?
 
-  public loading$ = this.loadingSubject.asObservable();
+  public loading$ = this.loadingSubject.asObservable(); //
 
   newData(data) {
-    this.matchResultSubject.next(data); //Update the dataSource table
+    this.matchResultSubject.next(data); //Function to update the dataSource table
   }
 
-  createDataSource(scs) {
+  createDataSource(scs:Score[]) {
     //Shapes the data for the dataSource table.  scs is the scores:Scores[] for the match
-    console.log('scs', scs);
-    for (let i = 0; i < scs.length; i++) {
+    for (let i = 0; i < scs.length; i++) {  //length is the number of players in the match
       this._scorecardsService
         .getScorecard(scs[i].scorecardId) //Get the scorecard in the Score record for the match.  Players are on the same course, but may play different tees
         .subscribe((data) => {
@@ -38,7 +39,7 @@ export class StrokesService {
           this.results[i] = new Results(); //Create a consolidated data sources of scores, scorecard and match data to determine results.
           this.results[i].scores = scs[i].scores; // Players scores for each hole.
           this.results[i].scores = this.fb18(scs[i].scores, scs[i].handicap); // Add front 9 and back 9 and 18 totals to the array at [18], [19] and [20]
-          this.results[i]._id = scs[i].playerId;
+          // this.results[i]._id = scs[i].playerId; //Not used
           this.results[i].name = scs[i].name; //Player name
           this.results[i].score = scs[i].score; //Player total score
           this.results[i].course = data.scorecard.courseTeeName; //tee name
@@ -57,78 +58,73 @@ export class StrokesService {
           this.results[i].usgaIndex = scs[i].usgaIndex; //Player USGA Index
           this.results[i].handicap = scs[i].handicap; //Player tee handicap calculated from USGA Index when match was created
           this.results[i].scoreColor = []; //Player score color used to highlight ESA scores
-          this.results[i].scores[22] = this.results[i].scores[20];
-          this.ESAColorNets(i);
+          this.results[i].scores[22] = this.results[i].scores[20];//Hold gross score until ESAs are calculated
+          this.ESAColorNets(i);  //Identify ESA scores and color them red.
 
           if ((i = scs.length - 1)) {
-            //When all players have been processed, create the net scores.  If holds the newData() method call until getScorecard subscription completes
-            this.newData(this.interWeaveNets(this.netTeamScores(scs)));
+            //When all players have been processed, create the net scores.  This holds the newData() method call until getScorecard subscription completes
+            this.newData(this.interWeaveNets(this.netTeamScores(scs)));  //Players scores, oneball and match results are integrated into a final score record.
           }
         });
     }
   }
 
-  interWeaveNets(a: Results[]) {
+  interWeaveNets(a: Results[]) {  //Organizes the rows in the dataSource table for a fourball match
     let array = [];
-    for (let i = 0; i < a.length - 1; i++) {
-      array.push(a[i]);
-      array.push(a[i + 1]);
+    for (let i = 0; i < a.length - 1; i++) { //Players are pre-arranged by team and foursome Row A1, Row B1 vs Row A2, Row B2
+      array.push(a[i]); //Player A1 but first two rows of DataSource are headers of Par and Stroke Index for the hole
+      array.push(a[i + 1]); //Player B1
       array.push({
+        //One Ball Score - betterball net of A and B
         scores: a[i].oneBallNet,
         name: 'OneBall',
-        scoreColor: this.initArrayX(22, 'DCDCDC'),
+        scoreColor: this._scoringUtilService.initArrayX(22, 'DCDCDC'), //Color all 22 oneball cells gray
       });
-      if (i % 4 == 0) {
+      if (i % 4 == 0) {  //After four players, add a row for the match result
         array.push({
-          scores: this.teamMatch(a, a, i / 4),
+          scores: this.teamMatch(a, i / 4), //Team match result for foursome i in a
           name: 'Match',
-          scoreColor: this.initArrayX(22, 'ADFF2F'),
+          scoreColor: this._scoringUtilService.initArrayX(22, 'ADFF2F'), //Color 22 match scoring green
         });
       }
-      i++;
-      console.log('Array', array);
+      i++;  //Advance to players A2 and B2...
     }
-
     return array;
   }
-  netTeamScores(scs): Results[] {
-    let lowCap: number;
+
+  netTeamScores(scs: Score[]): Results[] {  //Calculates the net scores for each team in a fourball match.  
+    let lowCap: number;                     //Lowest handicap of the four players
     let netTeamScores: Results[] = [];
     let netTeamScore: Results = new Results();
-    for (let i = 0; i < scs.length; i++) {
+    for (let i = 0; i < scs.length; i++) {  //For each foursome in the match, find the low cap.
       if (i % 4 == 0) {
         lowCap = 999;
         for (let j = i; j < i + 4; j++) {
-          console.log('lowCap1', j, lowCap);
           if (scs[j].handicap < lowCap) {
             lowCap = scs[j].handicap;
-            console.log('lowCap2', j, lowCap);
           }
         }
       }
-      const temp = this.teamNets(scs, i, lowCap);
+      const temp = this.teamNets( i, lowCap);  //Calculate the net scores for each team in a foursome.  Temp is an array of results.
       let sColor = [];
-      //
-      if (this.results[i].name != 'OneBall') {
+      if (this.results[i].name != 'OneBall') {  //Do not apply ESA red color to OneBall score
         sColor = this.results[i].scoreColor;
       } else {
         sColor = [];
       }
-      netTeamScore = {
+      netTeamScore = {                        //Create a new Results object for the team score
         name: this.results[i].name,
-        scores: temp[0],
-        scoreColor: sColor,
-        nets1: temp[1],
-        nets2: temp[2],
+        scores: temp[0],                      //temp[0] is the net scores for the player adjusted by the lowest handicap in foursome. String value with / or // to show strokes
+        scoreColor: sColor,                   //temp[0] also indicates oneBall strokes where granted.  * or ** to show strokes
+        nets1: temp[1],                       //temp[1] is the net scores for the player adjusted by the lowest handicap in foursome. Number value.
+        nets2: temp[2],                      //temp[2] is the net scores for the player adjusted by course handicaps. Number value.
       };
-      console.log('nets i', i, netTeamScore);
-      netTeamScores.push(netTeamScore);
-      //
+      netTeamScores.push(netTeamScore);    //Add the team score to the array of team scores
     }
 
-    for (let i = 0; i < netTeamScores.length; i++) {
-      netTeamScores[i].oneBallNet = [];
-      netTeamScores[i].betterBallNet = [];
+    for (let i = 0; i < netTeamScores.length; i++) {   //For each team, get the better ball scores
+      netTeamScores[i].oneBallNet = [];                 // oneBall is net using course stroke index
+      netTeamScores[i].betterBallNet = [];              //  betterBall is net using course lowCap in foursome
       for (let j = 0; j < 18; j++) {
         netTeamScores[i].oneBallNet[j] = Math.min(
           netTeamScores[i].nets2[j],
@@ -139,7 +135,7 @@ export class StrokesService {
           netTeamScores[i + 1].nets1[j]
         );
       }
-      netTeamScores[i].oneBallNet = this.fb18(
+      netTeamScores[i].oneBallNet = this.fb18(          //Calculate the front, back and 18 for scores
         netTeamScores[i].oneBallNet,
         this.results[i].par
       );
@@ -149,18 +145,19 @@ export class StrokesService {
       );
       console.log('netTeamScores[i]', netTeamScores[i], netTeamScores[i + 1]);
 
-      i++;
+      i++;                                              //Advance to the next team
     }
-     this.loadingSubject.next(false); //.complete() did not work
-    return netTeamScores;
+     this.loadingSubject.next(false);                 //   When all players have been processed, stop the spinner
+    return netTeamScores;                           //   Returns objet with properties betterBallNet[22], name w/ handicap, nets1[22], nets2[22],                                                     // oneBallNet[22], scoreColor[18], scores[23]
   }
-  initArrayX(x: number, v: any): any[] {
-    let temp: any[] = [];
-    for (let i = 0; i < x; i++) {
-      temp.push(v);
-    }
-    return temp;
-  }
+
+  // initArrayX(x: number, v: any): any[] {          //Intialize an array of x elements with value v
+  //   let temp: any[] = [];
+  //   for (let i = 0; i < x; i++) {
+  //     temp.push(v);
+  //   }
+  //   return temp;
+  // }
 
   fb18(arr, hcap) {
     //Sums the scores on the front 9 and back 9 and adds them to the array at [18] and [19]
@@ -231,15 +228,16 @@ export class StrokesService {
     console.log('netScores2', nets);
     return nets;
   }
-  teamNets(scs, j, lowCap): any[] {
+  teamNets( j, lowCap): any[] {
     let nets3: any[] = [];
     let nets1: any[] = [];
     let nets2: any[] = [];
     let net: any;
     let net2: any;
     let net3: any;
-    console.log('nets counter', j, this.results[j]);
+    console.log('nets counter', j, this.results[j], this.results.length, lowCap);
     for (let i = 0; i < 22; i++) {
+      if (this.results[j] !== undefined) {
       if (this.results[j].handicap - lowCap >= this.results[j].handicaps[i]) {
         net =
           this.results[j].scores[i].toString() +
@@ -273,6 +271,7 @@ export class StrokesService {
       nets2.push(net2);
       nets3.push(net3);
     }
+  }
     nets1.push(this.results[j].scores[22]);
     console.log('postScore', this.results[j].scores[22]);
     return [nets1, nets2, nets3];
@@ -297,26 +296,27 @@ export class StrokesService {
         headers.push({
           name: 'Pars',
           scores: this.stringToNumArray(data.scorecard.parInputString),
-          scoreColor: this.initArrayX(22, 'DCDCDC'),
+          scoreColor: this._scoringUtilService.initArrayX(22, 'DCDCDC'),
         });
         headers.push({
           name: 'HCap',
           scores: this.stringToNumArray(data.scorecard.hCapInputString),
-          scoreColor: this.initArrayX(22, 'DCDCDC'),
+          scoreColor: this._scoringUtilService.initArrayX(22, 'DCDCDC'),
         });
       });
     headers = headers.slice(1, 2);
     console.log('createHeaders', headers);
     return headers;
   }
-  teamMatch(teamA, teamB, j) {
 
-    let nassau = this._scoringUtilService.fourBallAutoNassau(teamA, j, 0);
+  teamMatch(foursome, j) {
+
+    let nassau = this._scoringUtilService.fourBallAutoNassau(foursome, j, 0);
     const front =
       nassau[8].split('+').length - 1 - (nassau[8].split('-').length - 1); //counts the number of +'s  and -'sat nine to determine the front differential
     const back =
       nassau[17].split('+').length - 1 - (nassau[17].split('-').length - 1); //counts the number of +'s and -'s at eighteen to determine the back differential
-    const tempPress = this.matchPress(teamA, 0); //result of the 18-hole press
+    const tempPress = this.matchPress(foursome, 0); //result of the 18-hole press
     let press = 0;
     if (tempPress > 0) {
       press = 1;
@@ -332,13 +332,7 @@ export class StrokesService {
 
     return nassau;
   }
-  // betterBall(A, B, i, j) {
-  //   let betterBall: number;
-  //   console.log('betterBall', A, B, i, j);
-  //   betterBall = A[j * 4].betterBallNet[i] - A[j * 4 + 2].betterBallNet[i];
 
-  //   return betterBall;
-  // }
   matchPress(A, k) {
     let matchScore: number = 0;
     let matchScorePress: number = 0;
@@ -362,7 +356,6 @@ export class StrokesService {
         matchScorePress++;
       }
     }
-
     return matchScorePress;
   }
 }

@@ -47,6 +47,7 @@ import { ResultsMatCenterComponent } from './components/results/results-mat-cent
 import { ResultsMatListComponent } from './components/results/results-mat-list/results-mat-list.component';
 import { ResultsMatAdjustComponent } from './components/results/results-mat-adjust/results-mat-adjust.component';
 import { ResultsMatStrokesComponent } from './components/results/results-mat-strokes/results-mat-strokes.component';
+import { ScoringUtilitiesService } from './services/scoring-utilities.service';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { ResultsMatStrokesComponent } from './components/results/results-mat-str
       useClass: AuthHttpInterceptor,
       multi: true,
     },
+    ScoringUtilitiesService
   ],
 })
 export class AppModule {}
