@@ -27,9 +27,11 @@ code {
   margin-bottom: 3rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px @page: landscape) {
+
   .next-steps .col-md-5 {
     margin-bottom: 0;
+
   }
 }
 

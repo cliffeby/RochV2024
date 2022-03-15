@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, VERSION } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  VERSION,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Match } from 'src/app/models/match';
 import { ScoresService } from 'src/app/services/scores.service';
@@ -14,6 +21,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   public dataSource3 = new ItemsDataSource(this._strokesService); //See ItemsDataSource.ts  It creates a data source for the table
   subscription: Subscription;
   public scores;
+  @Output() public PrintResultEvent1 = new EventEmitter();
   displayedColumns: string[] = [
     'name',
     'scores[0]',
@@ -42,7 +50,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   ];
   // paginator: any;
   @Input() public match: Match; //match selected from results list
-  firstTwoRows; //Fist two rows of table are sticky headers.
+  first3Rows; //Fist two rows of table are sticky headers.
   loading$ = this._strokesService.loadingSubject.asObservable();
 
   constructor(
@@ -59,17 +67,20 @@ export class ResultsMatStrokesComponent implements OnInit {
         (data) => {
           this.scores = data;
           this._strokesService.createDataSource(this.scores); //Shapes data for use by datasource
-          this.firstTwoRows = this._strokesService.createHeaders(this.scores); //creates par and hcap sticky header rows.  TODO add Yards
-
+          this.first3Rows = this._strokesService.createHeaders(this.scores); //creates par and hcap sticky header rows.  TODO add Yards
         },
         (error) => {
           console.log(error);
         }
       );
-        // this._strokesService.loadingSubject.complete(); //.complete() did not work
-        console.log('ResultsMatStrokesComponent.ngOnInit()', this.loading$);
+    // this._strokesService.loadingSubject.complete(); //.complete() did not work
+    console.log('ResultsMatStrokesComponent.ngOnInit()', this.loading$);
     console.log('datasore', this.dataSource3);
   }
 
   onRefresh() {}
+  onPrint() {
+    // this.PrintResultEvent1.emit(this.dataSource3);
+    window.print();
+  }
 }

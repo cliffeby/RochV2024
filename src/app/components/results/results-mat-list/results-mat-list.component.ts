@@ -10,14 +10,14 @@ import { ScoresService } from 'src/app/services/scores.service';
 @Component({
   selector: 'app-results-mat-list',
   templateUrl: './results-mat-list.component.html',
-  styleUrls: ['./results-mat-list.component.css']
+  styleUrls: ['./results-mat-list.component.css'],
 })
-export class ResultsMatListComponent implements OnInit,AfterViewInit {
+export class ResultsMatListComponent implements OnInit, AfterViewInit {
   private subscription: Subscription;
   @Input() public matches: any[] = [];
   @Output() public SelectMatchEvent = new EventEmitter();
   @Output() public AdjustScoreEvent = new EventEmitter();
-  // @Output() public PrintMatchEvent = new EventEmitter();
+  @Output() public PrintResultEvent = new EventEmitter();
   // @Output() public UnLockMatchEvent = new EventEmitter();
   // @Output() public DeleteMatchEvent = new EventEmitter();
   dataSource: MatTableDataSource<any>;
@@ -38,7 +38,6 @@ export class ResultsMatListComponent implements OnInit,AfterViewInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-
   ngOnInit() {
     this.subscription = this.activatedRoute.data.subscribe((data) => {
       this.matches = data.matches;
@@ -52,10 +51,14 @@ export class ResultsMatListComponent implements OnInit,AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  onAdjust(match, i){
+  onAdjust(match, i) {
     this.AdjustScoreEvent.emit(match);
   }
-  onStrokes(match){
+  onStrokes(match) {
     this.SelectMatchEvent.emit(match);
+  }
+  onPrint(mem: any) {
+    console.log('Match for Printing', mem);
+    this.PrintResultEvent.emit(mem.lineUps);
   }
 }

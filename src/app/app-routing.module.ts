@@ -13,6 +13,7 @@ import { ScoresResolver } from './components/scores/scores.resolver';
 import { PrintScorecardComponent } from './components/print/print-scorecard/print-scorecard.component';
 import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
 import { ResultsMatCenterComponent } from './components/results/results-mat-center/results-mat-center.component';
+import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
 
 const routes: Routes = [
   {
@@ -56,7 +57,16 @@ const routes: Routes = [
     path: 'print',
     outlet: 'print',
     component: PrintScorecardComponent,
-    children: [{ path: 'scorecards', component: ScorecardsMatPrintComponent }],
+    children: [
+      {
+        path: 'results',
+        component: ResultsMatPrintComponent,
+      },
+      {
+        path: 'scorecards',
+        component: ScorecardsMatPrintComponent,
+      },
+    ],
   },
   {
     path: 'results',
