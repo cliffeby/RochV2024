@@ -73,12 +73,7 @@ export class ResultsMatStrokesComponent implements OnInit {
           console.log(error);
         }
       );
-    // this._strokesService.loadingSubject.complete(); //.complete() did not work
-    console.log('ResultsMatStrokesComponent.ngOnInit()', this.loading$);
-    console.log('datasore', this.dataSource3);
   }
-
-  onRefresh() {}
   onPrint() {
     // this.PrintResultEvent1.emit(this.dataSource3);
     window.print();

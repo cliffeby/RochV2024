@@ -7,8 +7,6 @@ import { AuthService } from '@auth0/auth0-angular';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-
-
   mySubscription;
 
   constructor(public auth: AuthService,

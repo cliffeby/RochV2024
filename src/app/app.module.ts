@@ -49,6 +49,7 @@ import { ResultsMatAdjustComponent } from './components/results/results-mat-adju
 import { ResultsMatStrokesComponent } from './components/results/results-mat-strokes/results-mat-strokes.component';
 import { ScoringUtilitiesService } from './services/scoring-utilities.service';
 import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
+import { MatchesPrintScorecardsComponent } from './components/matches/matches-print-scorecards/matches-print-scorecards.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ResultsMatPrintComponent } from './components/results/results-mat-print
     ResultsMatAdjustComponent,
     ResultsMatStrokesComponent,
     ResultsMatPrintComponent,
+    MatchesPrintScorecardsComponent,
   ],
   imports: [
     BrowserModule,

@@ -17,13 +17,13 @@ export class MatchesMatCenterComponent implements OnInit {
   public hideMemberBlock = true;
   public hidePairMatch = true;
   public hideScoreMatch = true;
+  public hideSCPrint = true;
   @Output() public matches: Array<Match>;
-
 
   constructor(
     private _matchesService: MatchesService,
     private _matchlockService: MatchLockService,
-    private _printService: PrinterService,
+    private _printService: PrinterService
   ) {}
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideScoreMatch = false;
-    console.log('Score Match',this.hideScoreMatch, match.lineUps);
+    console.log('Score Match', this.hideScoreMatch, match.lineUps);
   }
 
   onPrintMatchEvent(match: Match) {
@@ -61,6 +61,16 @@ export class MatchesMatCenterComponent implements OnInit {
     console.log('Print Match LineUps', match.lineUps);
     this._printService.lineUpSubject.next(match.lineUps);
     this._printService.printDocument('scorecards');
+  }
+  onPrintSCEvent(match: Match) {
+    this.selectedMatch = match;
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = true;
+    this.hideSCPrint = false;
+    console.log('Print SC Match', match);
+    // this._printService.lineUpSubject.next(match.lineUps);
+    // this._printService.printDocument('scorecards');
   }
 
   onUnLockMatchEvent(match: Match) {
@@ -112,9 +122,9 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hideMemberBlock = true;
       this.selectedMatch = null;
       this.hidePairMatch = true;
-        this._matchesService
-          .getMatches()
-          .subscribe((resMatchData) => (this.matches = resMatchData));
+      this._matchesService
+        .getMatches()
+        .subscribe((resMatchData) => (this.matches = resMatchData));
     });
   }
 
@@ -143,12 +153,11 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.selectedMatch = null;
-    this._matchesService
-      .getMatches()
-      .subscribe((resMatchData) => {this.matches = resMatchData;
+    this._matchesService.getMatches().subscribe((resMatchData) => {
+      this.matches = resMatchData;
 
-    this._matchesService.matchesSubject.next(this.matches);})
-
+      this._matchesService.matchesSubject.next(this.matches);
+    });
   }
   onUpdateScoresEvent(match: Match) {
     this.hidenewMatch = true;
@@ -159,8 +168,7 @@ export class MatchesMatCenterComponent implements OnInit {
     console.log('Scores Updated');
     this._matchesService.updateMatch(match).subscribe((resUpdatedMatch) => {
       match = resUpdatedMatch;
-    }
-    );
+    });
     this._matchesService.getMatches().subscribe((resMatchData) => {
       this.matches = resMatchData;
       this._matchesService.matchesSubject.next(this.matches);

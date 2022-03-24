@@ -5,7 +5,7 @@ export class Results {
          score?: number;
          scores: any[];
          nets1: number[];
-          nets2: number[];
+          nets2?: number[];
           betterBall?: number[];
           oneBallNet?: number[];
           betterBallNet?: number[];

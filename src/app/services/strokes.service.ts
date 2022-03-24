@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ARIA_LIVE_DELAY } from '@ng-bootstrap/ng-bootstrap/util/accessibility/live';
 import { BehaviorSubject } from 'rxjs';
 import { Results } from '../models/results';
 import { Score } from '../models/score';
@@ -255,6 +254,7 @@ export class StrokesService {
     let net: any; // same as above
     let net2: any;
     let net3: any;
+    console.log('results',j,  this.results);
 
     for (let i = 0; i < 22; i++) {
       if (this.results[j] !== undefined) {

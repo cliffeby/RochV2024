@@ -19,10 +19,15 @@
   </div>
 </div>
 <div *ngIf=!hideScoreMatch>
-<app-match-score [match]="selectedMatch" (UpdateScoresEvent) ="onUpdateScoresEvent($event)">
-></app-match-score>
+  <app-match-score [match]="selectedMatch" (UpdateScoresEvent)="onUpdateScoresEvent($event)">
+    ></app-match-score>
 </div>
-<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch && hideScoreMatch" (SelectMatchEvent)="onSelectMatchEvent($event)"
-  (ScoreMatchEvent)="onScoreMatchEvent($event)" (PrintMatchEvent)="onPrintMatchEvent($event)"
+<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch && hideScoreMatch && hideSCPrint"
+  (SelectMatchEvent)="onSelectMatchEvent($event)" (ScoreMatchEvent)="onScoreMatchEvent($event)"
+  (PrintMatchEvent)="onPrintMatchEvent($event)" (PrintSCEvent)="onPrintSCEvent($event)"
   (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)" [matches]="matches">
 </app-matches-mat-list>
+<div *ngIf="!hideSCPrint">
+  <app-matches-print-scorecards [match]="selectedMatch">
+  </app-matches-print-scorecards>
+</div>
