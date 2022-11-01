@@ -3,8 +3,8 @@ export class Results {
          _id?: string;
          name: string;
          score?: number;
-         scores: any[];
-         nets1: number[];
+         scores?: any[];
+         nets1?: number[];
           nets2?: number[];
           betterBall?: number[];
           oneBallNet?: number[];
@@ -15,9 +15,9 @@ export class Results {
          tees?: string[];
          handicap?: number;
          usgaIndex?: number;
-         wonTwoBall?: Boolean;
-         wonOneBall?: Boolean;
-         wonIndo?: Boolean;
+         wonTwoBall?: boolean;
+         wonOneBall?: boolean;
+         wonIndo?: boolean;
          rating?: number;
          slope?: number;
           pars?: number[];

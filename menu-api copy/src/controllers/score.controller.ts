@@ -133,6 +133,9 @@ const getMatchScores = async (req: Request, res: Response) => {
     });
 };
 
+const updateMatchScores = async (req: Request, res: Response) => {
+};
+
 const deleteMatchScores = async (req: Request, res: Response) => {
   const id = req.params.id;
   if (!isValidObjectId(id)) {
@@ -155,5 +158,6 @@ export {
   getScore,
   updateScore,
   getMatchScores,
+  updateMatchScores,
   deleteMatchScores,
 };

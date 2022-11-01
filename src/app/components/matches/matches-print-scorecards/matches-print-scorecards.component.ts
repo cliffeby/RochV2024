@@ -1,7 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Score } from 'menu-api copy/src/models/score.model';
+import { Scorecard } from 'menu-api copy/src/models/scorecard.model';
+import { Observable, Subscription } from 'rxjs';
+import { concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { Match } from 'src/app/models/match';
+import { ScorecardsService } from 'src/app/services/scorecards.service';
 import { ScoresService } from 'src/app/services/scores.service';
 import { Strokes1Service } from 'src/app/services/strokes1.service';
 import { SCDataSource } from '../../matches/matches-print-scorecards/sc-data-source';
@@ -12,13 +25,10 @@ import { SCDataSource } from '../../matches/matches-print-scorecards/sc-data-sou
   styleUrls: ['./matches-print-scorecards.component.css'],
 })
 export class MatchesPrintScorecardsComponent implements OnInit {
-  @Input() public match: Match; // match selected from results list
-  public dataSource3 = new SCDataSource(this._strokes1Service); // See SCDataSource.ts  It creates a data source for the table
+  public dataSource3 = new SCDataSource(this._strokesService); // See ItemsDataSource.ts  It creates a data source for the table
   subscription: Subscription;
-  public dataSource = new MatTableDataSource();
   public scores;
   @Output() public PrintResultEvent1 = new EventEmitter();
-  // displayedColumns;
   displayedColumns: string[] = [
     'name',
     'scores[0]',
@@ -44,41 +54,25 @@ export class MatchesPrintScorecardsComponent implements OnInit {
     'scores[20]',
     'scores[21]',
     'scores[22]',
-    // 'nine',
   ];
   // paginator: any;
-
-  first3Rows; // First two rows of table are sticky headers.
-  loading$ = this._strokes1Service.loadingSubject.asObservable();
+  @Input() public match: Match; // match selected from results list
+  first3Rows; // First  rows of table are sticky headers.
+  loading$ = this._strokesService.loadingSubject.asObservable();
+  results$: Observable<any>;
+  results1: any[];
+  players$;
+  scorecards$;
 
   constructor(
     private _scoresService: ScoresService,
-    private _strokes1Service: Strokes1Service
+    private _strokesService: Strokes1Service,
+    private _scorecardService: ScorecardsService
   ) {}
 
   ngOnInit(): void {
-    console.log('Match     PrintScorecardsComponent.ngOnInit()', this.match);
-    this._strokes1Service.loadingSubject.next(true);
-    console.log('ResultsMatStrokesComponent.ngOnInit()', this.displayedColumns);
-    this.subscription = this._scoresService
-      .getScoresByMatch(this.match._id)
-      .subscribe(
-        (data) => {
-          this.scores = data;
-          // const columns = this._strokes1Service.createColumns();
-          // this.displayedColumns = columns.map((c) => c.columnDef);
-          this._strokes1Service.createDataSource(this.scores); // Shapes data for use by datasource
-          this.first3Rows = this._strokes1Service.createHeaders(this.scores); // creates par and hcap sticky header rows.  TODO add Yards
-          console.log('ResultsMatStrokesComponent.ngOnInit()', this.first3Rows);
-          console.log('dataSource3', this.dataSource3);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    this.results$ = this._strokesService.combine(this.match);
+
   }
-  onPrint() {
-    // this.PrintResultEvent1.emit(this.dataSource3);
-    window.print();
-  }
+  onPrint() {}
 }

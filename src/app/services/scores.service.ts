@@ -35,8 +35,8 @@ export class ScoresService {
     return this.http.delete(baseUrl);
   }
 
-  deleteMatchScores(matchId: string): Observable<any>{
-  return this.http.delete(`${baseUrl}` + '/ScoresByMatch/' + matchId);
+  deleteMatchScores(matchId: string): Observable<any> {
+    return this.http.delete(`${baseUrl}` + '/ScoresByMatch/' + matchId);
   }
 
   findByTitle(title: any): Observable<Score[]> {
@@ -44,6 +44,9 @@ export class ScoresService {
   }
 
   getScoresByMatch(matchId: string) {
+    return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
+  }
+  updateScoresByMatch(matchId: string) {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
   }
 }

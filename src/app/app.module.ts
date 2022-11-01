@@ -50,7 +50,8 @@ import { ResultsMatStrokesComponent } from './components/results/results-mat-str
 import { ScoringUtilitiesService } from './services/scoring-utilities.service';
 import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
 import { MatchesPrintScorecardsComponent } from './components/matches/matches-print-scorecards/matches-print-scorecards.component';
-
+import { NgxPrintModule } from 'ngx-print';
+import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexes/scores-mat-indexes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +92,7 @@ import { MatchesPrintScorecardsComponent } from './components/matches/matches-pr
     ResultsMatStrokesComponent,
     ResultsMatPrintComponent,
     MatchesPrintScorecardsComponent,
+    ScoresMatIndexesComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +105,7 @@ import { MatchesPrintScorecardsComponent } from './components/matches/matches-pr
     MatTableModule,
     AngularMaterialModule,
     BrowserAnimationsModule,
+    NgxPrintModule,
     AuthModule.forRoot({
       ...env.auth,
       httpInterceptor: {

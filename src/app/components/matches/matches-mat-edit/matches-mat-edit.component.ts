@@ -44,7 +44,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
     // Sets value of user to its email address
     this.authSubscription = this.auth.user$.subscribe((profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
-      this.matchForm1.controls['user'].setValue(profile.email);
+      this.matchForm1.controls.user.setValue(profile.email);
     });
     // Get scorecards for scorecard input dropdown
     this._scorecardservice.getScorecards().subscribe((resSCData) => {
@@ -55,7 +55,7 @@ export class MatchesMatEditComponent implements OnInit, OnDestroy {
           i = i - 1;
         }
       }
-      console.log('SC', this.scorecards);
+      // console.log('SC', this.scorecards);
     });
     // // Populate form with match data
 

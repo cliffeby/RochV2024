@@ -4,16 +4,14 @@
 }
 
 .mat-cell {
-  padding: 1px 1px 1px 1px;
+  padding: 6px 6px 4px 4px;
   text-align: right;
   border-right: 1px solid black;
   border: 1px solid black;
   /* word-wrap: break-word; */
-  width: 40px;
-  max-width: 40px;
-  height: 30px;
-  text-align: top right;
-  font-size: 20px;
+  max-width: 55px;
+  text-align: top;
+  font-size: 12px;
 }
 .mat-header-cell {
   padding: 4px 4px 4px 4px;
@@ -28,13 +26,11 @@
   padding: 8px 8px 2px 4px;
   text-align: left;
   border-right: 1px solid black;
-  width: 250px;
   /* width: 300px;  not working */
 }
 .mat-name-header-cell {
   padding: 4px 4px 4px 4px;
   text-align: left;
-
   border-right: 1px solid black;
 }
 .mat-header-row {
@@ -64,10 +60,5 @@ table {
 td.diagonalRising
 {
 	background: linear-gradient(to right bottom, #ffffff 0%,#ffffff 49.9%,#000000 50%,#000000 51%,#ffffff 51.1%,#ffffff 100%);
-}
-@media print{@page {size: landscape}}
-body {
-  margin: 0;
-  background: #CCCCCC;
 }
 

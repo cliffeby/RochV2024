@@ -51,7 +51,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   // This component uses a Score record and "Member.isPlaying toggle.
   //  If Score document exists, Member.isPlaying.  If new player is added-
   //       Member is playing, the score record is created.
-  //  If Member.isPlaying is toggles false, the score record is deleted.
+  //  If Member.isPlaying is toggled false, the score record is deleted.
   //
   //  Score record holds ALL data needed for a players match.
 
@@ -177,7 +177,9 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         // ' ' +
         member.firstName +
         ' ' +
-        member.lastName;
+        member.lastName +
+        ' ' +
+        member.handicap;
       // console.log('score', this.score, member);
       this.subscription2 = this._scoresService
         .createScore(this.score)

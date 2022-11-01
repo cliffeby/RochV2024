@@ -5,6 +5,7 @@ import {
   deleteScore,
   getAllScores,
   getMatchScores,
+  updateMatchScores,
   getScore,
   updateScore,
 } from '../controllers/score.controller';
@@ -33,6 +34,7 @@ const scoreRoute = () => {
 
   router.get('/', checkPermissions(ItemPermission.ReadScores), getAllScores);
   router.put('/:id', checkPermissions(ItemPermission.UpdateScore), updateScore);
+  router.put('scoresByMatch/:id', checkPermissions(ItemPermission.UpdateScore), updateMatchScores);
 
   router.delete(
     '/scoresByMatch/:id',

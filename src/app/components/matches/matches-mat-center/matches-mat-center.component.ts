@@ -68,7 +68,7 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideSCPrint = false;
-    console.log('Print SC Match', match);
+    // console.log('Print SC Match', match);
     // this._printService.lineUpSubject.next(match.lineUps);
     // this._printService.printDocument('scorecards');
   }

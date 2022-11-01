@@ -26,19 +26,19 @@
       <label for="score"> Score:</label>
       <input class="fbscore-cell" type="text" formControlName="score">
       <td formArrayName="scores" *ngFor="let a of scores1(i).controls; let g = index">
-        <!-- <div>
+        <div>
           <p>{{g+1}}</p>
-          <p> {{results[i].pars[g]}}</p> -->
-          <!-- <p>{{results[i].handicaps[g]}}</p>
+          <p> {{results[i].pars[g]}}</p>
+          <p>{{results[i].handicaps[g]}}</p>
         </div>
-        <p><sub>xx</sub></p> -->
-        <!-- <p *ngIf="g%2==0"> -->
-          <input class="score-cell wrap" type="text" [formControlName]="g" />
-        <!-- </p>
         <p><sub>xx</sub></p>
-        <p *ngIf="g%2==0"> -->
-          <!-- <input class="score-cell numberCircle" type="text" [formControlName]="g" /> -->
-        <!-- </p> -->
+        <p *ngIf="g%2==0">
+          <input class="score-cell wrap" type="text" [formControlName]="g" />
+        </p>
+        <p><sub>xx</sub></p>
+        <p *ngIf="g%2==0">
+          <input class="score-cell numberCircle" type="text" [formControlName]="g" />
+        </p>
       </td>
       <br>
     </div>

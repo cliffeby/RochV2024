@@ -1,3 +1,5 @@
+import { Scorecard } from "./scorecard";
+
 export class Score {
          _id: string;
          scoreId: string;
@@ -5,6 +7,7 @@ export class Score {
          score: number;
          scores: number[];
          scorecardId: string;
+         scorecard?: Scorecard;
          lineupIds: string[];
          memberId: string;
          partnerIds: string[];

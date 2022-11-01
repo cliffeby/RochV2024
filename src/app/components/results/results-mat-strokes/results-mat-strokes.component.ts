@@ -50,7 +50,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   ];
   // paginator: any;
   @Input() public match: Match; //match selected from results list
-  first3Rows; //Fist two rows of table are sticky headers.
+  first3Rows; //First rows of table are sticky headers.
   loading$ = this._strokesService.loadingSubject.asObservable();
 
   constructor(
@@ -73,6 +73,7 @@ export class ResultsMatStrokesComponent implements OnInit {
           console.log(error);
         }
       );
+      console.log("dataSource3", this.dataSource3);
   }
   onPrint() {
     // this.PrintResultEvent1.emit(this.dataSource3);
