@@ -8,6 +8,8 @@ export class Score {
          scores: number[];
          scorecardId: string;
          scorecard?: Scorecard;
+         scSlope: number;
+         scRating: number;
          lineupIds: string[];
          memberId: string;
          partnerIds: string[];

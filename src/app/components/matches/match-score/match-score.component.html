@@ -9,7 +9,7 @@
       <label> Back {{backTot[i]}}.</label>
       <label> Score {{totTot[i]}}.</label>
 
-      <label for="score"> Score:</label>
+      <!-- <label for="score"> Score:</label> -->
       <input class="fbscore-cell" type="number" formControlName="score">
       <td formArrayName="scores" *ngFor="let _ of scores(i).controls; let g = index">
         <input class="score-cell" type="number" min = "1" (keyup)="onKeyUp($event, g, i)" [formControlName]="g"

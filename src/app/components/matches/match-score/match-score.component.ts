@@ -24,6 +24,7 @@ export class MatchScoreComponent implements OnInit {
   frontTot: number[] = [0];
   backTot: number[] = [0];
   totTot: number[] = [];
+  score: number[] = [];
   @Output() public UpdateScoresEvent = new EventEmitter();
 
   constructor(private fb: FormBuilder, private _scoresService: ScoresService) {}
@@ -43,7 +44,8 @@ export class MatchScoreComponent implements OnInit {
       name: new FormControl({ value: name_Index, disabled: true }),
       front: new FormControl({ value: this.frontTot, disabled: true }),
       back: new FormControl({ value: this.backTot, disabled: true }),
-      score: new FormControl({ value: this.totTot, disabled: true }),
+      totTot: new FormControl({ value: this.totTot, disabled: true }),
+      score: new FormControl({ value: player.score, disabled: false }),
       scores: new FormArray(this.loadScoreControls(player, i)),
     });
   }
@@ -106,11 +108,16 @@ export class MatchScoreComponent implements OnInit {
       ]['name']['value'];
       this.players[i].tempscore = this.scoreForm.get('arr')['controls'][i][
         'controls'
-      ]['score']['value'];
+      ]['totTot']['value'];
+      this.players[i].score = this.scoreForm.get('arr')['controls'][i][
+        'controls']['score']['value'];
       this.players[i].scores = this.scoreForm.get('arr')['controls'][i][
         'controls'
       ]['scores']['value'];
-      this.players[i].score = this.players[i].tempscore[i];
+      // this.players[i].score = this.players[i].tempscore[i];
+      if (this.players[i].tempscore[i] > 50) {
+        this.players[i].score = this.players[i].tempscore[i];
+      }
       this.players[i].id = this.players[i]._id;
       console.log('Players', this.players[i]);
       this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {
@@ -138,11 +145,11 @@ export class MatchScoreComponent implements OnInit {
         if (index < 9) {
           this.frontTot[i] =
             this.frontTot[i] + this.scoreForm.value.arr[i]['scores'][index];
-            this.totTot[i] = this.totTot[i] + this.scoreForm.value.arr[i]['scores'][index];
+          this.totTot[i] = this.totTot[i] + this.scoreForm.value.arr[i]['scores'][index];
         } else {
           this.backTot[i] =
             this.backTot[i] + this.scoreForm.value.arr[i]['scores'][index];
-            this.totTot[i] = this.totTot[i] + this.scoreForm.value.arr[i]['scores'][index];
+          this.totTot[i] = this.totTot[i] + this.scoreForm.value.arr[i]['scores'][index];
         }
         if ((index + 3) % 20 == 0) {
           index = index + 2;

@@ -5,6 +5,8 @@ type ScoreDocument = Document & {
   score: number;
   scores: number[];
   scorecardId: string;
+  scSlope: number;
+  scRating: number;
   lineupIds: string[];
   memberId: string;
   partnerIds: string[];
@@ -27,6 +29,8 @@ type ScoreInput = {
   score: ScoreDocument['score'];
   scores: ScoreDocument['scores'];
   scorecardId: ScoreDocument['scorecardId'];
+  scSlope: ScoreDocument['scSlope'];
+  scRating: ScoreDocument['scRating'];
   lineupIds: ScoreDocument['lineupIds'];
   memberId: ScoreDocument['memberId'];
   partnerIds: ScoreDocument['partnerIds'];
@@ -69,6 +73,8 @@ const ScoreSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Scorecard',
     },
+    scSlope: Number,
+    scRating: Number,
     datePlayed: Date,
     foursomeIds: [
       {
