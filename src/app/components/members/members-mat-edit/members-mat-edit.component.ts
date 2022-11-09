@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Member } from 'src/app/models/member';
 import { AuthService } from '@auth0/auth0-angular';
 import { ScorecardsService } from '../../../services/scorecards.service';
@@ -27,7 +27,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   myTees: any = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public auth: AuthService,
     public _scorecardsservice: ScorecardsService
   ) {
@@ -41,7 +41,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     });
   }
   private authSubscription;
-  public memberForm1: FormGroup;
+  public memberForm1: UntypedFormGroup;
   @Input() public member: Member;
   @Output() public updateMemberEvent = new EventEmitter();
   @Output() public submitAddMemberEvent = new EventEmitter();

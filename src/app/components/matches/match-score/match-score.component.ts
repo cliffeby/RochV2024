@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { Match } from 'src/app/models/match';
@@ -18,8 +18,8 @@ import { ScoresService } from 'src/app/services/scores.service';
 })
 export class MatchScoreComponent implements OnInit {
   @Input() public match: Match;
-  public scoreForm: FormGroup;
-  public arr: FormArray;
+  public scoreForm: UntypedFormGroup;
+  public arr: UntypedFormArray;
   players = [];
   frontTot: number[] = [0];
   backTot: number[] = [0];
@@ -27,26 +27,26 @@ export class MatchScoreComponent implements OnInit {
   score: number[] = [];
   @Output() public UpdateScoresEvent = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private _scoresService: ScoresService) {}
+  constructor(private fb: UntypedFormBuilder, private _scoresService: ScoresService) {}
   ngOnInit(): void {
     this.scoreForm = this.fb.group({
       arr: this.fb.array([]),
     });
     this.players = this.shapePlayers();
     for (let i = 0; i < this.players.length; i++) {
-      this.arr = this.scoreForm.get('arr') as FormArray;
+      this.arr = this.scoreForm.get('arr') as UntypedFormArray;
       this.arr.push(this.loadItem(this.players[i], i));
     }
   }
   loadItem(player, i) {
     let name_Index = player.fullName + '-' + player.handicap.toString();
     return this.fb.group({
-      name: new FormControl({ value: name_Index, disabled: true }),
-      front: new FormControl({ value: this.frontTot, disabled: true }),
-      back: new FormControl({ value: this.backTot, disabled: true }),
-      totTot: new FormControl({ value: this.totTot, disabled: true }),
-      score: new FormControl({ value: player.score, disabled: false }),
-      scores: new FormArray(this.loadScoreControls(player, i)),
+      name: new UntypedFormControl({ value: name_Index, disabled: true }),
+      front: new UntypedFormControl({ value: this.frontTot, disabled: true }),
+      back: new UntypedFormControl({ value: this.backTot, disabled: true }),
+      totTot: new UntypedFormControl({ value: this.totTot, disabled: true }),
+      score: new UntypedFormControl({ value: player.score, disabled: false }),
+      scores: new UntypedFormArray(this.loadScoreControls(player, i)),
     });
   }
 
@@ -55,7 +55,7 @@ export class MatchScoreComponent implements OnInit {
     this.frontTot[i] = this.backTot[i] = this.totTot[i] = 0;
     for (let ii = 0; ii < 18; ii++) {
       if (person.hasOwnProperty('scores')) {
-        y.push(new FormControl({ value: person.scores[ii], disabled: false }));
+        y.push(new UntypedFormControl({ value: person.scores[ii], disabled: false }));
         if (ii < 9) {
           this.frontTot[i] = this.frontTot[i] + person.scores[ii];
           this.totTot[i] = this.totTot[i] + person.scores[ii];
@@ -64,7 +64,7 @@ export class MatchScoreComponent implements OnInit {
           this.totTot[i] = this.totTot[i] + person.scores[ii];
         }
       } else {
-        y.push(new FormControl({ value: null, disabled: false }));
+        y.push(new UntypedFormControl({ value: null, disabled: false }));
       }
     }
     console.log("loadScoreControls Y", y);
@@ -72,8 +72,8 @@ export class MatchScoreComponent implements OnInit {
   }
 
   // returns the inner FormArray based on the index
-  scores(index: number): FormArray {
-    return this.arr.at(index).get('scores') as FormArray;
+  scores(index: number): UntypedFormArray {
+    return this.arr.at(index).get('scores') as UntypedFormArray;
   }
   shapePlayers() {
     let players = [];

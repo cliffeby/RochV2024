@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '../../../services/validation.service';
 import { Scorecard } from 'src/app/models/scorecard';
 import { AuthService } from '@auth0/auth0-angular';
@@ -19,9 +19,9 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
   public authSubscription;
-  public scorecardForm1: FormGroup;
+  public scorecardForm1: UntypedFormGroup;
   public profileJson: string = null;
-  constructor(private fb: FormBuilder, public auth: AuthService) {
+  constructor(private fb: UntypedFormBuilder, public auth: AuthService) {
     this.scorecardForm1 = fb.group({
       groupName: ['', [Validators.required, ValidationService.nameValidator]],
       name: ['', [Validators.required, ValidationService.nameValidator]],

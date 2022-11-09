@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '../../../services/validation.service';
 import { Match } from 'src/app/models/match';
 import { ScorecardsService } from '../../../services/scorecards.service';
@@ -23,12 +23,12 @@ import { MatchesService } from 'src/app/services/matches.service';
 })
 export class MatchesMatEditComponent implements OnInit, OnDestroy {
   public authSubscription;
-  public matchForm1: FormGroup;
+  public matchForm1: UntypedFormGroup;
   public profileJson: string = null;
   public scorecards: Scorecard[];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public auth: AuthService,
     public _scorecardservice: ScorecardsService,
     public _matchesService: MatchesService

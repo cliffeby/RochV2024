@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { from, of, Subscription } from 'rxjs';
@@ -26,10 +26,10 @@ export class ResultsMatAdjustComponent implements OnInit {
   results: Results[] = [new Results()];
   frontTot = [];
   backTot = [];
-  resultsForm: FormGroup;
-  arr: FormArray;
+  resultsForm: UntypedFormGroup;
+  arr: UntypedFormArray;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private _scoresService: ScoresService,
     private _scorecardsService: ScorecardsService
   ) {}
@@ -54,11 +54,11 @@ export class ResultsMatAdjustComponent implements OnInit {
     let name_Index = player.name + '-' + player.usgaIndex.toString();
     console.log('loadItem', player);
     return this.fb.group({
-      name: new FormControl({ value: name_Index, disabled: true }),
+      name: new UntypedFormControl({ value: name_Index, disabled: true }),
       // front: new FormControl({ value: this.frontTot, disabled: true }),
       // back: new FormControl({ value: this.backTot, disabled: true }),
       score: player.score,
-      scores: new FormArray(this.loadScoreControls(player, i)),
+      scores: new UntypedFormArray(this.loadScoreControls(player, i)),
     });
   }
   loadScoreControls(person, i) {
@@ -67,14 +67,14 @@ export class ResultsMatAdjustComponent implements OnInit {
         this.frontTot[i] = this.backTot[i] = 0;
     for (let ii = 0; ii < 18; ii++) {
       if (person.hasOwnProperty('scores')) {
-        y.push(new FormControl({ value: person.scores[ii], disabled: true }));
+        y.push(new UntypedFormControl({ value: person.scores[ii], disabled: true }));
         if (ii < 9) {
           this.frontTot[i] = this.frontTot[i] + person.scores[ii];
         } else {
           this.backTot[i] = this.backTot[i] + person.scores[ii];
         }
       } else {
-        y.push(new FormControl({ value: null, disabled: true }));
+        y.push(new UntypedFormControl({ value: null, disabled: true }));
       }
     }
     console.log('loadScoreControls', y, person);
@@ -106,7 +106,7 @@ export class ResultsMatAdjustComponent implements OnInit {
           this.results[i].usgaIndex = scores[i].usgaIndex;
           this.results[i].handicap = scores[i].handicap;
           console.log('createDataSource', this.results[i]);
-          this.arr = this.resultsForm.get('arr') as FormArray;
+          this.arr = this.resultsForm.get('arr') as UntypedFormArray;
           this.arr.push(this.loadItem(this.results[i], i));
           // this.loadItem(this.results[i], i);
         });
@@ -114,8 +114,8 @@ export class ResultsMatAdjustComponent implements OnInit {
 
     // this.dataSource = new MatTableDataSource<Score[]>(data);
   }
-  scores1(index: number): FormArray {
-    return this.arr.at(index).get('scores') as FormArray;
+  scores1(index: number): UntypedFormArray {
+    return this.arr.at(index).get('scores') as UntypedFormArray;
   }
   onClose() {
     this.resultsForm.reset();

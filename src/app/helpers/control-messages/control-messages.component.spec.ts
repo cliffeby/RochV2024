@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, UntypedFormControl } from '@angular/forms';
 import { ControlMessagesComponent } from './control-messages.component';
 import { ValidationService } from '../../services/validation.service';
 
@@ -9,7 +9,7 @@ export class MockValidationService {
   };
 }
 
-const control = new FormControl();
+const control = new UntypedFormControl();
 
 describe('ControlMessagesComponent', () => {
   let component: ControlMessagesComponent;

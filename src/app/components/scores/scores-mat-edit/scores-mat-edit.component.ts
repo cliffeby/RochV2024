@@ -5,7 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Score } from 'src/app/models/score';
 
 @Component({
@@ -14,12 +14,12 @@ import { Score } from 'src/app/models/score';
   styleUrls: ['./scores-mat-edit.component.css'],
 })
 export class ScoresMatEditComponent implements OnInit {
-  public scoreForm1: FormGroup;
+  public scoreForm1: UntypedFormGroup;
   @Input() public score: Score;
   @Output() public UpdateScoreEvent = new EventEmitter();
   @Output() public ReturnScoreEvent = new EventEmitter();
   scored: any;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
       this.scoreForm1 = fb.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         score : null,
