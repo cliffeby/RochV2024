@@ -167,6 +167,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       this.score.user = '**' + this.match.user;
       this.score.scorecardId = member.scorecardId;
       this.score.usgaIndex = member.usgaIndex;
+      this.score.datePlayed = this.match.datePlayed;
       // USGA method to determine course handicap from a player's USGAIndex
       // Course handicap = Handicap Index X Slope Rating/113 + (Course Rating-Par) divided by 113
       this.score.handicap = Math.round(

@@ -110,7 +110,11 @@ export class MatchScoreComponent implements OnInit {
         'controls'
       ]['totTot']['value'];
       this.players[i].score = this.scoreForm.get('arr')['controls'][i][
-        'controls']['score']['value'];
+        'controls'
+      ]['score']['value'];
+            this.players[i].postedScore = this.scoreForm.get('arr')['controls'][i][
+              'controls'
+            ]['score']['value'];
       this.players[i].scores = this.scoreForm.get('arr')['controls'][i][
         'controls'
       ]['scores']['value'];
@@ -118,6 +122,7 @@ export class MatchScoreComponent implements OnInit {
       if (this.players[i].tempscore[i] > 50) {
         this.players[i].score = this.players[i].tempscore[i];
       }
+      this.players[i].usgaIndexForTodaysScore = Math.round((this.players[i].score -this.players[i].scRating)*this.players[i].scSlope/113*10)/10;
       this.players[i].id = this.players[i]._id;
       console.log('Players', this.players[i]);
       this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {

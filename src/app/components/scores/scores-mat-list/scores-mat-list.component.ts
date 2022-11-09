@@ -32,7 +32,7 @@ export class ScoresMatListComponent
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['name', 'usgaIndex', 'score', 'user', 'action'];
+  displayedColumns: string[] = ['name', 'score', 'postedScore', 'scRating' , 'scSlope' ,'usgaIndexForTodaysScore',  'datePlayed', 'user', 'action'];
   subscription: Subscription;
   queryString: string;
 

@@ -5,6 +5,7 @@ export class Score {
          scoreId: string;
          name: string;
          score: number;
+         postedScore: number;
          scores: number[];
          scorecardId: string;
          scorecard?: Scorecard;
@@ -16,6 +17,7 @@ export class Score {
          foursomeIds: string[];
          handicap: number;
          usgaIndex: number;
+         usgaIndexForTodaysScore: number;
          coursePlayerHandicap: number;
          wonTwoBall: Boolean;
          wonOneBall: Boolean;
@@ -23,6 +25,6 @@ export class Score {
          isPaired: Boolean;
          isScored: Boolean;
          matchId: string;
-         datePlayed: Date;
+         datePlayed: string;
          user: string;
        }
