@@ -13,8 +13,17 @@ import { Score } from '../../../models/score';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import {
+  groupBy,
+  map,
+  mergeAll,
+  mergeMap,
+  take,
+  toArray,
+} from 'rxjs/operators';
+import { ItemPermission } from 'menu-api copy/src/items/item-permission';
 
 @Component({
   selector: 'app-scores-mat-list',
@@ -32,7 +41,17 @@ export class ScoresMatListComponent
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayedColumns: string[] = ['name', 'score', 'postedScore', 'scRating' , 'scSlope' ,'usgaIndexForTodaysScore',  'datePlayed', 'user', 'action'];
+  displayedColumns: string[] = [
+    'name',
+    'score',
+    'postedScore',
+    'scRating',
+    'scSlope',
+    'usgaIndexForTodaysScore',
+    'datePlayed',
+    'user',
+    'action',
+  ];
   subscription: Subscription;
   queryString: string;
 
@@ -62,11 +81,56 @@ export class ScoresMatListComponent
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+  indexCalc() {
+    this._activatedRoute.data
+      .pipe(
+        map((results) =>
+          results.scores.reduce((group, item) => {
+            if (group[item.memberId]) {
+              group[item.memberId].push([item.usgaIndexForTodaysScore, item.datePlayed, item.memberId]);
+            } else {
+              group[item.memberId] = [];
+              group[item.memberId].push([item.usgaIndexForTodaysScore, item.datePlayed, item.memberId]);
+            }
+            // group[item.memberId].sort((a, b) => a[0] - b[0]);
+            // group[item.memberId].filter((item.memberId[0]) => item.memberId[0] > 50)
+            group[item.memberId].sort((a, b) =>
+              a[1] > b[1] ? -1 : b[1] > a[1] ? 1 : 0
+            );
+
+            // const a = group[item.memberId].slice(0, 10);
+
+            return group;
+          }, {})
+        )
+      )
+      .subscribe((group) => {
+                    Object.keys(group).forEach(key => {
+              console.log(
+                group[key]
+                  .slice(0, 10)
+                  .sort((a, b) => (a[0] > b[0] ? 1 : b[0] > a[0] ? -1 : 0))
+                  .slice(0, 3)
+                  .reduce((key, item) =>{
+                    if (item.memberId) {
+                      item.previousValue + item.currentValue;
+                    }
+                    else {
+                        item.memberId = [];
+                        item.previousValue + item.currentValue;
+                    }
+                    // key.push(item);
+                    }
+                  )
+              );
+      })});
+      // .subscribe(console.log)
+  }
 
   onViewScore(scr: Score) {
     this.ViewScoreEvent.emit(scr);
   }
-  onRecordScore(scr:Score){
+  onRecordScore(scr: Score) {
     this.RecordScoreEvent.emit(scr);
     console.log('onScoreSelect');
   }

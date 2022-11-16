@@ -10,6 +10,8 @@ export class ScoresMatIndexesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+    
   }
 
 }

@@ -1,4 +1,4 @@
-import { Scorecard } from "./scorecard";
+import { Scorecard } from './scorecard';
 
 export class Score {
          _id: string;
@@ -19,11 +19,11 @@ export class Score {
          usgaIndex: number;
          usgaIndexForTodaysScore: number;
          coursePlayerHandicap: number;
-         wonTwoBall: Boolean;
-         wonOneBall: Boolean;
-         wonIndo: Boolean;
-         isPaired: Boolean;
-         isScored: Boolean;
+         wonTwoBall: boolean;
+         wonOneBall: boolean;
+         wonIndo: boolean;
+         isPaired: boolean;
+         isScored: boolean;
          matchId: string;
          datePlayed: string;
          user: string;
