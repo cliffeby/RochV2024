@@ -189,6 +189,8 @@ export class StrokesService {
     }
     return arr;
   }
+
+  //Up todate?
   ESA(player) {
     let scoresToPost = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     console.log('PLAYER', player, player.scSlope);
