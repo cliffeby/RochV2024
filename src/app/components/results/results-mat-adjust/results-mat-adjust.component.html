@@ -1,0 +1,51 @@
+{{results | json}}
+
+<h2>Match Results- {{match.name}}-{{match.datePlayed}}</h2>
+<!-- <form [formGroup]="resultsForm" (ngSubmit)="onClose()">
+  <input class="fbscore-cell" type="text" formControlName="score">
+  <td formArrayName="scores" *ngFor="let a of scores1(0).controls; let g = index">
+    <tr class="fbscore-cell">{{i1 +1}}</tr>
+    <tr class="fbscore-cell">{{results[0].pars[i1]}}</tr>
+    <tr class="fbscore-cell">{{results[0].handicaps[i1]}}</tr>
+  </td>
+
+</form> -->
+
+
+<form [formGroup]="resultsForm" (ngSubmit)="onClose()">
+
+  <div formArrayName="arr" *ngFor="let a of resultsForm.get('arr')['controls']; let i = index">
+    <div [formGroupName]="i" style="margin-bottom: 10px;">
+
+
+
+      <input type="text" name="name" formControlName="name">
+      <label> Front {{frontTot[i]}}.</label>
+      <label> Back {{backTot[i]}}.</label>
+
+      <label for="score"> Score:</label>
+      <input class="fbscore-cell" type="text" formControlName="score">
+      <td formArrayName="scores" *ngFor="let a of scores1(i).controls; let g = index">
+        <div>
+          <p>{{g+1}}</p>
+          <p> {{results[i].pars[g]}}</p>
+          <p>{{results[i].handicaps[g]}}</p>
+        </div>
+        <p><sub>xx</sub></p>
+        <p *ngIf="g%2==0">
+          <input class="score-cell wrap" type="text" [formControlName]="g" />
+        </p>
+        <p><sub>xx</sub></p>
+        <p *ngIf="g%2==0">
+          <input class="score-cell numberCircle" type="text" [formControlName]="g" />
+        </p>
+      </td>
+      <br>
+    </div>
+
+  </div>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+<div class="div#B"><sup>XX</sup></div>
+<div class="div#A"><sub>oo</sub></div>

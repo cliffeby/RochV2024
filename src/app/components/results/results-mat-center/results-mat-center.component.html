@@ -1,0 +1,10 @@
+
+<app-results-mat-list *ngIf="!selectedMatch && !selectedMatch1" (AdjustScoreEvent)="onSelectMatchEvent($event)"
+  (SelectMatchEvent) = "onStrokeMatchEvent($event)" [matches]="matches" (PrintResultEvent) = "onPrintMatchEvent($event)">
+</app-results-mat-list>
+<app-results-mat-adjust *ngIf="selectedMatch"
+  [match]="selectedMatch">
+</app-results-mat-adjust>
+<app-results-mat-strokes *ngIf="selectedMatch1" (PrintResultEvent1) = "onPrintResultEvent1($event)"
+  [match]="selectedMatch1">
+</app-results-mat-strokes>

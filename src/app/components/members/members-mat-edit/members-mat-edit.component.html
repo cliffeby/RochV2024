@@ -1,0 +1,55 @@
+<!-- Title group  -->
+
+<!-- Form -->
+
+<div class="inner-wrapper">
+  <form [formGroup]="memberForm1">
+    <div class="controlers-wrapper">
+      Name
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="firstName" formControlName="firstName" />
+        <mat-error *ngIf="handleError('firstName', 'required')">
+          You must provide a<strong>first name</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="lastName" formControlName="lastName" />
+        <mat-error *ngIf="handleError('lastName', 'required')">
+          You must provide a<strong>last name</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="usgaIndex" formControlName="usgaIndex" />
+        <mat-error *ngIf="handleError('email', 'required')">
+          You must provide a<strong>usgaIndex</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="email" formControlName="email" />
+        <mat-error *ngIf="handleError('email', 'required')">
+          You must provide a<strong>email</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="detail-full-width ">
+        <mat-label>Select default tees</mat-label>
+        <mat-select (valueChange) = "scorecardchanged($event)" [formControl]="memberForm1.controls['course']" required >
+          <mat-option class="mat-select-content" *ngFor="let n of scorecards; let i = index" [value]="scorecards[i]">
+            {{ n.courseTeeName }}</mat-option>
+          <mat-error *ngIf="memberForm1.controls['course'].hasError('required')">Please choose tees</mat-error>
+
+        </mat-select>
+      </mat-form-field><mat-icon (click)="addScorecard()">add</mat-icon>
+    </div>
+  </form>
+
+  <!-- Submit & Reset -->
+  <button *ngIf="member._id" mat-raised-button color="primary" (click)="updateMemberForm()">
+    Update
+  </button>
+  <button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMemberForm()">
+    Add
+  </button>
+  <div class="column" *ngFor="let item of myTees, let j = index">
+    {{item.courseTeeName}} <mat-icon (click)="removeScorecard(j)">backspace</mat-icon>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="title-group">
+  <h1 class="mat-h1">Members List</h1>
+  <a mat-list-item routerLinkActive="active" (click)="onAdd(null)">
+    <mat-icon>add</mat-icon> Add Member
+  </a>
+  <mat-divider fxFlex="1 0"></mat-divider>
+</div>
+<mat-form-field appearance="standard">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+<p *ngIf="members.length <= 0" class="no-data">There is no member added yet!</p>
+
+<div class="container" *ngIf="members.length > 0">
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange) = "ngAfterViewInit()">
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="usgaIndex">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Index </th>
+        <td mat-cell *matCellDef="let element"> {{element.usgaIndex}} </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+        <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element; let i = index;">
+          <mat-icon *ngIf="element._id" color="primary" (click)="onSelect(element)">edit</mat-icon>
+          <mat-icon color="warn" (click)="onDelete(i, element)">delete</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.mat-row:hover {
+  background-color: rgb(250, 215, 215);
+}
+
+.score-cell {
+  width:23px;
+  margin: 3px;
+ }
+
+ .fbscore-cell {
+  width:33px;
+  margin: 3px;
+ }
+ /* Remove stepper arrows from number input type */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cell-td {
+  padding-left: 3px;
+  padding-right: 4px;
+  column-gap: 4px
+}
+.container {
+  display: inline-flex;
+  background: cadetblue;
+  text-align: center;
+}
+.center {
+  text-align: center;
+}
+.space2px {
+  margin-right: 2px;
+}
+.space5px {
+  margin-right: 5px;
+}
+

@@ -1,0 +1,76 @@
+<div class="inner-wrapper">
+  <form [formGroup]="scoreForm1">
+    <div class="controlers-wrapper">
+      Name: {{score.name}}
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="score" formControlName="score" />
+        <mat-error *ngIf="handleError('name', 'required')">
+          You must provide a<strong>score</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <mat-icon *ngIf="score._id" color="primary" (click)="updateScoreForm()">update</mat-icon>
+  <div *ngIf="scorecard$ | async as item; else loading">
+    <div *ngIf="item;">
+      <form [formGroup]="scoreForm1">
+        <tr>
+          <label class="space2px"> Date Played: </label>
+          <span class="space5px">{{score.datePlayed | date: 'fullDate'}}</span>
+        </tr>
+        <tr>
+          <label class="space2px"> Score: </label>
+          <span class="space5px">{{scoreForm1.value.score}}</span>
+          <label class="space2px"> Post: </label>
+          <span class="space5px">{{scoreForm1.value.postedScore}}</span>
+          <label class="space2px"> Index to Post: </label>
+          <span class="space5px">{{score.usgaIndexForTodaysScore}}</span>
+          <label class="space2px"> Course: </label>
+          <span>{{item.scorecard.groupName}}</span>
+          <label class="space5px"> Tees: </label>
+          <span class="space2px">{{item.scorecard.courseTeeName}}</span>
+        </tr>
+        <tr>
+          <label class="space2px"> Rating </label>
+          <span class="space5px">{{score.scRating}}</span>
+          <label class="space2px"> Slope </label>
+          <span class="space5px">{{score.scSlope}}</span>
+          <label class="space2px"> Player Index Before </label>
+          <span class="space5px">{{score.usgaIndex}}</span>
+          <label class="space2px"> Course HCap </label>
+          <span class="space5px">{{score.score}}</span>
+          <label class="space2px"> Player Index After </label>
+          <span class="space5px">{{score.usgaIndex}}</span>
+        </tr>
+        <div>
+          <td formArrayName="scores" *ngFor="let _ of scoreForm1.get('scores')['controls']; let g = index">
+            <div>
+              <label class="cell-td center" type="number"> {{holeNo[g]}} </label>
+            </div>
+            <div>
+              <label class="cell-td center" type="number"> {{score.scHCaps[g]}} </label>
+            </div>
+            <div>
+              <label class="cell-td center" type="number"> {{score.scPars[g]}} </label>
+            </div>
+            <div>
+              <input class="score-cell cell-td container" type="number" [formControlName]="g" />
+            </div>
+          </td>
+          <td> {{scoreForm1.value.score}}</td>
+        </div>
+        <div>
+          <td formArrayName="scoresToPost" *ngFor="let _ of scoreForm1.get('scoresToPost')['controls']; let g = index">
+            <div>
+              <input class="score-cell cell-td container" type="number" [formControlName]="g" />
+            </div>
+          </td>
+          <td> {{scoreForm1.value.postedScore}}</td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>Loading User Data...</ng-template>
