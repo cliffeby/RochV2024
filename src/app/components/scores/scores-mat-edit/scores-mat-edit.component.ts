@@ -6,6 +6,7 @@ import {
   UntypedFormControl,
   UntypedFormArray,
 } from '@angular/forms';
+import { Console } from 'console';
 import { Observable } from 'rxjs';
 import { Score } from 'src/app/models/score';
 import { Scorecard } from 'src/app/models/scorecard';
@@ -44,7 +45,7 @@ export class ScoresMatEditComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.score.scPars.push(this.mySum(this.score.scPars))
+    // this.score.scPars.pop();
     this.scoreForm1 = this.fb.group({
       name: this.score.name,
       score: this.mySum(this.score.scores),
@@ -60,7 +61,8 @@ export class ScoresMatEditComponent implements OnInit {
       ),
     });
     console.log('SF1', this.scoreForm1, this.score);
-    this.scoreForm1.get('scores').valueChanges.subscribe((value) => {console.log(value)
+    this.scoreForm1.get('scores').valueChanges.subscribe((value) => {
+      console.log(value);
       this.score.scores = value;
       console.log('SCORE', this.scoreForm1, this.score);
       // this.score.scoresToPost = this._strokesService.ESA(value);
@@ -71,6 +73,9 @@ export class ScoresMatEditComponent implements OnInit {
     );
   }
   mySum(array) {
+    if (array.length == 19) {
+      array.pop();
+    }
     return array.reduce((acc, item) => acc + item, 0);
   }
 
@@ -84,9 +89,10 @@ export class ScoresMatEditComponent implements OnInit {
         y.push(new UntypedFormControl({ value: null, disabled: false }));
       }
     }
-    // y.push(
-    //   new UntypedFormControl({ value: this.mySum(item), disabled: false })
-    // );
+    y.push(
+      new UntypedFormControl({ value: this.mySum(item), disabled: false })
+    );
+
     console.log('loadScoreControls Y', y);
     return y;
   }

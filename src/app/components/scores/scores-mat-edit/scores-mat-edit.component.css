@@ -3,7 +3,7 @@
 }
 
 .score-cell {
-  width:23px;
+  width:38px;
   margin: 3px;
  }
 
@@ -27,13 +27,17 @@ input::-webkit-inner-spin-button {
   background: cadetblue;
   text-align: center;
 }
+.labelcontainer {
+  display: inline-flex;
+  text-align: center;
+}
 .center {
   text-align: center;
 }
 .space2px {
-  margin-right: 2px;
+  margin-right: 1px;
 }
 .space5px {
-  margin-right: 5px;
+  margin-right: 6px;
 }
 
