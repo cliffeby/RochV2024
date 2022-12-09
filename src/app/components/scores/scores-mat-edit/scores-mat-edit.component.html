@@ -44,7 +44,7 @@
           <label class="space2px"> Course HCap: </label>
           <span class="space5px">{{score.handicap}}</span>
           <label class="space2px"> Player Index After: </label>
-          <span class="space5px">{{score.usgaIndex}}</span>
+          <span class="space5px">xxx</span>
         </tr>
         <ng-container>
           <span><label class="score-cell cell-td">Hole</label>
@@ -79,11 +79,20 @@
         <ng-container>
           <span><label class="score-cell cell-td"> Score</label>
             <td formArrayName="scores" *ngFor="let _ of scoreForm1.get('scores')['controls']; let g = index">
-              <input class="score-cell cell-td container" type="number" [formControlName]="g" />
+              <input class="score-cell cell-td container" type="number" [formControlName]="g"
+              (input)="changeScore()"/>
             </td>
           </span>
         </ng-container>
         <br>
+        <!-- <ng-container>
+          <span><label class="score-cell cell-td"> Score to Post</label>
+            <td formArrayName="scores" *ngFor="let _ of scoreForm1.get('scoresToPost')['controls']; let g = index">
+              <input class="score-cell cell-td container" type="number" [formControlName]="g" />
+            </td>
+          </span>
+        </ng-container>
+        <br> -->
         <ng-container>
           <span><label class="score-cell cell-td"> Post</label>
             <td *ngFor="let y of scoreForm1.get('scoresToPost')['controls'];">

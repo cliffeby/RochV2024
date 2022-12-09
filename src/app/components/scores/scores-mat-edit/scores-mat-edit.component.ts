@@ -26,6 +26,7 @@ export class ScoresMatEditComponent implements OnInit {
   scored: any;
   scorecard$: Observable<Scorecard>;
   holeNo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  newScores = []
   constructor(
     private fb: UntypedFormBuilder,
     private _scorcardsService: ScorecardsService,
@@ -49,7 +50,7 @@ export class ScoresMatEditComponent implements OnInit {
     this.scoreForm1 = this.fb.group({
       name: this.score.name,
       score: this.mySum(this.score.scores),
-      postedScore: this.mySum(this.score.scoresToPost),
+      postedScore: this.mySum(this.ESA(this.score.scores)),
       usgaIndex: this.score.usgaIndex,
       scSlope: this.score.scSlope,
       scRating: this.score.scRating,
@@ -57,7 +58,7 @@ export class ScoresMatEditComponent implements OnInit {
       // scHCaps: new UntypedFormArray(this.loadScoreControls(this.score.scHCaps)),
       scores: new UntypedFormArray(this.loadScoreControls(this.score.scores)),
       scoresToPost: new UntypedFormArray(
-        this.loadScoreControls(this.score.scoresToPost)
+        this.loadScoreControls(this.ESA(this.score.scores))
       ),
     });
     console.log('SF1', this.scoreForm1, this.score);
@@ -71,6 +72,7 @@ export class ScoresMatEditComponent implements OnInit {
     this.scorecard$ = this._scorcardsService.getScorecard(
       this.score.scorecardId
     );
+    this.changeScore()
   }
   mySum(array) {
     if (array.length == 19) {
@@ -95,6 +97,49 @@ export class ScoresMatEditComponent implements OnInit {
 
     console.log('loadScoreControls Y', y);
     return y;
+  }
+  changeScore() {
+    this.scoreForm1.get('scores').valueChanges.subscribe((value) => {
+      console.log('changeScore value', value);
+      value.pop();
+      value.push(this.mySum(value))
+      this.score.scores = value;
+      this.scoreForm1.controls['score'].setValue(value[18]);
+      console.log('SCORE2', this.scoreForm1, this.score);
+      const esa = this.ESA(value);
+      this.scoreForm1.get('scoresToPost').patchValue(esa);
+      this.scoreForm1.controls['postedScore'].setValue(esa[18]);
+
+    });
+
+  }
+  ESA(value) {
+    const data = this.userProp(); //First Subcription to User
+    const pars = data[0];
+    const hCaps = data[1];
+    const ci = data[2];
+    const value1 = [];
+    value.forEach((x, index) =>
+      x - pars[index] > 3
+        ? (value1[index] = pars[index] + 3)
+        : x - pars[index] > 2 && hCaps[index] >= ci
+        ? (value1[index] = pars[index] + 2)
+        : (value1[index] = x)
+    );
+    console.log('values', value1, value, pars, ci);
+    return value1;
+  }
+  userProp() {
+    let parsArray = [];
+    let hCapsArray = [];
+    let ci;
+
+      parsArray = this.score.scPars
+      console.log('parsArray',parsArray)
+      hCapsArray = this.score.scHCaps
+      ci = this.score.handicap;
+
+    return [parsArray, hCapsArray, ci] as const;
   }
 
   /* Get errors */
