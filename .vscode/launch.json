@@ -6,6 +6,19 @@
     "configurations":
     [
         {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}",
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/**",
+                "!**/node_modules/**"
+            ],
+        },
+
+
+        {
             "type": "node",
             "request": "launch",
             "name": "Debug testing.js",

@@ -6,7 +6,7 @@ import { AuthService } from '@auth0/auth0-angular';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit {
-  public profileJson: string = null;
+  public profileJson: string = '';
   constructor(
     public auth: AuthService,
   ) {}

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"ng serve\" \" cd  && dev\"",
+    "start": "concurrently \"ng serve --host=127.0.0.1\" \" cd  && dev\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

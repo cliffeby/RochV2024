@@ -82,6 +82,9 @@
               <input class="score-cell cell-td container" type="number" [formControlName]="g"
               (input)="changeScore()"/>
             </td>
+            <td>
+              <label class="score-cell center ">{{scoreForm1.value.score}}</label>
+            </td>
           </span>
         </ng-container>
         <br>
@@ -97,6 +100,9 @@
           <span><label class="score-cell cell-td"> Post</label>
             <td *ngFor="let y of scoreForm1.get('scoresToPost')['controls'];">
               <label class="score-cell center " type="number"> {{y.value}} </label>
+            </td>
+            <td>
+              <label class="score-cell center ">{{scoreForm1.value.postedScore}}</label>
             </td>
           </span>
         </ng-container>

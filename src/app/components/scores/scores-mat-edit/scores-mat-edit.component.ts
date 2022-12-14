@@ -6,12 +6,10 @@ import {
   UntypedFormControl,
   UntypedFormArray,
 } from '@angular/forms';
-import { Console } from 'console';
 import { Observable } from 'rxjs';
 import { Score } from 'src/app/models/score';
 import { Scorecard } from 'src/app/models/scorecard';
 import { ScorecardsService } from 'src/app/services/scorecards.service';
-import { StrokesService } from 'src/app/services/strokes.service';
 
 @Component({
   selector: 'app-scores-mat-edit',
@@ -30,7 +28,6 @@ export class ScoresMatEditComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private _scorcardsService: ScorecardsService,
-    private _strokesService: StrokesService
   ) {
     this.scoreForm1 = fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -55,7 +52,6 @@ export class ScoresMatEditComponent implements OnInit {
       scSlope: this.score.scSlope,
       scRating: this.score.scRating,
       user: this.score.user,
-      // scHCaps: new UntypedFormArray(this.loadScoreControls(this.score.scHCaps)),
       scores: new UntypedFormArray(this.loadScoreControls(this.score.scores)),
       scoresToPost: new UntypedFormArray(
         this.loadScoreControls(this.ESA(this.score.scores))
@@ -66,8 +62,6 @@ export class ScoresMatEditComponent implements OnInit {
       console.log(value);
       this.score.scores = value;
       console.log('SCORE', this.scoreForm1, this.score);
-      // this.score.scoresToPost = this._strokesService.ESA(value);
-      // this.scoreForm1.value.scoresToPost = this.score.scoresToPost;
     });
     this.scorecard$ = this._scorcardsService.getScorecard(
       this.score.scorecardId
@@ -91,54 +85,46 @@ export class ScoresMatEditComponent implements OnInit {
         y.push(new UntypedFormControl({ value: null, disabled: false }));
       }
     }
-    y.push(
-      new UntypedFormControl({ value: this.mySum(item), disabled: false })
-    );
-
     console.log('loadScoreControls Y', y);
     return y;
   }
+  
   changeScore() {
     this.scoreForm1.get('scores').valueChanges.subscribe((value) => {
-      console.log('changeScore value', value);
-      value.pop();
-      value.push(this.mySum(value))
       this.score.scores = value;
       this.scoreForm1.controls['score'].setValue(value[18]);
       console.log('SCORE2', this.scoreForm1, this.score);
       const esa = this.ESA(value);
       this.scoreForm1.get('scoresToPost').patchValue(esa);
-      this.scoreForm1.controls['postedScore'].setValue(esa[18]);
-
+      this.scoreForm1.controls['score'].setValue(this.mySum(this.score.scores));
+      this.scoreForm1.controls['postedScore'].setValue(this.mySum(this.ESA(this.score.scores)));
     });
-
   }
-  ESA(value) {
+
+  ESA(value: number[]) {
     const data = this.userProp(); //First Subcription to User
-    const pars = data[0];
-    const hCaps = data[1];
-    const ci = data[2];
-    const value1 = [];
-    value.forEach((x, index) =>
-      x - pars[index] > 3
-        ? (value1[index] = pars[index] + 3)
-        : x - pars[index] > 2 && hCaps[index] >= ci
-        ? (value1[index] = pars[index] + 2)
-        : (value1[index] = x)
-    );
-    console.log('values', value1, value, pars, ci);
+    const pars: number[] = data[0];
+    const hCaps: number[] = data[1];
+    const ci: number = data[2];
+    const value1: number[] = [];
+    value.forEach((x: number, index: number) =>
+      value1[index] = x <= pars[index] + 2
+        ? x :
+        x > pars[index] + 1 && hCaps[index] <= ci
+          ? pars[index] + 3 :
+          pars[index] + 2
+    )
+    console.log('values', value1, value, pars, hCaps, ci);
     return value1;
   }
   userProp() {
-    let parsArray = [];
-    let hCapsArray = [];
-    let ci;
+    let parsArray: number[] = [];
+    let hCapsArray: number[] = [];
+    let ci: number;
 
-      parsArray = this.score.scPars
-      console.log('parsArray',parsArray)
-      hCapsArray = this.score.scHCaps
-      ci = this.score.handicap;
-
+    parsArray = this.score.scPars
+    hCapsArray = this.score.scHCaps
+    ci = this.score.handicap;
     return [parsArray, hCapsArray, ci] as const;
   }
 
@@ -154,7 +140,7 @@ export class ScoresMatEditComponent implements OnInit {
       Math.round(
         (((this.score.score - this.score.scRating) * this.score.scSlope) /
           113) *
-          10
+        10
       ) / 10;
     this.score.scores = this.scoreForm1.value.scores;
     console.log(this.score);
