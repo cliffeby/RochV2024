@@ -14,7 +14,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { HomeContentComponent } from './components/home-content/home-content.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ExternalApiComponent } from './pages/external-api/external-api.component';
+// import { ExternalApiComponent } from './pages/external-api/external-api.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { environment as env } from 'src/environments/environment';
@@ -65,7 +65,7 @@ import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexe
     NavBarComponent,
     HomeComponent,
     ProfileComponent,
-    ExternalApiComponent,
+    // ExternalApiComponent,
     LoginButtonComponent,
     MembersCenterComponent,
     MembersMatListComponent,

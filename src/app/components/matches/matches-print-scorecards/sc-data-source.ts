@@ -26,7 +26,7 @@ export class SCDataSource extends DataSource<Results> {
 
          public disconnect(collectionViewer: CollectionViewer): void {}
 
-         loadLessons(x) {
+         loadLessons(x:any) {
            // this.loadingSubject.next(true);
 
            this.SCSubject.next(x);

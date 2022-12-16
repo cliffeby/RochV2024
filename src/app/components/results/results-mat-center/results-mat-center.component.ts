@@ -49,7 +49,7 @@ export class ResultsMatCenterComponent implements OnInit {
     this._printService.lineUpSubject.next(match.lineUps);
     this._printService.printDocument('scorecards');
   }
-  onPrintResultEvent1(results) {
+  onPrintResultEvent1(results:any) {
     // this.hidenewMatch = true;
     // this.hideMemberBlock = true;
     // this.hideResultsMatch = true;

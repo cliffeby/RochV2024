@@ -21,10 +21,10 @@ export class ScoresMatEditComponent implements OnInit {
   @Input() public score: Score;
   @Output() public UpdateScoreEvent = new EventEmitter();
   @Output() public ReturnScoreEvent = new EventEmitter();
-  scored: any;
+  // scored: any;
   scorecard$: Observable<Scorecard>;
-  holeNo = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
-  newScores = []
+  holeNo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  // newScores = []
   constructor(
     private fb: UntypedFormBuilder,
     private _scorcardsService: ScorecardsService,
@@ -43,7 +43,6 @@ export class ScoresMatEditComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    // this.score.scPars.pop();
     this.scoreForm1 = this.fb.group({
       name: this.score.name,
       score: this.mySum(this.score.scores),
@@ -57,27 +56,26 @@ export class ScoresMatEditComponent implements OnInit {
         this.loadScoreControls(this.ESA(this.score.scores))
       ),
     });
-    console.log('SF1', this.scoreForm1, this.score);
+    // console.log('SF1', this.scoreForm1, this.score);
     this.scoreForm1.get('scores').valueChanges.subscribe((value) => {
-      console.log(value);
+      // console.log(value);
       this.score.scores = value;
-      console.log('SCORE', this.scoreForm1, this.score);
+      // console.log('SCORE', this.scoreForm1, this.score);
     });
     this.scorecard$ = this._scorcardsService.getScorecard(
       this.score.scorecardId
     );
     this.changeScore()
   }
-  mySum(array) {
+  mySum(array:number[]) {
     if (array.length == 19) {
       array.pop();
     }
     return array.reduce((acc, item) => acc + item, 0);
   }
 
-  loadScoreControls(item) {
-    console.log('ITEM', item);
-    let y = [];
+  loadScoreControls(item:number[]) {
+    let y:UntypedFormControl[] = [];
     for (let ii = 0; ii < 18; ii++) {
       if (item) {
         y.push(new UntypedFormControl({ value: item[ii], disabled: false }));
@@ -89,7 +87,7 @@ export class ScoresMatEditComponent implements OnInit {
     return y;
   }
   
-  changeScore() {
+  changeScore(): void {
     this.scoreForm1.get('scores').valueChanges.subscribe((value) => {
       this.score.scores = value;
       this.scoreForm1.controls['score'].setValue(value[18]);
@@ -101,7 +99,7 @@ export class ScoresMatEditComponent implements OnInit {
     });
   }
 
-  ESA(value: number[]) {
+  ESA(value: number[]):number[] {
     const data = this.userProp(); //First Subcription to User
     const pars: number[] = data[0];
     const hCaps: number[] = data[1];
@@ -117,6 +115,7 @@ export class ScoresMatEditComponent implements OnInit {
     console.log('values', value1, value, pars, hCaps, ci);
     return value1;
   }
+
   userProp() {
     let parsArray: number[] = [];
     let hCapsArray: number[] = [];
@@ -132,7 +131,8 @@ export class ScoresMatEditComponent implements OnInit {
   public handleError = (controlName: string, errorName: string) => {
     return this.scoreForm1.controls[controlName].hasError(errorName);
   };
-  updateScoreForm() {
+
+  updateScoreForm():void {
     this.score.name = this.scoreForm1.value.name;
     this.score.score = this.scoreForm1.value.score;
     this.score.user = this.scoreForm1.value.user;

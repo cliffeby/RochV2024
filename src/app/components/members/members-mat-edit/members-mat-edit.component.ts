@@ -22,7 +22,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   public scorecards: Scorecard[];
   tees: any;
   temp: any;
-  tempTees = null;
+  tempTees: any = null;
   // mytees: any = [];
   myTees: any = [];
 
@@ -40,7 +40,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       course: '',
     });
   }
-  private authSubscription;
+  private authSubscription: any;
   public memberForm1: UntypedFormGroup;
   @Input() public member: Member;
   @Output() public updateMemberEvent = new EventEmitter();
@@ -88,7 +88,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
           const sc = resSCData;
           this.myTees.push(sc.scorecard);
           // Sort by group name so list is similar for each member
-          this.myTees = this.myTees.sort((a, b) =>
+          this.myTees = this.myTees.sort((a:any, b:any) =>
             a.groupName > b.groupName ? 1 : -1
           );
         });

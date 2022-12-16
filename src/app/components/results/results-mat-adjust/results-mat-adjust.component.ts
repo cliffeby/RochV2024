@@ -18,14 +18,14 @@ import { ScoresService } from 'src/app/services/scores.service';
 })
 export class ResultsMatAdjustComponent implements OnInit {
   subscription: Subscription;
-  public scores;
+  public scores:any;
   public scorecard: Scorecard;
   dataSource: MatTableDataSource<Score[]>;
   paginator: any;
   @Input() public match: Match;
   results: Results[] = [new Results()];
-  frontTot = [];
-  backTot = [];
+  frontTot:number[] = [];
+  backTot:number[] = [];
   resultsForm: UntypedFormGroup;
   arr: UntypedFormArray;
   constructor(
@@ -50,7 +50,7 @@ export class ResultsMatAdjustComponent implements OnInit {
         }
       );
   }
-  loadItem(player, i) {
+  loadItem(player:any, i:number) {
     let name_Index = player.name + '-' + player.usgaIndex.toString();
     console.log('loadItem', player);
     return this.fb.group({
@@ -61,7 +61,7 @@ export class ResultsMatAdjustComponent implements OnInit {
       scores: new UntypedFormArray(this.loadScoreControls(player, i)),
     });
   }
-  loadScoreControls(person, i) {
+  loadScoreControls(person:any, i:number) {
     let y = [];
     let s:string = "";
         this.frontTot[i] = this.backTot[i] = 0;
@@ -80,7 +80,7 @@ export class ResultsMatAdjustComponent implements OnInit {
     console.log('loadScoreControls', y, person);
     return y;
   }
-  createDataSource(scores) {
+  createDataSource(scores:any) {
     console.log('scores', scores);
     for (let i = 0; i < scores.length; i++) {
       this._scorecardsService

@@ -2,7 +2,7 @@
   <form [formGroup]="scoreForm1">
     <div>
       Name: {{score.name}}
-      <mat-form-field>
+      <mat-form-field class="inputstyle spaceleft5px">
         <input matInput placeholder="score" formControlName="score" />
         <mat-error *ngIf="handleError('name', 'required')">
           You must provide a<strong>score</strong>

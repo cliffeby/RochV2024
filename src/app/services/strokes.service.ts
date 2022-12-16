@@ -25,7 +25,7 @@ export class StrokesService {
 
   public loading$ = this.loadingSubject.asObservable(); //
 
-  newData(data) {
+  newData(data:any) {
     this.matchResultSubject.next(data); //Function to update the dataSource table
   }
 
@@ -72,7 +72,7 @@ export class StrokesService {
 
   interWeaveNets(a: Results[]) {
     //Organizes the rows in the dataSource table for a fourball match
-    let array = [];
+    let array:any[] = [];
     for (let i = 0; i < a.length - 1; i++) {
       //Players are pre-arranged by team and foursome Row A1, Row B1 vs Row A2, Row B2
       array.push(a[i]); //Player A1 but first two rows of DataSource are headers of Par and Stroke Index for the hole
@@ -112,7 +112,7 @@ export class StrokesService {
         }
       }
       const temp = this.teamNets(i, lowCap); //Calculate the net scores for each team in a foursome.  Temp is an array of results.
-      let sColor = [];
+      let sColor: string[] = [];
       if (this.results[i].name != 'OneBall') {
         //Do not apply ESA red color to OneBall score
         sColor = this.results[i].scoreColor;
@@ -164,7 +164,7 @@ export class StrokesService {
     return netTeamScores; //   Returns object with properties betterBallNet[22], name w/ handicap, nets1[22], nets2[22],                                                     // oneBallNet[22], scoreColor[18], scores[23]
   }
 
-  fb18(arr, hcap, flag?: boolean) {
+  fb18(arr:any[], hcap:number, flag?: boolean) {
     //Sums the scores on the front, back, and 18 and adds them to the array at [18], [19], [20]
     let front: number = 0;
     let back: number = 0;
@@ -191,26 +191,26 @@ export class StrokesService {
   }
 
   //Up todate?
-  ESA(player) {
+  ESA(player:any) {
     let scoresToPost = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     console.log('PLAYER', player, player.scSlope);
 
-    const grossScores = player.scores;
+    // const grossScores = player.scores;
     const hCaps: number[] = player.scHCapInputString
       .split(',')
-      .map(function (item) {
+      .map(function (item:string) {
         return parseInt(item, 10);
       });
     const pars: number[] = player.scParInputString
       .split(',')
-      .map(function (item) {
+      .map(function (item:string) {
         return parseInt(item, 10);
       });
     const par = 72;
     const courseHandicap = Math.round(
       (player.usgaIndex * player.scSlope) / 113 + (player.scRating - par)
     );
-    player.scores.map((item, index) => {
+    player.scores.map((item:number, index:number) => {
       scoresToPost[index] = item;
       if (item - pars[index] >= 3) {
         scoresToPost[index] = pars[index] + 3;
@@ -226,10 +226,10 @@ export class StrokesService {
     return scoresToPost;
   }
 
-  getHoleIndices(player) {
+  getHoleIndices(player:any) {
     if (player.hasOwnProperty('scorecards')) {
       console.log('PPP', player.scorecards, player.scorecardId, player.name);
-      player.scorecards.forEach((sc) => {
+      player.scorecards.forEach((sc:any) => {
         console.log(
           'OOO',
           sc._id,
@@ -241,21 +241,12 @@ export class StrokesService {
         }
       });
     }
-    // this._scorecardsService.getScorecard(player.scorecardId).subscribe(
-    //    (data) => {
-    //      var sc = data;
-    //      return sc
-    //    },
-    //    (error) => {
-    //      console.log(error);
-    //    }
-    //  );
   }
 
-  ESAColorNets(j) {
+  ESAColorNets(j:number) {
     //Sets the color of a hole score to red if it needs to be ESA adjusted
-    let nets: Results[] = [];
-    let net: Results;
+    // let nets: Results[] = [];
+    // let net: Results;
 
     for (let i = 0; i < 18; i++) {
       if (
@@ -275,7 +266,7 @@ export class StrokesService {
     }
   }
 
-  ESAAdjust(j, i): number {
+  ESAAdjust(j:number, i:number): number {
     //Calculates the ESA adjustment for a hole score.  Players with hanicaps over 18 can take quads on those holes
     let x: number = 0;
     if (this.results[j].handicap >= this.results[j].handicaps[i]) {
@@ -287,7 +278,7 @@ export class StrokesService {
     return x;
   }
 
-  teamNets(j, lowCap): any[] {
+  teamNets(j:number, lowCap:number): any[] {
     //Calculate where strokes are granted for the fourball match (/) and to course par (*)
     let nets3: any[] = []; //nets3 add an * or ** to a score if the player has a handicap over hole's stroke index.  A string value.
     let nets1: any[] = []; //nets1 is the net score adjusted by the lowest handicap in foursome.  A numeric value.
@@ -337,7 +328,7 @@ export class StrokesService {
     return [nets1, nets2, nets3];
   }
 
-  stringToNumArray(aString: any, flag?: boolean) {
+  stringToNumArray(aString: string, flag?: boolean) {
     //Parse pars, handicaps and yards from string to number array
     let aNumArray = [];
     let bb = aString.split(',');
@@ -347,7 +338,7 @@ export class StrokesService {
     return this.fb18(aNumArray, 0, flag); //Include front ,back, and 18 totals.  Do not appy a players handicap
   }
 
-  createHeaders(scs) {
+  createHeaders(scs:any) {
     //Create headers rows for the table
     let headers = [{ name: '', scores: [], scoreColor: [] }]; //Header needs three properties: name, scores/values, and scoreColor
     this._scorecardsService
@@ -366,7 +357,7 @@ export class StrokesService {
           //Row 1 is the hole name/number
           name: 'Holes',
           scores: holeName,
-          scoreColor: [''], //Background color set in css
+          scoreColor: [''], //Background color set in  css
         });
         headers.push({
           name: 'Pars', //Row 2 is the Par value for each hole
@@ -382,7 +373,7 @@ export class StrokesService {
     return headers;
   }
 
-  teamMatch(foursome, j) {
+  teamMatch(foursome:any, j:number) {
     //Create a row that shows the fourball match status.  Assume auto presses when two down and 18-hole press when closed out
     let nassau = this._scoringUtilService.fourBallAutoNassau(foursome, j, 0); //Utility to calculate the fourball match status hole by hole
     const front =
@@ -400,13 +391,13 @@ export class StrokesService {
     }
     nassau[18] = front.toString() + 'x'; // nassau[18,19, and 20] are front, back and 18 number of bets won or lost
     nassau[19] = back.toString() + 'x/' + tempPress.toString() + 'x'; // nassau[18,19,] are front, back with back showing the 18 hole press result
-    nassau[20] = (front + back + press).toString() + 'x'; //Number of bets won or lost
+    nassau[20] = (front + back + press).toString() + 'x'; //Number of bets won or lost 
     console.log('nassauF', nassau);
 
     return nassau;
   }
 
-  matchPress(A, k) {
+  matchPress(A:any[], k:number) {
     //Calculate the 18-hole press result A is the array of all scores inthe match k is the index of the player
     //  Assumes players are arranged in foursomes
     let matchScore: number = 0;

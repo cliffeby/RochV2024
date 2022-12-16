@@ -18,7 +18,7 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./scorecards-mat-edit.component.css'],
 })
 export class ScorecardsMatEditComponent implements OnInit, OnDestroy {
-  public authSubscription;
+  public authSubscription:any;
   public scorecardForm1: UntypedFormGroup;
   public profileJson: string = null;
   constructor(private fb: UntypedFormBuilder, public auth: AuthService) {

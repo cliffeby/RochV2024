@@ -42,10 +42,10 @@ export class MatchPairService {
     return pairings;
   }
 
-  async generateLineUps(rPlaying) {
+  async generateLineUps(rPlaying:any) {
     let sd: number;
-    let foursomeUSGAIndex: Number[] = [];
-    let combos = [];
+    let foursomeUSGAIndex: number[] = [];
+    let combos:any[] = [];
     let combo = [];
 
     for (let i = 0; i < 10000; i++) {
@@ -75,7 +75,7 @@ export class MatchPairService {
     return items;
   }
 
-  standardDeviation(arr) {
+  standardDeviation(arr:number[]) {
     // Creating the mean with Array.reduce
     let mean =
       arr.reduce((acc, curr) => {

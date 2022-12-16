@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MatchPairComponent implements OnInit {
   matchPairings: any;
-  todaysLineUp = [];
+  todaysLineUp:any[] = [];
   index = 0;
   lineUpLocked = false;
   @Output() public lockMatchEvent = new EventEmitter();

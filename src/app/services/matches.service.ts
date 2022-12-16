@@ -16,13 +16,13 @@ export class MatchesService {
   public matchStatusSubject = new BehaviorSubject('open');
   public matchesSubject = new BehaviorSubject(null);
 
-  numberPlaying(data) {
+  numberPlaying(data:any) {
     this.playersCountSubject.next(data);
   }
 
-  shapePlayers(data) {
+  shapePlayers(data:any) {
     this.sortByIndexSubject.next(
-      data.sort((a, b) => a.usgaIndex - b.usgaIndex)
+      data.sort((a:any, b:any) => a.usgaIndex - b.usgaIndex)
     );
   }
 
@@ -30,11 +30,11 @@ export class MatchesService {
     return this.sortByIndexSubject.asObservable();
   }
 
-  medianUSGAIndex(data) {
-    let usgaIndex = data.map(function (data) {
+  medianUSGAIndex(data:any) {
+    let usgaIndex = data.map(function (data:any) {
       return data.usgaIndex;
     });
-    let median = usgaIndex.sort(function (a, b) {
+    let median = usgaIndex.sort(function (a:any, b:any) {
       return a - b;
     })[Math.floor(usgaIndex.length / 2)];
     return median;

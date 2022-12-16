@@ -21,7 +21,7 @@ export class MatchScoreComponent implements OnInit {
   @Input() public match: Match;
   public scoreForm: UntypedFormGroup;
   public arr: UntypedFormArray;
-  players = [];
+  players:any[] = [];
   frontTot: number[] = [0];
   backTot: number[] = [0];
   totTot: number[] = [];
@@ -43,7 +43,7 @@ export class MatchScoreComponent implements OnInit {
       this.arr.push(this.loadItem(this.players[i], i));
     }
   }
-  loadItem(player, i) {
+  loadItem(player:any, i:number) {
     let name_Index = player.fullName + '-' + player.handicap.toString();
     return this.fb.group({
       name: new UntypedFormControl({ value: name_Index, disabled: true }),

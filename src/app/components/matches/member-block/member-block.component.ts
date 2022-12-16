@@ -35,7 +35,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   @Input() public match: Match; // Model Match contains populated scorecard which is not valid??
   score: Score = new Score();
   players: number = 0; //Player count
-  scorecards = [];
+  scorecards:any[] = [];
   scplayers: any[] = [];
 
   constructor(

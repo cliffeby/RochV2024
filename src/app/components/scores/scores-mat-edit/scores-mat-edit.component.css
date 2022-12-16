@@ -40,4 +40,14 @@ input::-webkit-inner-spin-button {
 .space5px {
   margin-right: 6px;
 }
+.spaceleft5px {
+  margin-left: 6px;
+}
+.inputstyle {
+  min-width: 40px;
+  max-width: 45px;
+  width: 100%;
+  font-size: larger;
+  font-weight: 400;
+}
 

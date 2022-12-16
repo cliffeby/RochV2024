@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'src/app/pages/home/home.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
-import { ExternalApiComponent } from 'src/app/pages/external-api/external-api.component';
+// import { ExternalApiComponent } from 'src/app/pages/external-api/external-api.component';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
 import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
 import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
@@ -25,10 +25,10 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
   },
-  {
-    path: 'external-api',
-    component: ExternalApiComponent,
-  },
+  // {
+  //   path: 'external-api',
+  //   component: ExternalApiComponent,
+  // },
   {
     path: 'scorecards',
     component: ScorecardsMatCenterComponent,

@@ -43,10 +43,10 @@ export class Strokes1Service {
 
   public loading$ = this.loadingSubject.asObservable(); //
   test$ = of([1, 2, 3]);
-  newData(data) {
+  newData(data:any) {
     this.matchResultSubject.next(data); //Function to update the dataSource table
   }
-  obData(match) {
+  obData(match:any) {
     const x = this._scoresService.getScoresByMatch(match._id).pipe(
       // bufferCount(4),
       concatMap((players) => {
@@ -144,7 +144,7 @@ export class Strokes1Service {
     return this.fb18(aNumArray, flag); //Include front ,back, and 18 totals.  Do not appy a players handicap
   }
 
-  fb18(arr, flag?: boolean) {
+  fb18(arr:any[], flag?: boolean) {
     //Sums the scores on the front, back, and 18 and adds them to the array at [18], [19], [20]
     let front: number = 0;
     let back: number = 0;
@@ -179,7 +179,7 @@ export class Strokes1Service {
     return holeName;
   }
 
-  teamNets(j, lowCap): any[] {
+  teamNets(j:any, lowCap:any): any[] {
     //Calculate where strokes are granted for the fourball match (/) and to course par (*)
     let nets3: any[] = []; //nets3 add an * or ** to a score if the player has a handicap over hole's stroke index.  A string value.
     let nets1: any[] = []; //nets1 is the net score adjusted by the lowest handicap in foursome.  A numeric value.
@@ -244,7 +244,8 @@ export class Strokes1Service {
       if (i % 4 == 0) {
         //After four players, add a row for the match result
         array.push({
-          scores: [], //Team match result for foursome i in a
+          scores:[], //Team match result for foursome i in a   MAY NEED []// scores: [], //Team match result for foursome i in a   MAY NEED []
+          
           name: 'Match',
           scoreColor: this._scoringUtilService.initArrayX(22, 'ADFF2F'), //Color 22 match scoring green
         });

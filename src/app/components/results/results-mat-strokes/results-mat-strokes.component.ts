@@ -20,7 +20,7 @@ import { ItemsDataSource } from './items-data-source';
 export class ResultsMatStrokesComponent implements OnInit {
   public dataSource3 = new ItemsDataSource(this._strokesService); //See ItemsDataSource.ts  It creates a data source for the table
   subscription: Subscription;
-  public scores;
+  public scores:any;
   @Output() public PrintResultEvent1 = new EventEmitter();
   displayedColumns: string[] = [
     'name',
@@ -50,7 +50,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   ];
   // paginator: any;
   @Input() public match: Match; //match selected from results list
-  first3Rows; //First rows of table are sticky headers.
+  first3Rows:any; //First rows of table are sticky headers.
   loading$ = this._strokesService.loadingSubject.asObservable();
 
   constructor(

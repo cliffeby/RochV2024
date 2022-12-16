@@ -85,7 +85,7 @@ export class ScoresMatListComponent
     this._activatedRoute.data
       .pipe(
         map((results) =>
-          results.scores.reduce((group, item) => {
+          results.scores.reduce((group:any, item:any) => {
             if (group[item.memberId]) {
               group[item.memberId].push([
                 item.usgaIndexForTodaysScore,
@@ -100,7 +100,7 @@ export class ScoresMatListComponent
                 item.memberId,
               ]);
             }
-            group[item.memberId].sort((a, b) =>
+            group[item.memberId].sort((a:any, b:any) =>
               a[1] > b[1] ? -1 : b[1] > a[1] ? 1 : 0
             );
             return group;
@@ -112,9 +112,9 @@ export class ScoresMatListComponent
           console.log(
             group[key]
               .slice(0, 10)
-              .sort((a, b) => (a[0] > b[0] ? 1 : b[0] > a[0] ? -1 : 0))
+              .sort((a:any, b:any) => (a[0] > b[0] ? 1 : b[0] > a[0] ? -1 : 0))
               .slice(0, 3)
-              .reduce((key, item) => {
+              .reduce((key:any, item:any) => {
                 if (item.memberId) {
                   item.previousValue + item.currentValue;
                 } else {
@@ -137,7 +137,7 @@ export class ScoresMatListComponent
     console.log('onScoreSelect');
   }
 
-  onDelete(index, score) {
+  onDelete(index:number, score:any) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(

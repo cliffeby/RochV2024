@@ -53,7 +53,7 @@ export class ScoringUtilitiesService {
     return temp;
   }
 
-  fourBallAutoNassau(teamA: number[], j, option: number): string[] {
+  fourBallAutoNassau(teamA: number[], j: number, option: number): string[] {
     let scoring: string[] = this.initArrayX(21, '0');
     let m = 0;
     for (let k = 0; k < 2; k++) {

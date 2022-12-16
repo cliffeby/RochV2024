@@ -27,7 +27,7 @@ import { SCDataSource } from '../../matches/matches-print-scorecards/sc-data-sou
 export class MatchesPrintScorecardsComponent implements OnInit {
   public dataSource3 = new SCDataSource(this._strokesService); // See ItemsDataSource.ts  It creates a data source for the table
   subscription: Subscription;
-  public scores;
+  public scores:any;
   @Output() public PrintResultEvent1 = new EventEmitter();
   displayedColumns: string[] = [
     'name',
@@ -57,12 +57,12 @@ export class MatchesPrintScorecardsComponent implements OnInit {
   ];
   // paginator: any;
   @Input() public match: Match; // match selected from results list
-  first3Rows; // First  rows of table are sticky headers.
+  first3Rows:any; // First  rows of table are sticky headers.
   loading$ = this._strokesService.loadingSubject.asObservable();
   results$: Observable<any>;
   results1: any[];
-  players$;
-  scorecards$;
+  players$: Observable<any>;
+  scorecards$: Observable<any>;;
 
   constructor(
     private _scoresService: ScoresService,

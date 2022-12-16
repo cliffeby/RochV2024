@@ -69,7 +69,7 @@ export class MatchesMatListComponent
     console.log(changes);
   }
 
-  onAdd(mem) {
+  onAdd(mem:any) {
     this.SelectMatchEvent.emit(mem);
   }
 
@@ -90,7 +90,7 @@ export class MatchesMatListComponent
     this.UnLockMatchEvent.emit(mem);
     this._matchesService.matchStatusSubject.next('open');
   }
-  onDelete(index, match) {
+  onDelete(index:number, match:any) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(

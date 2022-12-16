@@ -22,7 +22,7 @@ import { MatchesService } from 'src/app/services/matches.service';
   styleUrls: ['./matches-mat-edit.component.css'],
 })
 export class MatchesMatEditComponent implements OnInit, OnDestroy {
-  public authSubscription;
+  public authSubscription:any;
   public matchForm1: UntypedFormGroup;
   public profileJson: string = null;
   public scorecards: Scorecard[];

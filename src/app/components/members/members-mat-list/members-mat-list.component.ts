@@ -56,7 +56,7 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
-  onAdd(mem) {
+  onAdd(mem:any) {
     this.SelectMemberEvent.emit(mem);
   }
 
@@ -64,7 +64,7 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     this.SelectMemberEvent.emit(mem);
   }
 
-  onDelete(index, member) {
+  onDelete(index: number, member:any) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(

@@ -51,10 +51,10 @@ export class ResultsMatListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  onAdjust(match, i) {
+  onAdjust(match:any, i:number) {
     this.AdjustScoreEvent.emit(match);
   }
-  onStrokes(match) {
+  onStrokes(match:any) {
     this.SelectMatchEvent.emit(match);
   }
   onPrint(mem: any) {

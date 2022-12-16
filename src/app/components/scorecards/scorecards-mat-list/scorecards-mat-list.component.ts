@@ -53,7 +53,7 @@ export class ScorecardsMatListComponent implements OnInit, AfterViewInit {
     );
   }
 
-  onAdd(mem) {
+  onAdd(mem:any) {
     this.SelectScorecardEvent.emit(mem);
   }
 
