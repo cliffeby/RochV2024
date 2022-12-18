@@ -45,9 +45,10 @@ input::-webkit-inner-spin-button {
 }
 .inputstyle {
   min-width: 40px;
-  max-width: 45px;
+  max-width: 65px;
   width: 100%;
   font-size: larger;
   font-weight: 400;
+  text-align: center;
 }
 

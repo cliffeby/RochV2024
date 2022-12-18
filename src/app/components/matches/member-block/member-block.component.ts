@@ -182,9 +182,9 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         // ' ' +
         member.firstName +
         ' ' +
-        member.lastName +
-        ' ' +
-        member.handicap;
+        member.lastName;
+        // ' ' +
+        // member.handicap;
       // console.log('score', this.score, member);
       this.subscription2 = this._scoresService
         .createScore(this.score)

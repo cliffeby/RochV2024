@@ -3,7 +3,8 @@
     <div>
       Name: {{score.name}}
       <mat-form-field class="inputstyle spaceleft5px">
-        <input matInput placeholder="score" formControlName="score" />
+        <input matInput placeholder="
+        ESA score" formControlName="postedScore" />
         <mat-error *ngIf="handleError('name', 'required')">
           You must provide a<strong>score</strong>
         </mat-error>

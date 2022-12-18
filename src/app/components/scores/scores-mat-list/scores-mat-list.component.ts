@@ -49,7 +49,7 @@ export class ScoresMatListComponent
     'scSlope',
     'usgaIndexForTodaysScore',
     'datePlayed',
-    'user',
+    // 'user',
     'action',
   ];
   subscription: Subscription;
