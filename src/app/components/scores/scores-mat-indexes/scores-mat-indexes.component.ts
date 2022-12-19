@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Score } from 'src/app/models/score';
 
 @Component({
   selector: 'app-scores-mat-indexes',
@@ -7,11 +12,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScoresMatIndexesComponent implements OnInit {
 
-  constructor() { }
+  public scoreForm1: UntypedFormGroup;
+  @Input() public allPlayerScores: {scr:Score, scrArray:Score[]};
+ 
+  score:Score;
+  scores:Score[];
+  dataSource: MatTableDataSource<Score[]>;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  displayedColumns: string[] = [
+   
+    'datePlayed',
+    'scoreToPost',
+    'scRating',
+    'scSlope'
+  ];
+ 
+  constructor(
+    private fb: UntypedFormBuilder,
+  ) {
+    this.scoreForm1 = fb.group({
 
-  ngOnInit(): void {
-
-    
+      score: null,
+      usgaIndex: null,
+      postedScore: null,
+    });
   }
+  ngOnInit(): void {
+    console.log('AllPlayerScores', this.allPlayerScores.scrArray['scores'])
+    this.scores = this.allPlayerScores.scrArray;
+    
+    this.dataSource = new MatTableDataSource<any>(this.scores);
+  };
+
+
+ngAfterViewInit(): void {
+  // this.dataSource.sort = this.sort;
+  // this.dataSource.paginator = this.paginator;
+}
 
 }

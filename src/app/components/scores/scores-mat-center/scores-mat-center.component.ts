@@ -22,7 +22,7 @@ export class ScoresMatCenterComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSelectScore(score: Score) {
+  onSelectScore(score: any) {
     console.log('onSelectScore');
     if (score === null) {
       this.hidenewScore = false;

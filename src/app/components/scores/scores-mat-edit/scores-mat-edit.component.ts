@@ -18,10 +18,10 @@ import { ScorecardsService } from 'src/app/services/scorecards.service';
 })
 export class ScoresMatEditComponent implements OnInit {
   public scoreForm1: UntypedFormGroup;
-  @Input() public score: Score;
+  @Input() public allPlayerScores: any;
   @Output() public UpdateScoreEvent = new EventEmitter();
   @Output() public ReturnScoreEvent = new EventEmitter();
-  // scored: any;
+  score:Score;
   scorecard$: Observable<Scorecard>;
   holeNo: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
   // newScores = []
@@ -43,6 +43,9 @@ export class ScoresMatEditComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    console.log('AllPlayerScores', this.allPlayerScores)
+    this.score = this.allPlayerScores.scr;
+    
     this.scoreForm1 = this.fb.group({
       name: this.score.name,
       score: this.mySum(this.score.scores),

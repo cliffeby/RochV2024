@@ -13,7 +13,8 @@
 </div>
 <div *ngIf="selectedScore && !hidenewScore">
   <h2>Score Input</h2>
-  <app-scores-mat-edit (UpdateScoreEvent) = "onUpdateScoreEvent($event) " [score]="selectedScore"></app-scores-mat-edit>
+  <app-scores-mat-edit (UpdateScoreEvent) = "onUpdateScoreEvent($event) " [allPlayerScores]="selectedScore"></app-scores-mat-edit>
+  <app-scores-mat-indexes [allPlayerScores] ='selectedScore'></app-scores-mat-indexes>
 </div>
 <app-scores-mat-list *ngIf="!selectedScore && hidenewScore" (ViewScoreEvent)="onSelectScore($event)"
   (RecordScoreEvent)="onRecordScoreEvent($event)" (DeleteScoreEvent)="onDeleteScoreEvent($event)">
