@@ -30,12 +30,12 @@
         </ng-container> -->
 
         <ng-container matColumnDef="scRating">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Rating </th>
+          <th mat-header-cell *matHeaderCellDef> Rating </th>
           <td mat-cell *matCellDef="let element"> {{element.scRating}} </td>
         </ng-container>
 
         <ng-container matColumnDef="scSlope">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Slope </th>
+          <th mat-header-cell *matHeaderCellDef> Slope </th>
           <td mat-cell *matCellDef="let element"> {{element.scSlope}} </td>
         </ng-container>
 
@@ -46,7 +46,7 @@
 
         <ng-container matColumnDef="datePlayed">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-          <td mat-cell *matCellDef="let element"> {{element.datePlayed | date: 'EEE MMM d y'}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.datePlayed | date: 'EEE MMM dd yyyy'}} </td>
         </ng-container>
         
         <ng-container matColumnDef="action">

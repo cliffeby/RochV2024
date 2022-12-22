@@ -37,7 +37,7 @@ export class ScoresMatListComponent
   scores: Score[];
   @Output() ViewScoreEvent = new EventEmitter();
   @Output() public DeleteScorecardEvent = new EventEmitter();
-  @Output() RecordScoreEvent = new EventEmitter<{scr:Score, scrArray:Score[]}>();
+  @Output() RecordScoreEvent = new EventEmitter<{scr:Score, scrArray:any[]}>();
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -133,18 +133,13 @@ export class ScoresMatListComponent
     this.ViewScoreEvent.emit(scr);
   }
   onRecordScore(scr: Score) {
-
     let playerScores:any[] = [];
     this.scores.forEach((score) =>{
       if (score.memberId == scr.memberId) 
       playerScores.push(score);
       return playerScores
     },
-    console.log('PlayerScores',playerScores)
-    );
-    this.RecordScoreEvent.emit({ scr:scr, scrArray:playerScores});
-
-    // this.RecordScoreEvent.emit(scr);
+    this.RecordScoreEvent.emit({ scr:scr, scrArray:playerScores}))
     console.log('onScoreSelect');
   }
 

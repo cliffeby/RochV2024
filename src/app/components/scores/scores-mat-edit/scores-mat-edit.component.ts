@@ -146,6 +146,7 @@ export class ScoresMatEditComponent implements OnInit {
         10
       ) / 10;
     this.score.scores = this.scoreForm1.value.scores;
+    this.score.postedScore = this.scoreForm1.value.postedScore;
     console.log(this.score);
     this.UpdateScoreEvent.emit(this.score);
   }
