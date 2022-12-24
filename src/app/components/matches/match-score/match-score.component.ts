@@ -167,9 +167,8 @@ export class MatchScoreComponent implements OnInit {
       }
       this.players[i].usgaIndexForTodaysScore =
         Math.round(
-          (((this.players[i].score - this.players[i].scRating) *
-            this.players[i].scSlope) /
-            113) *
+          (((this.players[i].score - this.players[i].scRating) *113/
+            this.players[i].scSlope) ) *
             10
         ) / 10;
       this.players[i].id = this.players[i]._id;

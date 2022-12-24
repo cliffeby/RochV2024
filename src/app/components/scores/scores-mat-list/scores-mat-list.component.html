@@ -24,11 +24,6 @@
           <td mat-cell *matCellDef="let element"> {{element.postedScore}} </td>
         </ng-container>
 
-        <!-- <ng-container matColumnDef="user">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
-          <td mat-cell *matCellDef="let element"> {{element.user}} </td>
-        </ng-container> -->
-
         <ng-container matColumnDef="scRating">
           <th mat-header-cell *matHeaderCellDef> Rating </th>
           <td mat-cell *matCellDef="let element"> {{element.scRating}} </td>
@@ -40,8 +35,13 @@
         </ng-container>
 
         <ng-container matColumnDef="usgaIndexForTodaysScore">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Today's Index </th>
-          <td mat-cell *matCellDef="let element"> {{element.usgaIndexForTodaysScore}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Today's Differential </th>
+          <td mat-cell *matCellDef="let element"> {{element.usgaIndexForTodaysScore | number: '1.1-1'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="usgaIndex">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> New Index </th>
+          <td mat-cell *matCellDef="let element"> {{element.usgaIndex | number: '1.1-1'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="datePlayed">

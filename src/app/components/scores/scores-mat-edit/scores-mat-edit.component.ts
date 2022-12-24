@@ -139,14 +139,13 @@ export class ScoresMatEditComponent implements OnInit {
     this.score.name = this.scoreForm1.value.name;
     this.score.score = this.scoreForm1.value.score;
     this.score.user = this.scoreForm1.value.user;
+    this.score.postedScore = this.scoreForm1.value.postedScore;
     this.score.usgaIndexForTodaysScore =
       Math.round(
-        (((this.score.score - this.score.scRating) * this.score.scSlope) /
-          113) *
+        (((this.score.postedScore - this.score.scRating) * 113 / this.score.scSlope)) *
         10
       ) / 10;
     this.score.scores = this.scoreForm1.value.scores;
-    this.score.postedScore = this.scoreForm1.value.postedScore;
     console.log(this.score);
     this.UpdateScoreEvent.emit(this.score);
   }

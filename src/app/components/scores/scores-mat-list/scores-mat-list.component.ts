@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   EventEmitter,
   Output,
   ViewChild,
@@ -13,17 +12,9 @@ import { Score } from '../../../models/score';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import {
-  groupBy,
-  map,
-  mergeAll,
-  mergeMap,
-  take,
-  toArray,
-} from 'rxjs/operators';
-import { ItemPermission } from 'menu-api copy/src/items/item-permission';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-scores-mat-list',
@@ -33,11 +24,10 @@ import { ItemPermission } from 'menu-api copy/src/items/item-permission';
 export class ScoresMatListComponent
   implements OnInit, AfterViewInit, OnDestroy {
   public unauth: boolean;
-  // @Input() scores: Score[];
   scores: Score[];
   @Output() ViewScoreEvent = new EventEmitter();
   @Output() public DeleteScorecardEvent = new EventEmitter();
-  @Output() RecordScoreEvent = new EventEmitter<{scr:Score, scrArray:any[]}>();
+  @Output() RecordScoreEvent = new EventEmitter<{ scr: Score, scrArray: any[] }>();
   dataSource: MatTableDataSource<Score[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -48,6 +38,7 @@ export class ScoresMatListComponent
     'scRating',
     'scSlope',
     'usgaIndexForTodaysScore',
+    'usgaIndex',
     'datePlayed',
     // 'user',
     'action',
@@ -58,19 +49,9 @@ export class ScoresMatListComponent
   constructor(
     private _scoresService: ScoresService,
     private _activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
-    //  this.subscription = this._scoresService.getScores().subscribe(
-    //    (data) => {
-    //      this.scores = data;
-    //      this.dataSource = new MatTableDataSource<Score[]>(data);
-    //      this.dataSource.paginator = this.paginator;
-    //    },
-    //    (error) => {
-    //      console.log(error);
-    //    }
-    //  );
     this.subscription = this._activatedRoute.data.subscribe((data) => {
       this.scores = data.scores;
       this.dataSource = new MatTableDataSource<any>(this.scores);
@@ -85,7 +66,7 @@ export class ScoresMatListComponent
     this._activatedRoute.data
       .pipe(
         map((results) =>
-          results.scores.reduce((group:any, item:any) => {
+          results.scores.reduce((group: any, item: any) => {
             if (group[item.memberId]) {
               group[item.memberId].push([
                 item.usgaIndexForTodaysScore,
@@ -100,7 +81,7 @@ export class ScoresMatListComponent
                 item.memberId,
               ]);
             }
-            group[item.memberId].sort((a:any, b:any) =>
+            group[item.memberId].sort((a: any, b: any) =>
               a[1] > b[1] ? -1 : b[1] > a[1] ? 1 : 0
             );
             return group;
@@ -112,9 +93,9 @@ export class ScoresMatListComponent
           console.log(
             group[key]
               .slice(0, 10)
-              .sort((a:any, b:any) => (a[0] > b[0] ? 1 : b[0] > a[0] ? -1 : 0))
+              .sort((a: any, b: any) => (a[0] > b[0] ? 1 : b[0] > a[0] ? -1 : 0))
               .slice(0, 3)
-              .reduce((key:any, item:any) => {
+              .reduce((key: any, item: any) => {
                 if (item.memberId) {
                   item.previousValue + item.currentValue;
                 } else {
@@ -133,17 +114,17 @@ export class ScoresMatListComponent
     this.ViewScoreEvent.emit(scr);
   }
   onRecordScore(scr: Score) {
-    let playerScores:any[] = [];
-    this.scores.forEach((score) =>{
-      if (score.memberId == scr.memberId) 
-      playerScores.push(score);
+    let playerScores: any[] = [];
+    this.scores.forEach((score) => {
+      if (score.memberId == scr.memberId)
+        playerScores.push(score);
       return playerScores
     },
-    this.RecordScoreEvent.emit({ scr:scr, scrArray:playerScores}))
+      this.RecordScoreEvent.emit({ scr: scr, scrArray: playerScores }))
     console.log('onScoreSelect');
   }
 
-  onDelete(index:number, score:any) {
+  onDelete(index: number, score: any) {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(

@@ -63,10 +63,10 @@ export class ScoresMatIndexesComponent implements OnInit {
         .slice(0, 2)  //Take the first two - lowest indices
         .reduce((a, b) => a + b, 0) / 2 - 1;  //sum then average less adjustment 
         break;
-      case 7 || 8: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
+      case 7 || 8: history[0].usgaIndex = Math.trunc(Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
         .slice(0, 2)
-        .reduce((a, b) => a + b, 0) / 2;
+        .reduce((a, b) => a + b, 0) / 2 *10)/10
         break;
       case 9 || 10 || 11: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
