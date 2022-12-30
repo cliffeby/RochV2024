@@ -52,6 +52,7 @@ import { ResultsMatPrintComponent } from './components/results/results-mat-print
 import { MatchesPrintScorecardsComponent } from './components/matches/matches-print-scorecards/matches-print-scorecards.component';
 import { NgxPrintModule } from 'ngx-print';
 import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexes/scores-mat-indexes.component';
+import { ScorecardsService } from './services/scorecards.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -126,7 +127,8 @@ import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexe
       useClass: AuthHttpInterceptor,
       multi: true,
     },
-    ScoringUtilitiesService
+    ScoringUtilitiesService,
+    ScorecardsService
   ],
 })
 export class AppModule {}

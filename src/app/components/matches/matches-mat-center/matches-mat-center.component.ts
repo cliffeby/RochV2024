@@ -60,7 +60,8 @@ export class MatchesMatCenterComponent implements OnInit {
     // this.hidePairMatch = false;
     console.log('Print Match LineUps', match.lineUps);
     this._printService.lineUpSubject.next(match.lineUps);
-    this._printService.printDocument('scorecards');
+    // this._printService.printDocument('scorecards');
+    this._printService.createPdf();
   }
   onPrintSCEvent(match: Match) {
     this.selectedMatch = match;

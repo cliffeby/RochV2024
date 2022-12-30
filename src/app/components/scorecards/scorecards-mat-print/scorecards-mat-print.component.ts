@@ -14,6 +14,9 @@ export class ScorecardsMatPrintComponent implements OnInit {
       this.scLineUps = value;
       // console.log('Inside',this.scLineUps);
       this._printerService.onDataReady();
+      
     });
+  
   }
+ 
 }
