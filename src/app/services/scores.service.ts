@@ -50,11 +50,24 @@ export class ScoresService {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
   }
   stringToArray(myCSV: string){
-        const myArray: number[] = myCSV
-          .split(',')
-          .map(function (item) {
-            return parseInt(item, 10);
-          });
-          return myArray;
-  }
+    const myArray: number[] = myCSV
+      .split(',')
+      .map(function (item) {
+        return parseInt(item, 10);
+      });
+      return myArray;
+}
+stringToArraySC(myCSV: string){
+  var myArray: number[] = myCSV
+    .split(',')
+    .map(function (item) {
+      return parseInt(item, 10);
+    });
+    const x:number[] = [0,0];
+    myArray.push(0);
+    myArray.push(0);
+    myArray.push(0);
+    myArray.push(0);
+    return myArray;
+}
 }
