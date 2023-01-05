@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'src/app/pages/home/home.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
-// import { ExternalApiComponent } from 'src/app/pages/external-api/external-api.component';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
 import { ScorecardsMatCenterComponent } from './components/scorecards/scorecards-mat-center/scorecards-mat-center.component';
 import { MatchesMatCenterComponent } from './components/matches/matches-mat-center/matches-mat-center.component';
@@ -14,6 +13,7 @@ import { PrintScorecardComponent } from './components/print/print-scorecard/prin
 import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
 import { ResultsMatCenterComponent } from './components/results/results-mat-center/results-mat-center.component';
 import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
+import { IndexCenterComponent } from './components/index/index-center/index-center.component';
 
 const routes: Routes = [
   {
@@ -25,10 +25,6 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
   },
-  // {
-  //   path: 'external-api',
-  //   component: ExternalApiComponent,
-  // },
   {
     path: 'scorecards',
     component: ScorecardsMatCenterComponent,
@@ -73,6 +69,12 @@ const routes: Routes = [
     component: ResultsMatCenterComponent,
     data: { expectedScopes: ['read:matches'] },
     resolve: { matches: MatchResolver },
+  },
+  {
+    path: 'Index',
+    component: IndexCenterComponent,
+    data: { expectedScopes: ['read: scores'] },
+    resolve: { scores: ScoresResolver },
   },
 ];
 

@@ -14,6 +14,7 @@ export class Score {
          scRating: number;
          scPars: number[];
          scHCaps: number[];
+         scYards: number[];
          lineupIds: string[];
          memberId: string;
          partnerIds: string[];

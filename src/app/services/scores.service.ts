@@ -3,13 +3,13 @@ import { Score } from '../models/score';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-  const baseUrl = 'http://localhost:7000/api/scores';
+const baseUrl = 'http://localhost:7000/api/scores';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScoresService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getScores(): Observable<any[]> {
     return this.http.get<Score[]>(baseUrl);
@@ -49,25 +49,27 @@ export class ScoresService {
   updateScoresByMatch(matchId: string) {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
   }
-  stringToArray(myCSV: string){
+  stringToArray(myCSV: string) {
+    if (myCSV == undefined) return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     const myArray: number[] = myCSV
       .split(',')
       .map(function (item) {
         return parseInt(item, 10);
       });
-      return myArray;
-}
-stringToArraySC(myCSV: string){
-  var myArray: number[] = myCSV
-    .split(',')
-    .map(function (item) {
-      return parseInt(item, 10);
-    });
-    const x:number[] = [0,0];
+    return myArray;
+  }
+  stringToArraySC(myCSV: string) {
+    if (myCSV == undefined) return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    var myArray: number[] = myCSV
+      .split(',')
+      .map(function (item) {
+        return parseInt(item, 10);
+      });
+    const x: number[] = [0, 0];
     myArray.push(0);
     myArray.push(0);
     myArray.push(0);
     myArray.push(0);
     return myArray;
-}
+  }
 }

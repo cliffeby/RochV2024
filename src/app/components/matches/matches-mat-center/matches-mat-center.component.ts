@@ -55,9 +55,6 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onPrintMatchEvent(match: Match) {
-    // this.hidenewMatch = true;
-    // this.hideMemberBlock = true;
-    // this.hidePairMatch = false;
     console.log('Print Match LineUps', match.lineUps);
     this._printService.lineUpSubject.next(match.lineUps);
     this._printService.scorecardSubject.next(match.lineUps[0].playerA.scorecardId);
@@ -69,9 +66,6 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideSCPrint = false;
-    // console.log('Print SC Match', match);
-    // this._printService.lineUpSubject.next(match.lineUps);
-    // this._printService.printDocument('scorecards');
   }
 
   onUnLockMatchEvent(match: Match) {

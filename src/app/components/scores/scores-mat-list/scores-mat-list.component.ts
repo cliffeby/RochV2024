@@ -72,6 +72,7 @@ export class ScoresMatListComponent
                 item.usgaIndexForTodaysScore,
                 item.datePlayed,
                 item.memberId,
+                item.name
               ]);
             } else {
               group[item.memberId] = [];
@@ -79,6 +80,7 @@ export class ScoresMatListComponent
                 item.usgaIndexForTodaysScore,
                 item.datePlayed,
                 item.memberId,
+                item.name
               ]);
             }
             group[item.memberId].sort((a: any, b: any) =>
@@ -103,11 +105,10 @@ export class ScoresMatListComponent
                   item.previousValue + item.currentValue;
                 }
                 // key.push(item);
-              })
+              }), 'name', key
           );
         });
       });
-    // .subscribe(console.log)
   }
 
   onViewScore(scr: Score) {
@@ -144,5 +145,8 @@ export class ScoresMatListComponent
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+  onIndexCalc(){
+
   }
 }

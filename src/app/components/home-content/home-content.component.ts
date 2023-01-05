@@ -13,7 +13,6 @@ export class HomeContentComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.createPdf()
   }
 
     createPdf() {

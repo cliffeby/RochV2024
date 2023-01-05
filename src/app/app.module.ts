@@ -53,6 +53,9 @@ import { MatchesPrintScorecardsComponent } from './components/matches/matches-pr
 import { NgxPrintModule } from 'ngx-print';
 import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexes/scores-mat-indexes.component';
 import { ScorecardsService } from './services/scorecards.service';
+import { IndexCenterComponent } from './components/index/index-center/index-center.component';
+import { IndexListComponent } from './components/index/index-list/index-list.component';
+import { IndexPrintComponent } from './components/index/index-print/index-print.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,6 +97,9 @@ import { ScorecardsService } from './services/scorecards.service';
     ResultsMatPrintComponent,
     MatchesPrintScorecardsComponent,
     ScoresMatIndexesComponent,
+    IndexCenterComponent,
+    IndexListComponent,
+    IndexPrintComponent,
   ],
   imports: [
     BrowserModule,

@@ -28,9 +28,6 @@ export class PrinterService {
     private _scorecardsService: ScorecardsService,
     private _membersService: MembersService,
     private _scoresService: ScoresService) {
-
-
-
   }
 
   printDocument(documentName: string) {
@@ -53,13 +50,12 @@ export class PrinterService {
     });
   }
   createData() {
-    // this.header1.forEach((x, index) => { this.data1[0][index] = x });
     this.lineUpData = this.lineUpSubject.getValue();
-    var keys = Object.keys(this.lineUpData);
-    console.log('LUD', this.lineUpData, 'Length', keys.length, 'ID', this.lineUpData[0].playerA.scorecardId)
-    var j: number = 13;
+    var keys = Object.keys(this.lineUpData); // keys in array   -- used to get array length
+    var j: number = 13; // number of rows on scorecard
     const scHCaps = this._scoresService.stringToArraySC(this.lineUpData[0].playerA.scHCapInputString);
     const scPars = this._scoresService.stringToArraySC(this.lineUpData[0].playerA.scParInputString);
+    const scYards = this._scoresService.stringToArraySC(this.lineUpData[0].playerA.scYardInputString);
     for (var fs: number = 0; fs < keys.length / 2 - 1; fs++) {
       this.temp =
         [{ content: this.header1[0], colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
@@ -70,7 +66,7 @@ export class PrinterService {
 
       this.temp = [{ content: 'White', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 22; i++) {
-        this.temp.push({ content: "yyy", colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+        this.temp.push({ content: scYards[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       }
       for (var i = 1; i < 4; i++) {
         this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
@@ -96,11 +92,6 @@ export class PrinterService {
       this.data1[fs * j + 3] = this.temp;
       this.data2 = this.data1
 
-      // for (var fs: number = 0; fs < 1; fs++) {
-      //   if (fs > 0) {
-      //     this.data1.push(this.data2);
-      //   }
-
       const name1 = this.lineUpData[fs * 2].playerA.firstName + " " + this.lineUpData[fs * 2].playerA.lastName;
       this.temp = [{ content: name1, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 25; i++) {
@@ -111,7 +102,7 @@ export class PrinterService {
       const name2 = this.lineUpData[fs * 2].playerB.firstName + " " + this.lineUpData[fs * 2].playerB.lastName;
       this.temp = [{ content: name2, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 25; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+        this.temp.push({ content: '/  *', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right'} })
       }
       this.data1[fs * j + 5] = this.temp;
 
@@ -154,7 +145,7 @@ export class PrinterService {
 
     return this.data1
   }
-  async createPdf() {
+  createPdf() {
     const pdfData = this.createData();
     console.log('body', pdfData)
     var doc = new jsPDF();
@@ -206,11 +197,11 @@ export class PrinterService {
         }
         )
       }
-    }, 500)
+    }, 0)
 
     setTimeout(() => {
       doc.output('dataurlnewwindow')
-    }, 1000)
+    }, 100)
   };
   make2DArray(rows, cols) {
     let arr1 = new Array(cols);
@@ -219,5 +210,4 @@ export class PrinterService {
     }
     return arr1
   }
-
 }
