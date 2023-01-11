@@ -22,5 +22,3 @@ export class ResultsResolver implements Resolve<Match[]> {
       }))
   }
 }
-
-

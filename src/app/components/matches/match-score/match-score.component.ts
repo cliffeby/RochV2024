@@ -179,7 +179,7 @@ export class MatchScoreComponent implements OnInit {
       });
     }
     console.log('Match & PLayers', this.match, this.players);
-    console.log('ScoreForm', this.scoreForm.value[0]);
+    console.log('ScoreForm', this.scoreForm.value.arr[0]);
     this.UpdateScoresEvent.emit(this.match);
   }
 
