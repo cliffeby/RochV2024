@@ -34,7 +34,8 @@ export class ScoresMatIndexesComponent implements OnInit {
   ngOnInit(): void {
     this.scores = this.allPlayerScores.scrArray;
     this.score = this.allPlayerScores.scr;
-    this.scores1 = this.scores.filter(num => Number(new Date(num.datePlayed)) <= Number(new Date(this.score.datePlayed))); // Exclude scores after date of selected score.
+    this.scores1 = this.scores.filter(num => Number(new Date(num.datePlayed)) 
+    <= Number(new Date(this.score.datePlayed))); // Exclude scores after date of selected score.
     console.log('Filterd Scores', this.scores1)
     const data: Score[] = this.calcIndex(this.scores1);
     this.dataSource = new MatTableDataSource<any>(data);

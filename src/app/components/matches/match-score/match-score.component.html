@@ -1,23 +1,51 @@
-<h2>Match Score- {{match.name}}-{{match.datePlayed}}</h2>
-
-<form [formGroup]="scoreForm" (ngSubmit)="onSubmit()">
+<h2>Match Score- {{match.name}}-{{match.datePlayed | date: 'EEE MMM dd yyyy'}}</h2>
+<div *ngIf="!hideScore">
+<form [formGroup]="scoreForm" >
   <div formArrayName="arr" *ngFor="let a of scoreForm.get('arr')['controls']; let i = index">
     <div [formGroupName]="i" style="margin-bottom: 10px;">
-
-      <input type="text" name="name" formControlName="name">
+      <label>{{players[i]['name']}}</label>
       <label> Front {{frontTot[i]}}.</label>
       <label> Back {{backTot[i]}}.</label>
       <label> Score {{totTot[i]}}.</label>
-
-      <!-- <label for="score"> Score:</label> -->
-      <input class="fbscore-cell" type="number" formControlName="score">
       <td formArrayName="scores" *ngFor="let _ of scores(i).controls; let g = index">
-        <input class="score-cell" type="number" min = "1" (keyup)="onKeyUp($event, g, i)" [formControlName]="g"
-        />
+        <input class="score-cell" type="number" min="1" (keyup)="onKeyUp($event, g, i)" [formControlName]="g" />
       </td>
       <br>
     </div>
   </div>
   <br>
-  <button type="submit">Submit</button>
+  <button type="button" (click)="xxx()">Submit</button>
 </form>
+</div>
+<div *ngIf="hideScore">
+<form [formGroup]="scoreForm">
+  <div formArrayName="arr" *ngFor="let a of scoreForm.get('arr')['controls']; let i = index">
+    <div [formGroupName]="i" style="margin-bottom: 10px;">
+      <label>{{players[i]['name']}}</label>
+      <label> Front {{frontTot[i]}}.</label>
+      <label> Back {{backTot[i]}}.</label>
+      <label> Score {{totTot[i]}}.</label>
+      <label> Post_ {{players[i].postedScore}}</label>
+      <label> Index {{players[i].usgaIndexForTodaysScore}}</label>
+      <p></p>
+
+      <span>
+      <td class="score-cell">Score</td>
+      <td formArrayName="scores" *ngFor="let y of scores(i).controls; let g = index">
+        <label class="score-cell" type="number">{{y.value}}</label>
+      </td>
+      </span>
+
+      <!-- <td formArrayName="scoresToPost" *ngFor="let z of scoresToPost(i).controls; let g = index">
+        <label class="score-cell" type="number">{{z.value}}</label>
+      </td> -->
+      <td class="score-cell">Post_</td>
+      <td  *ngFor="let z of players[i]['scoresToPost']; let g = index">
+        <label class="score-cell" type="number">{{z}}</label>
+      </td>
+    </div>
+  </div>
+  <br>
+  <button type="button" (click)="finished()">Return</button>
+</form>
+</div>

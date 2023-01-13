@@ -21,7 +21,8 @@ export class MatchScoreComponent implements OnInit {
   @Input() public match: Match;
   public scoreForm: UntypedFormGroup;
   public arr: UntypedFormArray;
-  players:any[] = [];
+  hideScore = false;
+  players: any[] = [];
   frontTot: number[] = [0];
   backTot: number[] = [0];
   totTot: number[] = [];
@@ -43,7 +44,7 @@ export class MatchScoreComponent implements OnInit {
       this.arr.push(this.loadItem(this.players[i], i));
     }
   }
-  loadItem(player:any, i:number) {
+  loadItem(player: any, i: number) {
     let name_Index = player.fullName;
     return this.fb.group({
       name: new UntypedFormControl({ value: name_Index, disabled: true }),
@@ -52,27 +53,25 @@ export class MatchScoreComponent implements OnInit {
       totTot: new UntypedFormControl({ value: this.totTot, disabled: true }),
       score: new UntypedFormControl({ value: player.score, disabled: false }),
       scores: new UntypedFormArray(this.loadScoreControls(player, i)),
-      // scoresToPost: new UntypedFormArray(
-      //   this.loadScoresToPostControl(player, i)
-      // ),
+      scoresToPost: new UntypedFormArray(
+        this.loadScoresToPostControl(player, i)
+      ),
     });
   }
   loadScoresToPostControl(person, i) {
     let y = [];
     for (let ii = 0; ii < 18; ii++) {
       if (person.hasOwnProperty('scoresToPost')) {
-        console.log('STP', person.scores[ii]);
+        console.log('STP', person.scoresToPost[ii]);
         y.push(
           new UntypedFormControl({
-            value: person.scores[ii],
+            value: person.scoresToPost[ii],
             disabled: false,
           })
         );
       } else {
-        y.push(new UntypedFormControl({ value: person.scores[ii],
-            disabled: false,
-          })
-        );
+        y.push(new UntypedFormControl({ value: null, disabled: false }));
+        person.scoresToPost = [];
       }
     }
     console.log('loadScoreControls scoresToPost Y', y);
@@ -115,6 +114,10 @@ export class MatchScoreComponent implements OnInit {
   scores(index: number): UntypedFormArray {
     return this.arr.at(index).get('scores') as UntypedFormArray;
   }
+  scoresToPost(index: number): UntypedFormArray {
+    console.log('ARR', this.arr);
+    return this.arr.at(index).get('scoresToPost') as UntypedFormArray;
+  }
   shapePlayers() {
     let players = [];
     const temp = this.match.lineUps;
@@ -143,7 +146,7 @@ export class MatchScoreComponent implements OnInit {
     return this.scoreForm.controls[controlName].hasError(errorName);
   };
 
-  onSubmit() {
+  xxx() {
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].name = this.scoreForm.get('arr')['controls'][i][
         'controls'
@@ -164,22 +167,31 @@ export class MatchScoreComponent implements OnInit {
       // this.players[i].score = this.players[i].tempscore[i];
       if (this.players[i].tempscore[i] > 50) {
         this.players[i].score = this.players[i].tempscore[i];
+        this.players[i].id = this.players[i]._id;
+        this.players[i].scoresToPost = this._strokesService.ESA(
+          this.players[i]
+        );
+        this.players[i].postedScore = this.total18(this.players[i].scoresToPost);
+        console.log('Player ', i, this.players[i]);
       }
       this.players[i].usgaIndexForTodaysScore =
         Math.round(
-          (((this.players[i].score - this.players[i].scRating) *113/
-            this.players[i].scSlope) ) *
+          (((this.players[i].score - this.players[i].scRating) * 113) /
+            this.players[i].scSlope) *
             10
         ) / 10;
-      this.players[i].id = this.players[i]._id;
-      this.players[i].scoresToPost = this._strokesService.ESA(this.players[i]);
-      console.log('Players', this.players[i]);
+
       this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {
         console.log('onSubmit', resScore);
       });
     }
     console.log('Match & PLayers', this.match, this.players);
     console.log('ScoreForm', this.scoreForm.value.arr[0]);
+    // this.UpdateScoresEvent.emit(this.match);
+    this.hideScore = true;
+  }
+  finished() {
+    this.hideScore = false;
     this.UpdateScoresEvent.emit(this.match);
   }
 
@@ -188,36 +200,26 @@ export class MatchScoreComponent implements OnInit {
       console.log('TAB');
       event.srcElement.form[i * 20 + index + 1].setValue(); //creates an error which does not clear existing value????
     }
-    if (event.key > 0 && event.key <= 9) {
-      if ((i * 20 + index + 3) % 20 == 0) {
-        this.backTot[i + 1] = 0;
-        this.frontTot[i + 1] = 0;
-        this.totTot[i + 1] = 0;
-        console.log('new i', i, 'index', index);
-      }
+    if (event.key > 0 && event.key <= 18) {
+      // if ((i * 20 + index + 3) % 20 == 0) {
+      //   // this.backTot[i + 1] = 0;
+      //   // this.frontTot[i + 1] = 0;
+      //   // this.totTot[i + 1] = 0;
+      //   console.log('new i', i, 'index', index);
+      // }
       if (event.key > 1) {
-        if (index < 9) {
-          this.frontTot[i] =
-            this.frontTot[i] + this.scoreForm.value.arr[i]['scores'][index];
-          this.totTot[i] =
-            this.totTot[i] + this.scoreForm.value.arr[i]['scores'][index];
-          // this.scoreForm.value.arr[i]['scoresToPost'][index] =
-          //   this.scoreForm.value.arr[i]['scores'][index];
-        } else {
-          this.backTot[i] =
-            this.backTot[i] + this.scoreForm.value.arr[i]['scores'][index];
-          this.totTot[i] =
-            this.totTot[i] + this.scoreForm.value.arr[i]['scores'][index];
-          // this.scoreForm.value.arr[i]['scoresToPost'][index] =
-          //   this.scoreForm.value.arr[i]['scores'][index]-1;
-        }
-        if ((index + 3) % 20 == 0) {
-          index = index + 2;
-        }
-        let nextInput = event.srcElement.form[i * 20 + index + 3];
+        // if (index < 18) {
+          this.frontTot[i] = this.totalF9(this.scoreForm.value.arr[i].scores);
+          this.totTot[i] = this.total18(this.scoreForm.value.arr[i].scores);
+          this.backTot[i] = this.totalB9(this.scoreForm.value.arr[i].scores);
+        // }
+        // if ((index + 3) % 20 == 0) {
+        //   // index = index + 2;
+        // }
+        let nextInput = event.srcElement.form[i * 18 + index +1];
         nextInput.focus();
-        // this.arr.controls[i]['controls']['score'].setValue(
-        //   this.frontTot[i] + this.backTot[i]
+        // this.arr.controls[i]['controls']['scoresToPost'].index.setValue(
+        //   event.key
         // );
       }
       if (event.key === 'Tab') {
@@ -228,5 +230,14 @@ export class MatchScoreComponent implements OnInit {
       // Input Out of Range -- Why does input accept e/E but no other letters?
       event.srcElement.form[i * 20 + index + 2].value = null;
     }
+  }
+  total18(scores: number[]) {
+    return scores.reduce((acc, cv) => acc + cv, 0);
+  }
+  totalF9(scores: number[]) {
+    return scores.slice(0,9).reduce((acc, cv) => acc + cv, 0);
+  }
+  totalB9(scores: number[]) {
+    return scores.slice(8,18).reduce((acc, cv) => acc + cv, 0);
   }
 }

@@ -37,17 +37,14 @@ const MemberSchema = new Schema(
       required: false,
       unique: false,
     },
-    scorecardsId: [{
-      type: Schema.Types.ObjectId,
-      required: false,
-      unique: false,
-      ref: 'Scorecard',
-    }],
-    // scorecardId: {
-    //   type: Schema.Types.ObjectId,
-    //   required: false,  
-    //   unique: false,
-    // },
+    scorecardsId: [
+      {
+        type: Schema.Types.ObjectId,
+        required: false,
+        unique: false,
+        ref: 'Scorecard',
+      },
+    ],
     email: {
       type: Schema.Types.String,
       required: false,
@@ -82,6 +79,17 @@ MemberSchema.virtual('fullName')
     const lastName = v.substring(v.indexOf(' ') + 1);
     //@ts-ignore
     this.set({ firstName, lastName });
+  });
+MemberSchema.virtual('fullNameR')
+  .get(function () {
+    //@ts-ignore
+    return `${this.lastName}, ${this.firstName}`;
+  })
+  .set(function (v: string) {
+    const lastName = v.substring(0, v.indexOf(' '));
+    const firstName = v.substring(v.indexOf(' ') + 1);
+    //@ts-ignore
+    this.set({ lastName, firstName });
   });
 
 // Ensure virtual fields are serialised.

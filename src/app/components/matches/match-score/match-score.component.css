@@ -5,6 +5,7 @@
 .score-cell {
   width:23px;
   margin: 3px;
+  text-align: center;
  }
 
  .fbscore-cell {
