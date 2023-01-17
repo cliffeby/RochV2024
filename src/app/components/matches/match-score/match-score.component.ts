@@ -9,6 +9,7 @@ import {
 import { Match } from 'src/app/models/match';
 import { LineUps } from 'src/app/models/member';
 import { Score } from 'src/app/models/score';
+import { MembersService } from 'src/app/services/members.service';
 import { ScoresService } from 'src/app/services/scores.service';
 import { StrokesService } from 'src/app/services/strokes.service';
 
@@ -32,7 +33,8 @@ export class MatchScoreComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private _scoresService: ScoresService,
-    private _strokesService: StrokesService
+    private _strokesService: StrokesService,
+    private _membersService: MembersService
   ) {}
   ngOnInit(): void {
     this.scoreForm = this.fb.group({
@@ -119,7 +121,7 @@ export class MatchScoreComponent implements OnInit {
     return this.arr.at(index).get('scoresToPost') as UntypedFormArray;
   }
   shapePlayers() {
-    let players = [];
+    let players: Score[] = [];
     const temp = this.match.lineUps;
     if (temp.linupSD) {
       delete temp.lineUpSD;
@@ -146,7 +148,7 @@ export class MatchScoreComponent implements OnInit {
     return this.scoreForm.controls[controlName].hasError(errorName);
   };
 
-  xxx() {
+  save() {
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].name = this.scoreForm.get('arr')['controls'][i][
         'controls'
@@ -171,7 +173,9 @@ export class MatchScoreComponent implements OnInit {
         this.players[i].scoresToPost = this._strokesService.ESA(
           this.players[i]
         );
-        this.players[i].postedScore = this.total18(this.players[i].scoresToPost);
+        this.players[i].postedScore = this.total18(
+          this.players[i].scoresToPost
+        );
         console.log('Player ', i, this.players[i]);
       }
       this.players[i].usgaIndexForTodaysScore =
@@ -181,9 +185,42 @@ export class MatchScoreComponent implements OnInit {
             10
         ) / 10;
 
-      this._scoresService.updateScore(this.players[i]).subscribe((resScore) => {
-        console.log('onSubmit', resScore);
-      });
+      this._scoresService
+        .updateScoreANDgetScores(this.players[i])
+        .subscribe((resScore) => {
+          resScore.sort((a, b) =>
+            a.datePlayed.localeCompare(b.datePlayed, undefined)
+          );
+          console.log('onSubmit', resScore);
+          const last = resScore[resScore.length - 1];
+          this._membersService
+            .getMember(last.memberId)
+            .subscribe((resMember) => {
+              console.log(
+                'onSubmitMember',
+                resMember,
+                new Date(last.datePlayed),
+                new Date(resMember.member.lastDatePlayed)
+              );
+              if (
+                Number(
+                  new Date(last.datePlayed) >=
+                    new Date(resMember.member.lastDatePlayed)
+                ) ||
+                resMember.member.lastDatePlayed == null
+              ) {
+                const x = {
+                  ...resMember,
+                  _id: last.memberId,
+                  usgaIndex: last.usgaIndex,
+                  lastDatePlayed: last.datePlayed,
+                };
+                this._membersService.updateMember(x).subscribe((resMember) => {
+                  console.log('onUpdateMember', resMember);
+                });
+              }
+            });
+        });
     }
     console.log('Match & PLayers', this.match, this.players);
     console.log('ScoreForm', this.scoreForm.value.arr[0]);
@@ -209,14 +246,14 @@ export class MatchScoreComponent implements OnInit {
       // }
       if (event.key > 1) {
         // if (index < 18) {
-          this.frontTot[i] = this.totalF9(this.scoreForm.value.arr[i].scores);
-          this.totTot[i] = this.total18(this.scoreForm.value.arr[i].scores);
-          this.backTot[i] = this.totalB9(this.scoreForm.value.arr[i].scores);
+        this.frontTot[i] = this.totalF9(this.scoreForm.value.arr[i].scores);
+        this.totTot[i] = this.total18(this.scoreForm.value.arr[i].scores);
+        this.backTot[i] = this.totalB9(this.scoreForm.value.arr[i].scores);
         // }
         // if ((index + 3) % 20 == 0) {
         //   // index = index + 2;
         // }
-        let nextInput = event.srcElement.form[i * 18 + index +1];
+        let nextInput = event.srcElement.form[i * 18 + index + 1];
         nextInput.focus();
         // this.arr.controls[i]['controls']['scoresToPost'].index.setValue(
         //   event.key
@@ -235,9 +272,9 @@ export class MatchScoreComponent implements OnInit {
     return scores.reduce((acc, cv) => acc + cv, 0);
   }
   totalF9(scores: number[]) {
-    return scores.slice(0,9).reduce((acc, cv) => acc + cv, 0);
+    return scores.slice(0, 9).reduce((acc, cv) => acc + cv, 0);
   }
   totalB9(scores: number[]) {
-    return scores.slice(8,18).reduce((acc, cv) => acc + cv, 0);
+    return scores.slice(8, 18).reduce((acc, cv) => acc + cv, 0);
   }
 }

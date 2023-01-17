@@ -30,6 +30,7 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     'firstName',
     'lastName',
     'usgaIndex',
+    'lastDatePlayed',
     'email',
     'user',
     'action',

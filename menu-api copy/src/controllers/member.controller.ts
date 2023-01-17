@@ -3,7 +3,7 @@ import { Member, MemberInput } from '../models/member.model';
 import { Score } from '../models/score.model';
 
 const createMember = async (req: Request, res: Response) => {
-  const { firstName, lastName, usgaIndex, scorecardId, scorecardsId, email, user } = req.body;
+  const { firstName, lastName, usgaIndex, lastDatePlayed, scorecardId, scorecardsId, email, user } = req.body;
   if (!firstName || !lastName) {
     console.log(
       'MemberController - The fields firstName and lastName are required - create',
@@ -17,6 +17,7 @@ const createMember = async (req: Request, res: Response) => {
     firstName,
     lastName,
     usgaIndex,
+    lastDatePlayed,
     // scorecardId,
     scorecardsId,
     email,
@@ -113,7 +114,7 @@ const updateMember = async (req: Request, res: Response) => {
 const updateMemberScorecard = async (req: Request, res: Response) => {
   const { id } = req.params;
   console.log('Update request params', req.params, id);
-  const { firstName, lastName, usgaIndex, scorecardId, scorecardsId, email, user } = req.body;
+  const { firstName, lastName, usgaIndex, lastDatePlayed, scorecardId, scorecardsId, email, user } = req.body;
   const member = await Member.findOne({ _id: id });
   if (!member) {
     return res
@@ -127,7 +128,7 @@ const updateMemberScorecard = async (req: Request, res: Response) => {
   }
   await Member.updateOne(
     { _id: id },
-    { firstName, lastName, usgaIndex, email, scorecardId, scorecardsId, user },
+    { firstName, lastName, usgaIndex, lastDatePlayed, email, scorecardId, scorecardsId, user },
     // {
     //   $set: {
     //     'scorecards.$.rating': updateOne.rating,
@@ -139,6 +140,7 @@ const updateMemberScorecard = async (req: Request, res: Response) => {
     firstName,
     lastName,
     usgaIndex,
+    lastDatePlayed,
     scorecardsId,
     scorecardId,
     email,

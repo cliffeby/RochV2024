@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Score } from '../models/score';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const baseUrl = 'http://localhost:7000/api/scores';
 
@@ -48,6 +49,14 @@ export class ScoresService {
   }
   updateScoresByMatch(matchId: string) {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
+  }
+  updateScoreANDgetScores(data:Score){
+    this.http.put(`${baseUrl}/${data._id}`, data);
+    return this.http.get<Score[]>(baseUrl)
+    .pipe(map(scores =>scores.filter(score => score.memberId == data.memberId)))
+    // this.projects
+    // .map(projects => projects.filter(proj => proj.name === name));
+
   }
   stringToArray(myCSV: string) {
     if (myCSV == undefined) return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]

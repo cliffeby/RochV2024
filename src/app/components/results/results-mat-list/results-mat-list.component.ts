@@ -1,11 +1,9 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatchesService } from 'src/app/services/matches.service';
-import { ScoresService } from 'src/app/services/scores.service';
 
 @Component({
   selector: 'app-results-mat-list',
@@ -33,8 +31,6 @@ export class ResultsMatListComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(
-    private _matchesService: MatchesService,
-    private _scoresService: ScoresService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -44,13 +40,11 @@ export class ResultsMatListComponent implements OnInit, AfterViewInit {
       console.log('matches2', this.matches);
     });
   }
-
   ngAfterViewInit() {
     this.dataSource = new MatTableDataSource<any>(this.matches);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
   onAdjust(match:any, i:number) {
     this.AdjustScoreEvent.emit(match);
   }

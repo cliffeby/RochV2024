@@ -147,7 +147,6 @@ export class PrinterService {
   }
   createPdf() {
     const pdfData = this.createData();
-    console.log('body', pdfData)
     var doc = new jsPDF();
     var doc = new jsPDF("l", "pt", "letter")
     var body = pdfData

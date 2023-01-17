@@ -12,134 +12,167 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 import { Score } from '../../../models/score';
 import { forkJoin, Subscription } from 'rxjs';
-// import { MatchesService } from 'src/app/services/matches.service';
 import { MembersService } from 'src/app/services/members.service';
-import { bufferCount, concatMap, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Member } from 'src/app/models/member';
 import { ScoresService } from 'src/app/services/scores.service';
+import { IndexPrintService } from 'src/app/services/index-print.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-index-list',
   templateUrl: './index-list.component.html',
   styleUrls: ['./index-list.component.css'],
 })
-export class IndexListComponent implements OnInit {
-  @Input() public scores: Score[];
+export class IndexListComponent implements OnInit, AfterViewInit, OnChanges {
+  // @Input() public scores: Score[];
   private subscription: Subscription;
-  indexScore: any[] = [];
+  todayDate : Date = new Date();
+  // indexScore: any[] = [];
   indexScore1: any[] = [];
-  name: string = '';
-  accIndex: number = 0;
+  // name: string = '';
+  // accIndex: number = 0;
   scoreIndex: number = 0;
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  displayedColumns: string[] = [
+    'name',
+    'usgaIndex',
+    'lastDatePlayed',
+  ];
 
   constructor(
-    private _membersService: MembersService,
-    private _scoresService: ScoresService,
-    private activatedRoute: ActivatedRoute
+    private _indexPrintService: IndexPrintService,
+    private _activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.indexScore = this.getIndex();
-    // this.activatedRoute.data
-    //   .pipe(
-    //     map((data) => {
-    //       this.scores = data.scores;
-    //       // console.log('indexScores', data, this.scores);
-    //     })
-    //   )
-    //   .subscribe();
+    this.subscription = this._activatedRoute.data.subscribe((data) => {
+      this.indexScore1 = data.members;
+    });
   }
-  getIndex(): any[] {
-    forkJoin({
-      members: this._membersService.getMembers(), //Get all members
-      scores: this._scoresService.getScores(),
-    })
-      .pipe(
-        map((response) => {
-          const members = <Array<Member>>response.members;
-          const scores = <Array<Score>>response.scores;
-          const combinedDocuments: any[] = [];
-          scores.map((score: any) => {
-            combinedDocuments.push({
-              //Where member and score are related by _id, merge properties
-              myIndex: score.usgaIndex,
-              scoreId: score._id, //save overlapping _id property
-              datePlayed: score.datePlayed,
-              playingIndex: 0,
-              ...members.find((member: Member) => score.memberId == member._id),
-              memberId: score.memberId
-            });
-          });
-          return combinedDocuments
-            .map(({ myIndex, fullName, datePlayed, playingIndex, scoreId, memberId }) => {
-              return { fullName, myIndex, datePlayed, playingIndex , scoreId, memberId};
-            })
-            .sort(
-              (a, b) =>
-                a.fullName.localeCompare(b.fullName, undefined, {
-                  caseFirst: 'upper',
-                }) || b.datePlayed.localeCompare(a.datePlayed, undefined)
-            );
-        })
-      )
-      .subscribe((data) => {
-        var oldName = '';
-        var acc = 0;
-        var newIndex = 0;
-        var oldPlayingIndex = 0;
-        var oldMemberId = '';
-        var oldDatePlayed = '';
-
-        data.forEach((item, index, arr) => {
-          if (item.fullName == oldName) {
-            acc = acc + item.myIndex;
-            item.playingIndex = acc / (index - newIndex + 1);
-            oldPlayingIndex = item.playingIndex;
-          } else {
-            console.log('Index', oldName, oldPlayingIndex, oldDatePlayed, oldMemberId);
-            oldName = item.fullName;
-            acc = item.myIndex;
-            item.playingIndex = acc;
-            newIndex = index;
-            oldMemberId = item.memberId;
-            oldDatePlayed = item.datePlayed;
-            this.indexScore1.push({name:oldName, usgaIndex: oldPlayingIndex, lastDatePlayed: oldDatePlayed, memberId: oldMemberId})
-          }
-          if (index - newIndex > 4) {
-            delete arr[index];
-          }
-        })
-        console.log('Index1', oldName, oldPlayingIndex, oldDatePlayed, oldMemberId);
-
-        this.indexScore = data;
-        console.table(data);
-        console.table(this.indexScore1)
-      });
-    return this.indexScore;
+  ngAfterViewInit() {
+    this.dataSource = new MatTableDataSource<any>(this.indexScore1);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
-
-  sortByName(a, b) {
-    if (a.fullName < b.fullName) return -1;
-    if (a.fullName > b.fullName) return 1;
-    return 0;
+  ngOnChanges(changes: SimpleChanges) {
+    this.dataSource = new MatTableDataSource<any>(this.indexScore1);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    console.log(changes);
   }
-  // sort_by = (field, reverse, primer) => {
-
-  //   const key = primer ?
-  //     function(x) {
-  //       return primer(x[field])
-  //     } :
-  //     function(x) {
-  //       return x[field]
-  //     };
-
-  //   reverse = !reverse ? 1 : -1;
-
-  //   return function(a:any, b:any) {
-  //     return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-  //   }
-  // }
+  printIndexes(){
+    this._indexPrintService.printPDF(this.indexScore1);
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }
+
+ // getIndex(): any[] {
+  //   forkJoin({
+  //     members: this._membersService.getMembers(), //Get all members
+  //     scores: this._scoresService.getScores(),
+  //   })
+  //     .pipe(
+  //       map((response) => {
+  //         const members = <Array<Member>>response.members;
+  //         const scores = <Array<Score>>response.scores;
+  //         const combinedDocuments: any[] = [];
+  //         scores.map((score: any) => {
+  //           combinedDocuments.push({
+  //             //Where member and score are related by _id, merge properties
+  //             myIndex: score.usgaIndexForTodaysScore,
+  //             scoreId: score._id, //save overlapping _id property
+  //             datePlayed: score.datePlayed,
+  //             playingIndex: 0,
+  //             ...members.find((member: Member) => score.memberId == member._id),
+  //             memberId: score.memberId
+  //           });
+  //         });
+  //         return combinedDocuments
+  //           .map(({ myIndex, fullName, fullNameR, datePlayed, playingIndex, scoreId, memberId }) => {
+  //             return { fullName, fullNameR, myIndex, datePlayed, playingIndex , scoreId, memberId};
+  //           })
+  //           .sort(
+  //             (a, b) =>
+  //               a.fullNameR.localeCompare(b.fullNameR, undefined, {
+  //                 caseFirst: 'upper',
+  //               }) || b.datePlayed.localeCompare(a.datePlayed, undefined)
+  //           );
+  //       })
+  //     )
+  //     .subscribe((data) => {
+  //       var oldName = '';
+  //       var acc = 0;
+  //       var newIndex = 0;
+  //       var oldPlayingIndex = 0;
+  //       var oldMemberId = '';
+  //       var oldDatePlayed = '';
+
+  //       data.forEach((item, index, arr) => {
+  //         if (item.fullNameR == oldName){
+  //           if (index - newIndex > 5){
+  //             delete arr[index]
+  //           }
+  //         } else{
+  //           newIndex = index;
+  //           oldName = item.fullNameR;
+  //         }
+  //       })
+  //       data.sort(
+  //         (a, b) =>
+  //           a.fullNameR.localeCompare(b.fullNameR, undefined, {
+  //             caseFirst: 'upper',
+  //           }) || a.datePlayed.localeCompare(b.datePlayed, undefined)
+  //       );
+  //       oldName = '';
+  //       acc = 0;
+  //       newIndex = 0;
+  //       oldPlayingIndex = 0;
+  //       oldMemberId = '';
+  //       oldDatePlayed = '';
+
+  //       data.forEach((item, index) => {
+  //         if (item.fullNameR == oldName) {
+  //           acc = acc + item.myIndex;
+  //           item.playingIndex = acc / (index - newIndex + 1);
+  //           oldPlayingIndex = item.playingIndex;
+  //           oldDatePlayed = item.datePlayed;
+  //         } else {
+  //           this.indexScore1.push({name:oldName, usgaIndex: oldPlayingIndex, 
+  //             lastDatePlayed: oldDatePlayed, memberId: oldMemberId})
+          
+  //           oldName = item.fullNameR;
+  //           acc = item.myIndex;
+  //           oldPlayingIndex = acc;
+  //           newIndex = index;
+  //           oldMemberId = item.memberId;
+  //           oldDatePlayed = item.datePlayed;
+  //       }})
+  //       this.indexScore1.push({name:oldName, usgaIndex: oldPlayingIndex, 
+  //         lastDatePlayed: oldDatePlayed, memberId: oldMemberId})
+  //       this.indexScore1.shift();  
+  //       this.indexScore = data;
+  //       console.table(data);
+  //       console.table(this.indexScore1)
+  //       this.dataSource = new MatTableDataSource(this.indexScore1);
+  //     });
+  //   return this.indexScore;
+  // }
+
+  // sortByName(a, b) {
+  //   if (a.fullNameR < b.fullNameR) return -1;
+  //   if (a.fullNameR > b.fullNameR) return 1;
+  //   return 0;
+  // }
+

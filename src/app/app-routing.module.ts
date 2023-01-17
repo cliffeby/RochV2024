@@ -9,6 +9,7 @@ import { MatchesMatCenterComponent } from './components/matches/matches-mat-cent
 import { ScoresMatCenterComponent } from './components/scores/scores-mat-center/scores-mat-center.component';
 import { MatchResolver } from './components/matches/match.resolver';
 import { ScoresResolver } from './components/scores/scores.resolver';
+import { IndexResolver } from './components/index/index.resolver';
 import { PrintScorecardComponent } from './components/print/print-scorecard/print-scorecard.component';
 import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-mat-print/scorecards-mat-print.component';
 import { ResultsMatCenterComponent } from './components/results/results-mat-center/results-mat-center.component';
@@ -73,8 +74,8 @@ const routes: Routes = [
   {
     path: 'Index',
     component: IndexCenterComponent,
-    data: { expectedScopes: ['read: scores'] },
-    resolve: { scores: ScoresResolver },
+    data: { expectedScopes: ['read: members'] },
+    resolve: { members: IndexResolver },
   },
 ];
 

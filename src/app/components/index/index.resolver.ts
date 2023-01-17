@@ -6,18 +6,19 @@ import {
 } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Score } from 'src/app/models/score';
-import { ScoresService } from 'src/app/services/scores.service';
+import { Member } from 'src/app/models/member'
+import { MembersService } from 'src/app/services/members.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ResultsResolver implements Resolve<Score[]> {
-  constructor(private _scoresService: ScoresService, private router : Router) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Score[]> {
-    return this._scoresService.getScores().pipe(
+export class IndexResolver implements Resolve<Member[]> {
+  constructor(private _membersService: MembersService, private router : Router) { }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Member[]> {
+    return this._membersService.getMembers().pipe(
       catchError(()=>{
-        this.router.navigate(['index']);
+        this.router.navigate(['members']);
         return EMPTY;
       }))
   }

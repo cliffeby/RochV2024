@@ -27,6 +27,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Index </th>
         <td mat-cell *matCellDef="let element"> {{element.usgaIndex | number: '1.1-1'}} </td>
       </ng-container>
+      <ng-container matColumnDef="lastDatePlayed">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> LastPlayed </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastDatePlayed |date: 'MMM-dd-yy'}} </td>
+      </ng-container>
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
