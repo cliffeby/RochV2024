@@ -10,12 +10,6 @@ export class ScorecardsMatPrintComponent implements OnInit {
   constructor(public _printerService: PrinterService) {}
   scLineUps: any[];
   ngOnInit(): void {
-    this._printerService.lineUpSubject.subscribe((value) => {
-      this.scLineUps = value;
-      // console.log('Inside',this.scLineUps);
-      this._printerService.onDataReady();
-      
-    });
   
   }
  

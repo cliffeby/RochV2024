@@ -3,10 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'
-import { ScorecardsService } from './scorecards.service';
-import { MembersService } from './members.service';
-import { memberRoute } from 'menu-api copy/src/routes/member.route';
-import { ScoresService } from './scores.service';
+import { Strokes2Service } from './strokes2.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +22,7 @@ export class PrinterService {
   lineUpData: any;
   lineUpLength: number;
   constructor(private router: Router,
-    private _scorecardsService: ScorecardsService,
-    private _membersService: MembersService,
-    private _scoresService: ScoresService) {
+    private _strokes2Service: Strokes2Service) {
   }
 
   printDocument(documentName: string) {
@@ -53,10 +48,9 @@ export class PrinterService {
     this.lineUpData = this.lineUpSubject.getValue();
     var keys = Object.keys(this.lineUpData); // keys in array   -- used to get array length
     var j: number = 13; // number of rows on scorecard
-    const scHCaps = this._scoresService.stringToArraySC(this.lineUpData[0].playerA.scHCapInputString);
-    const scPars = this._scoresService.stringToArraySC(this.lineUpData[0].playerA.scParInputString);
-    const scYards = this._scoresService.stringToArraySC(this.lineUpData[0].playerA.scYardInputString);
-    for (var fs: number = 0; fs < keys.length / 2 - 1; fs++) {
+    const pd = this._strokes2Service.createPlayerArrayfromLineUp(this.lineUpData);  
+    console.log('pd............',pd)
+    for (var fs: number = 0; fs < pd[0].player.length/4; fs++) {
       this.temp =
         [{ content: this.header1[0], colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 25; i++) {
@@ -64,46 +58,41 @@ export class PrinterService {
       }
       this.data1[fs * j + 0] = this.temp;
 
-      this.temp = [{ content: 'White', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 22; i++) {
-        this.temp.push({ content: scYards[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
-      }
-      for (var i = 1; i < 4; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      this.temp = [{ content: this.lineUpData[0].playerA.sc, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
+      for (var i = 1; i < 25; i++) {
+        this.temp.push({ content: pd[0].scYards[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       }
       this.data1[fs * j + 1] = this.temp;
 
       this.temp = [{ content: 'Par', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 22; i++) {
-        this.temp.push({ content: scPars[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      for (var i = 1; i < 25; i++) {
+        this.temp.push({ content: pd[0].scPars[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       }
-      for (var i = 1; i < 4; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
-      }
+
       this.data1[fs * j + 2] = this.temp;
 
       this.temp = [{ content: 'Index', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 20; i++) {
-        this.temp.push({ content: scHCaps[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      for (var i = 1; i < 25; i++) {
+        this.temp.push({ content: pd[0].scHCaps[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       }
-      for (var i = 1; i < 6; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
-      }
+
       this.data1[fs * j + 3] = this.temp;
       this.data2 = this.data1
 
-      const name1 = this.lineUpData[fs * 2].playerA.firstName + " " + this.lineUpData[fs * 2].playerA.lastName;
+      const name1 = pd[0].player[fs*4].fullName + '-'+ pd[0].player[fs*4].usgaIndex;
       this.temp = [{ content: name1, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 25; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      for (var i = 1; i < 24; i++) {
+        this.temp.push({ content: pd[0].player[fs*4].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right' } })
       }
+      this.temp.push({ content: pd[0].player[fs*4].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 4] = this.temp;
 
-      const name2 = this.lineUpData[fs * 2].playerB.firstName + " " + this.lineUpData[fs * 2].playerB.lastName;
+      const name2 = pd[0].player[fs*4+1].fullName + '-'+ pd[0].player[fs*4+1].usgaIndex;
       this.temp = [{ content: name2, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 25; i++) {
-        this.temp.push({ content: '/  *', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right'} })
+      for (var i = 1; i < 24; i++) {
+        this.temp.push({ content: pd[0].player[fs*4+1].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right'} })
       }
+      this.temp.push({ content: pd[0].player[fs*4+1].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 5] = this.temp;
 
       this.temp = [{ content: 'OneBall', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
@@ -119,19 +108,20 @@ export class PrinterService {
       this.data1[fs * j + 7] = this.temp;
       this.data1[fs * j + 8] = this.temp;
       this.data1[fs * j + 9] = this.temp;
-      console.log('fs', fs)
-      const name3 = this.lineUpData[fs * 2 + 1].playerA.firstName + " " + this.lineUpData[fs * 2 + 1].playerA.lastName;
+      const name3 = pd[0].player[fs*2 +2].fullName + '-'+ pd[0].player[fs*4+2].usgaIndex;
       this.temp = [{ content: name3, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 25; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      for (var i = 1; i < 24; i++) {
+        this.temp.push({ content: pd[0].player[fs*4+2].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right' } })
       }
+      this.temp.push({ content: pd[0].player[fs*4+2].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 10] = this.temp;
 
-      const name4 = this.lineUpData[fs * 2 + 1].playerB.firstName + " " + this.lineUpData[fs * 2 + 1].playerB.lastName;
+      const name4 = pd[0].player[fs*4+3].fullName + '-'+ pd[0].player[fs*4 +3].usgaIndex;
       this.temp = [{ content: name4, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
-      for (var i = 1; i < 25; i++) {
-        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      for (var i = 1; i < 24; i++) {
+        this.temp.push({ content: pd[0].player[fs*4+3].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right' } })
       }
+      this.temp.push({ content: pd[0].player[fs*4+3].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 11] = this.temp;
 
       this.temp = [{ content: 'OneBall', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
@@ -141,8 +131,6 @@ export class PrinterService {
       this.data1[fs * j + 12] = this.temp;
 
     }
-    // console.log('this.data1', this.data1)
-
     return this.data1
   }
   createPdf() {
@@ -155,8 +143,12 @@ export class PrinterService {
 
     setTimeout(() => {
       var keys = Object.keys(this.lineUpData);
+      console.log('keys', keys);
       var rs: number = 0; //starting row
       var re: number = 13; //ending row
+      var options = {weekday: 'long', month:'long', day:'numeric', year: 'numeric'};
+      var headerText = 'Rochester Golf - ' + new Date(this.lineUpData[0].playerA.datePlayed)
+      .toLocaleDateString("en-US", {weekday: 'long', month:'long', day:'numeric', year: 'numeric'});
       for (let i: number = 0; i < keys.length - 1; i++) {  // 4 = number of teams i.e. 8 players
         doc.setFontSize(18);
         doc.setTextColor(100);
@@ -185,12 +177,12 @@ export class PrinterService {
             // Header
             doc.setFontSize(16);
             doc.setTextColor("#161C22");
-            doc.text('Rochester Golf - Sunday, Dec 25, 2022', 45, 20);
+            doc.text(headerText, 45, 20);
             let pageSize = doc.internal.pageSize;
             let pageHeight = pageSize.height
               ? pageSize.height
               : pageSize.getHeight();
-            doc.text("Rochester Golf - Sunday, Dec 25, 2022", 45, (pageHeight - 10) / 2 + 35);
+            doc.text(headerText, 45, (pageHeight - 10) / 2 + 35);
             if (i > 0 && i < keys.length - 2 && i % 2) { doc.addPage() }
           }
         }
