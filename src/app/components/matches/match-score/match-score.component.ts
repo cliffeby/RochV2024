@@ -12,6 +12,8 @@ import { Score } from 'src/app/models/score';
 import { MembersService } from 'src/app/services/members.service';
 import { ScoresService } from 'src/app/services/scores.service';
 import { StrokesService } from 'src/app/services/strokes.service';
+import { IndexCalcService } from 'src/app/services/index-calc.service';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-match-score',
@@ -34,7 +36,8 @@ export class MatchScoreComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private _scoresService: ScoresService,
     private _strokesService: StrokesService,
-    private _membersService: MembersService
+    private _membersService: MembersService,
+    private _indexCalcService: IndexCalcService
   ) {}
   ngOnInit(): void {
     this.scoreForm = this.fb.group({
@@ -176,52 +179,69 @@ export class MatchScoreComponent implements OnInit {
         this.players[i].postedScore = this.total18(
           this.players[i].scoresToPost
         );
-        console.log('Player ', i, this.players[i]);
+        
       }
       this.players[i].usgaIndexForTodaysScore =
         Math.round(
-          (((this.players[i].score - this.players[i].scRating) * 113) /
+          (((this.players[i].postedScore - this.players[i].scRating) * 113) /
             this.players[i].scSlope) *
             10
         ) / 10;
+        console.log('Player ', i, this.players[i]);
+      
+        this._scoresService
+          .updateScore(this.players[i]).subscribe((resScore) =>{
+            this._scoresService.getScores()
+            .pipe(tap(x => console.log(x)),
+                  map( scores =>scores.filter( score => score.memberId == resScore.memberId))
+        ).subscribe((resScores) =>{
+   
 
-      this._scoresService
-        .updateScoreANDgetScores(this.players[i])
-        .subscribe((resScore) => {
-          resScore.sort((a, b) =>
-            a.datePlayed.localeCompare(b.datePlayed, undefined)
-          );
-          console.log('onSubmit', resScore);
-          const last = resScore[resScore.length - 1];
+
+        // .updateScoreANDgetScores(this.players[i])
+        // .subscribe((resScore) => {
+        //   resScore.sort((a, b) =>
+        //     a.datePlayed.localeCompare(b.datePlayed, undefined)
+        //   );
+          
+          const history = this._indexCalcService.calcIndex(resScores)
+          const record = history[0];
+          var x:any;
+          console.log('onSubmit', history);
           this._membersService
-            .getMember(last.memberId)
+            .getMember(record.memberId)
             .subscribe((resMember) => {
               console.log(
                 'onSubmitMember',
                 resMember,
-                new Date(last.datePlayed),
+                new Date(record.datePlayed),
                 new Date(resMember.member.lastDatePlayed)
               );
-              if (
-                Number(
-                  new Date(last.datePlayed) >=
+              if (Number(new Date(record.datePlayed) >=
                     new Date(resMember.member.lastDatePlayed)
-                ) ||
-                resMember.member.lastDatePlayed == null
+                ) || resMember.member.lastDatePlayed == null
               ) {
-                const x = {
+                x = {
                   ...resMember,
-                  _id: last.memberId,
-                  usgaIndex: last.usgaIndex,
-                  lastDatePlayed: last.datePlayed,
+                  _id: record.memberId,
+                  usgaIndex: record.usgaIndex,
+                  lastDatePlayed: record.datePlayed,
                 };
-                this._membersService.updateMember(x).subscribe((resMember) => {
-                  console.log('onUpdateMember', resMember);
-                });
+              }else{
+                x = {
+                  ...resMember,
+                  _id: record.memberId,
+                  usgaIndex: record.usgaIndex,
+                };
               }
+              this._membersService.updateMember(x).subscribe((resMember) => {
+                console.log('onUpdateMember', resMember);
+              });
             });
-        });
-    }
+        });}
+        
+    )}
+    
     console.log('Match & PLayers', this.match, this.players);
     console.log('ScoreForm', this.scoreForm.value.arr[0]);
     // this.UpdateScoresEvent.emit(this.match);

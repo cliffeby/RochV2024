@@ -3,6 +3,7 @@ export class Member {
   firstName: string;
   lastName: string;
   usgaIndex: number;
+  usgaIndexForTodaysScore: number;
   lastDatePlayed: string;
   email: string;
   // isPlaying: boolean;

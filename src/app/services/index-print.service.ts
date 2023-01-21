@@ -19,10 +19,11 @@ export class IndexPrintService {
 
   printPDF(arr:any[]) {
     var temp = [];
+    console.log(arr)
     this.data1[0] = this.header1;
     arr.forEach((item:any, i:number) => {
       temp.push(
-        [item.name],
+        [item.fullNameR],
         [Math.round(item.usgaIndex * 10) / 10],
         [
           new Date(item.lastDatePlayed).toLocaleDateString('en-US', {

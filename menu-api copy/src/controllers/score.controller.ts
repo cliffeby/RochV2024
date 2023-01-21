@@ -103,7 +103,6 @@ const getScore = async (req: Request, res: Response) => {
 };
 
 const updateScore = async (req: Request, res: Response) => {
-  console.log('Update score request', req.body);
  Score.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -113,7 +112,7 @@ const updateScore = async (req: Request, res: Response) => {
         res.send(err);
         console.log('Error updating score', err);
       } else {
-         console.log('Update request for a single score - success ', score._id);
+        console.log('Update request for a single score - success ', score._id, res);
         res.json(score);
       }
     }

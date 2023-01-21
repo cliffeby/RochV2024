@@ -94,9 +94,10 @@ export class ScoresMatEditComponent implements OnInit {
     this.scoreForm1.get('scores').valueChanges.subscribe((value) => {
       this.score.scores = value;
       this.scoreForm1.controls['score'].setValue(value[18]);
-      console.log('SCORE2', this.scoreForm1, this.score);
+      
       const esa = this.ESA(value);
       this.scoreForm1.get('scoresToPost').patchValue(esa);
+      console.log('SCORE2', this.scoreForm1, this.score);
       this.scoreForm1.controls['score'].setValue(this.mySum(this.score.scores));
       this.scoreForm1.controls['postedScore'].setValue(this.mySum(this.ESA(this.score.scores)));
     });
@@ -139,6 +140,8 @@ export class ScoresMatEditComponent implements OnInit {
     this.score.name = this.scoreForm1.value.name;
     this.score.score = this.scoreForm1.value.score;
     this.score.user = this.scoreForm1.value.user;
+    this.score.scSlope = this.scoreForm1.value.scSlope;
+    this.score.scRating = this.scoreForm1.value.scRating;
     this.score.postedScore = this.scoreForm1.value.postedScore;
     this.score.usgaIndexForTodaysScore =
       Math.round(
@@ -146,6 +149,7 @@ export class ScoresMatEditComponent implements OnInit {
         10
       ) / 10;
     this.score.scores = this.scoreForm1.value.scores;
+    this.score.scoresToPost = this.scoreForm1.value.scoresToPost;
     console.log(this.score);
     this.UpdateScoreEvent.emit(this.score);
   }

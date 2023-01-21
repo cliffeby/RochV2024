@@ -11,13 +11,13 @@
 
       <tr *ngIf="item.value.playerA">
         <td> {{item.value.playerA.fullName}}</td>
-        <td>{{item.value.playerA.usgaIndex}}</td>
-        <td>{{item.value.playerA.handicap}}</td>
+        <td>{{item.value.playerA.usgaIndex | number: '1.1-1'}}</td>
+        <td>{{item.value.playerA.handicap | number: '1.1-1'}}</td>
       </tr>
       <tr *ngIf="item.value.playerB">
         <td>{{item.value.playerB.fullName}}</td>
-        <td>{{item.value.playerB.usgaIndex}}</td>
-        <td>{{item.value.playerB.handicap}}</td>
+        <td>{{item.value.playerB.usgaIndex | number: '1.1-1'}}</td>
+        <td>{{item.value.playerB.handicap | number: '1.1-1'}}</td>
       </tr>
     </table>
   </div>

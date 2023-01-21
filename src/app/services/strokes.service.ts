@@ -193,7 +193,6 @@ export class StrokesService {
   //Up todate?
   ESA(player:any) {
     let scoresToPost = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    console.log('PLAYER', player, player.scSlope);
 
     // const grossScores = player.scores;
     const hCaps: number[] = player.scHCapInputString
@@ -206,7 +205,7 @@ export class StrokesService {
       .map(function (item:string) {
         return parseInt(item, 10);
       });
-    const par = 72;
+    const par = pars.reduce((acc, cv) => acc + cv, 0);
     const courseHandicap = Math.round(
       (player.usgaIndex * player.scSlope) / 113 + (player.scRating - par)
     );

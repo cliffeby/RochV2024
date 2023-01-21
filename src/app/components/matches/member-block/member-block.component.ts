@@ -169,6 +169,8 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       this.score.memberId = member.id;
       this.score.user = '**' + this.match.user;
       this.score.scorecardId = member.scorecardId;
+      this.score.scSlope = member.scSlope;
+      this.score.scRating = member.scRating;
       this.score.usgaIndex = member.usgaIndex;
       this.score.datePlayed = this.match.datePlayed;
       this.score.scHCaps = this._scoresService.stringToArray(member.scHCapInputString);

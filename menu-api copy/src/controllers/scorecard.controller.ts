@@ -80,7 +80,6 @@ const getScorecard = async (req: Request, res: Response) => {
 };
 //
 const updateScorecard = async (req: Request, res: Response) => {
-  console.log('REQ for Match Update', req.body);
   Scorecard.findByIdAndUpdate(
     req.params.id,
     req.body,

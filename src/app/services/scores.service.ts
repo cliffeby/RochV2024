@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Score } from '../models/score';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, pipe } from 'rxjs';
+import { concatMap, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 const baseUrl = 'http://localhost:7000/api/scores';
 
@@ -51,11 +51,12 @@ export class ScoresService {
     return this.http.get<Score[]>(`${baseUrl}` + '/ScoresByMatch/' + matchId);
   }
   updateScoreANDgetScores(data:Score){
-    this.http.put(`${baseUrl}/${data._id}`, data);
+     this.http.put(`${baseUrl}/${data._id}`, data);
+    console.log('updateAND...', data)
     return this.http.get<Score[]>(baseUrl)
-    .pipe(map(scores =>scores.filter(score => score.memberId == data.memberId)))
-    // this.projects
-    // .map(projects => projects.filter(proj => proj.name === name));
+    .pipe(tap(x => console.log(x)),
+     map( scores =>scores.filter( score => score.memberId == data.memberId)),
+    tap(x => console.log(x)))
 
   }
   stringToArray(myCSV: string) {

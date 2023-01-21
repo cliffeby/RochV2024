@@ -37,7 +37,7 @@ export class Strokes2Service {
     }
     this.lowCap = this.findLowCapPlayer(playerArray);
     var scHCaps = this._scoresService.stringToArraySC(lineUp[0].playerA.scHCapInputString);
-    scHCaps = this.scorecardSplice(scHCaps);
+    
     var scPars = this._scoresService.stringToArraySC(lineUp[0].playerA.scParInputString);
     scPars = this.scorecardSplice(scPars);
     var scYards = this._scoresService.stringToArraySC(lineUp[0].playerA.scYardInputString);
@@ -46,6 +46,7 @@ export class Strokes2Service {
     console.log('foreach playyerArray',playerArray, this.lowCap)
     playerArray.forEach((player, index) => {
       markup = [];
+      // markup[0] = '';
       for (let i = 0; i < 18; i++) {
         markup[i] = '';
         if (player.handicap >= scHCaps[i]) {
@@ -54,14 +55,14 @@ export class Strokes2Service {
         if (player.handicap - this.lowCap[0] >= scHCaps[i]) {
           markup[i] = '/*';
         }
-        console.log(player.handicap, this.lowCap[0], scHCaps[i], markup);
+        console.log(player.handicap, this.lowCap[0], scHCaps[i], markup[i]);
       }
       this.scorecardSplice(markup);
       player = { ...player, markup: markup };
       playerArray[index] = player;
       console.log('player', player);
     });
-
+    scHCaps = this.scorecardSplice(scHCaps);
     const data = {player: playerArray, scHCaps: scHCaps, scPars: scPars, scYards:scYards  }
     return [data];
   }
