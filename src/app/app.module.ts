@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -135,6 +134,9 @@ import { IndexPrintComponent } from './components/index/index-print/index-print.
     },
     ScoringUtilitiesService,
     ScorecardsService
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
 })
 export class AppModule {}

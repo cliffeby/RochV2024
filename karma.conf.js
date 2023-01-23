@@ -11,12 +11,6 @@ module.exports = function (config) {
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
-
-
-      'karma-junit-reporter',
-      'karma-firefox-launcher',
-      'karma-opera-launcher',
-      'karma-ie-launcher',
       
     ],
     client: {
@@ -32,7 +26,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome','Edge'],
+    browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true
   });

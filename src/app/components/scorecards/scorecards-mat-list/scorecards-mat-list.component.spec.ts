@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ScorecardsMatListComponent } from './scorecards-mat-list.component';
 
 describe('ScorecardsMatListComponent', () => {
@@ -8,7 +8,8 @@ describe('ScorecardsMatListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScorecardsMatListComponent ]
+      declarations: [ ScorecardsMatListComponent ],
+      imports: [ HttpClientTestingModule]
     })
     .compileComponents();
   });

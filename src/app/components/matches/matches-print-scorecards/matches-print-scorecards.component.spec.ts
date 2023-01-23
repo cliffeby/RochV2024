@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatchesPrintScorecardsComponent } from './matches-print-scorecards.component';
 
 describe('MatchesPrintScorecardsComponent', () => {
@@ -8,7 +8,8 @@ describe('MatchesPrintScorecardsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MatchesPrintScorecardsComponent ]
+      declarations: [ MatchesPrintScorecardsComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   });

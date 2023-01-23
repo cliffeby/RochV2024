@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IndexListComponent } from './index-list.component';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('IndexListComponent', () => {
   let component: IndexListComponent;
@@ -8,7 +10,9 @@ describe('IndexListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IndexListComponent ]
+      declarations: [ IndexListComponent ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [ActivatedRoute]
     })
     .compileComponents();
 

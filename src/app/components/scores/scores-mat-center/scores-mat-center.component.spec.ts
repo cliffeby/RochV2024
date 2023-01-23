@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ScoresMatCenterComponent } from './scores-mat-center.component';
 
 describe('ScoresMatCenterComponent', () => {
@@ -8,7 +8,8 @@ describe('ScoresMatCenterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScoresMatCenterComponent ]
+      declarations: [ ScoresMatCenterComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   });

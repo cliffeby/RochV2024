@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ScoresMatViewComponent } from './scores-mat-view.component';
 
 describe('ScoresMatViewComponent', () => {
@@ -8,7 +8,8 @@ describe('ScoresMatViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScoresMatViewComponent ]
+      declarations: [ ScoresMatViewComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   });
@@ -16,10 +17,14 @@ describe('ScoresMatViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ScoresMatViewComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture.whenStable().then(() => 
+    component.score._id =  "63961f72581e925eeb9e6d85"
+  );
+  fixture.detectChanges();
+  
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+})
+})
