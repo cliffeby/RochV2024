@@ -15,6 +15,7 @@ import { ScorecardsMatPrintComponent } from './components/scorecards/scorecards-
 import { ResultsMatCenterComponent } from './components/results/results-mat-center/results-mat-center.component';
 import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
 import { IndexCenterComponent } from './components/index/index-center/index-center.component';
+import { MembersResolver } from './components/members/members.resolver';
 
 const routes: Routes = [
   {
@@ -48,6 +49,7 @@ const routes: Routes = [
     component: MembersCenterComponent,
     // canActivate: [ScopeGuard],
     data: { expectedScopes: ['read:members'] },
+    resolve: { members: MembersResolver },
   },
   { path: 'edit-members/:_id', component: MembersMatEditComponent },
   {

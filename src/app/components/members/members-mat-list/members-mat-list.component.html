@@ -9,11 +9,12 @@
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
 </mat-form-field>
-<p *ngIf="members.length <= 0" class="no-data">There is no member added yet!</p>
+<!-- <p *ngIf="members.length <= 0" class="no-data">There is no member added yet!</p> -->
 
-<div class="container" *ngIf="members.length > 0">
+<!-- <div class="container" *ngIf="members.length > 0"> -->
+<div class="container">
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange) = "ngAfterViewInit()">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="ngAfterViewInit()">
 
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
@@ -47,7 +48,7 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 

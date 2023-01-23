@@ -10,6 +10,8 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/services/members.service';
 
@@ -19,11 +21,10 @@ import { MembersService } from 'src/app/services/members.service';
   styleUrls: ['./members-mat-list.component.css'],
 })
 export class MembersMatListComponent implements OnInit, AfterViewInit {
-  private subscription: any;
-  @Input() members: any[] = [];
+  private subscription: Subscription;
   @Output() public SelectMemberEvent = new EventEmitter();
   @Output() public DeleteMemberEvent = new EventEmitter();
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<Member[]>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = [
@@ -36,36 +37,31 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     'action',
   ];
 
-  constructor(private _membersService: MembersService) {}
+  constructor(private _membersService: MembersService,
+    private _activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
-    this.subscription = this._membersService.getMembers().subscribe(
-      (data) => {
-        this.members = data;
-        this.dataSource = new MatTableDataSource<Member[]>(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  ngOnInit(): void {
+    this.subscription = this._activatedRoute.data.subscribe((data) => {
+      this.dataSource = new MatTableDataSource<any>(data.members);
+    });
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
+    // setTimeout(() => {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-    }, 500);
+    // }, 500);
   }
 
-  onAdd(mem:any) {
+  onAdd(mem:Member): void{
     this.SelectMemberEvent.emit(mem);
   }
 
-  onSelect(mem: any) {
+  onSelect(mem: Member): void {
     this.SelectMemberEvent.emit(mem);
   }
 
-  onDelete(index: number, member:any) {
+  onDelete(index: number, member:Member): void {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(
@@ -78,11 +74,11 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
         .subscribe();
     }
   }
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

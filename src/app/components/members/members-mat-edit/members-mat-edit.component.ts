@@ -11,6 +11,7 @@ import { Member } from 'src/app/models/member';
 import { AuthService } from '@auth0/auth0-angular';
 import { ScorecardsService } from '../../../services/scorecards.service';
 import { Scorecard } from 'src/app/models/scorecard';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-members-mat-edit',
@@ -20,11 +21,8 @@ import { Scorecard } from 'src/app/models/scorecard';
 export class MembersMatEditComponent implements OnInit, OnDestroy {
   public profileJson: string = null;
   public scorecards: Scorecard[];
-  tees: any;
-  temp: any;
-  tempTees: any = null;
-  // mytees: any = [];
-  myTees: any = [];
+  tempTees: Scorecard = null;
+  myTees: Scorecard[] = [];
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -40,7 +38,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       course: '',
     });
   }
-  private authSubscription: any;
+  private authSubscription: Subscription;
   public memberForm1: UntypedFormGroup;
   @Input() public member: Member;
   @Output() public updateMemberEvent = new EventEmitter();
@@ -51,7 +49,6 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.memberForm1.controls['user'].setValue(profile.email);
     });
-    // (this.member as any).scorecard = {};
     // Get scorecards for scorecard input dropdown
     this._scorecardsservice.getScorecards().subscribe((resSCData) => {
       this.scorecards = resSCData;
@@ -78,15 +75,15 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       user: [this.member.user, [Validators.required]],
       course: [this.member.scorecardId, [Validators.required]],
     });
-    // Get scorecard details for each id in members profile
-    // groupName property is the course name which has several sets of tees
+    // Get scorecard details for each scorecard id in members profile
+    // groupName property is the course name which can have several sets of tees
     // scorecardId is the id of the scorecard for a specific set of tees
     for (let i = 0; i < this.member.scorecardsId.length; i++) {
       this._scorecardsservice
         .getScorecard(this.member.scorecardsId[i])
         .subscribe((resSCData) => {
-          const sc = resSCData;
-          this.myTees.push(sc.scorecard);
+          const sc:Scorecard = resSCData.scorecard;
+          this.myTees.push(sc);
           // Sort by group name so list is similar for each member
           this.myTees = this.myTees.sort((a:any, b:any) =>
             a.groupName > b.groupName ? 1 : -1
@@ -120,29 +117,39 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.myTees.splice(index, 1);
   }
   // If matselect dropdown is changed, this function will add the new scorecard to tempTees
-  scorecardchanged(event: string) {
+  scorecardChanged(event: Scorecard) {
     this.tempTees = event;
+    console.log(this.tempTees)
+  }
+
+  addMemberForm() {
+    this.getFormData();
+    this.submitAddMemberEvent.emit(this.member);
   }
 
   updateMemberForm() {
-    this.member.firstName = this.memberForm1.controls['firstName'].value;
-    this.member.lastName = this.memberForm1.controls['lastName'].value;
-    this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
-    this.member.email = this.memberForm1.controls['email'].value;
-    this.member.user = this.memberForm1.controls['user'].value;
-    this.member.scorecardsId = this.myTees;
-    console.log('member myTees/scorecardsId', this.myTees)
+    this.getFormData();
+    console.log('member myTees/scorecardsId', this.member.scorecardsId, "mmmmmm",this.myTees)
     this.updateMemberEvent.emit(this.member);
   }
 
-  // Identcal to updateMemberForm()???
-  addMemberForm() {
+  getScorecardIds(tees:Scorecard[]): string[] {
+    var ids: string[]=[];
+    tees.forEach((sc) => {
+      ids.push(sc._id)
+    });
+    return ids
+  }
+
+  getFormData():any {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
     this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
-    this.member.scorecardsId = this.myTees;
-    this.submitAddMemberEvent.emit(this.member);
+    this.member.scorecardsId = this.getScorecardIds(this.myTees);
   }
+
+  // Identcal to updateMemberForm()???
+  
 }

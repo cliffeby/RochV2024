@@ -20,19 +20,17 @@ export class MembersCenterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this._membersService
-      .getMembers()
-      .subscribe((resMemberData) => (this.members = resMemberData));
+    // this._membersService
+    //   .getMembers()
+    //   .subscribe((resMemberData) => (this.members = resMemberData));
   }
 
   onSelectMember(member: Member) {
     if (member === null) {
       this.hidenewMember = false;
-      console.log('Center', this.selectedMember, this.hidenewMember);
     } else {
       this.selectedMember = member;
       this.hidenewMember = true;
-      console.log('Center', this.selectedMember);
     }
   }
   onAddMemberEvent(){
