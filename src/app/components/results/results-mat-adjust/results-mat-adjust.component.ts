@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormArray, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-
-import { from, of, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+// import { from, of, Subscription } from 'rxjs';
+// import { filter, map } from 'rxjs/operators';
 import { Match } from 'src/app/models/match';
 import { Results } from 'src/app/models/results';
 import { Score } from 'src/app/models/score';
@@ -17,8 +16,8 @@ import { ScoresService } from 'src/app/services/scores.service';
   styleUrls: ['./results-mat-adjust.component.css'],
 })
 export class ResultsMatAdjustComponent implements OnInit {
-  subscription: Subscription;
-  public scores:any;
+  // subscription: Subscription;
+  public scores:Score[] = [];
   public scorecard: Scorecard;
   dataSource: MatTableDataSource<Score[]>;
   paginator: any;
@@ -27,7 +26,7 @@ export class ResultsMatAdjustComponent implements OnInit {
   frontTot:number[] = [];
   backTot:number[] = [];
   resultsForm: UntypedFormGroup;
-  arr: UntypedFormArray;
+  arr: UntypedFormArray = new FormArray([]);;
   constructor(
     private fb: UntypedFormBuilder,
     private _scoresService: ScoresService,
@@ -35,7 +34,7 @@ export class ResultsMatAdjustComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this._scoresService
+    this._scoresService
       .getScoresByMatch(this.match._id)
       .subscribe(
         (data) => {

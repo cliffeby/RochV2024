@@ -125,8 +125,9 @@ export class MatchScoreComponent implements OnInit {
   }
   shapePlayers() {
     let players: Score[] = [];
-    const temp = this.match.lineUps;
-    if (temp.linupSD) {
+    var temp:LineUps = new LineUps();
+    temp = this.match.lineUps;
+    if (temp.lineUpSD) {
       delete temp.lineUpSD;
     }
     let keys: number[] = [];

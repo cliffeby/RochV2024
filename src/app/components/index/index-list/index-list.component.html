@@ -8,9 +8,9 @@
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
     </mat-form-field>
-    <p *ngIf="indexScore1.length <= 0" class="no-data">There are no indexes recorded!</p>
+    <p *ngIf="dataSource == null" class="no-data">There are no indexes recorded!</p>
   
-    <div class="container" *ngIf="indexScore1.length > 0">
+    <div class="container" *ngIf="dataSource != null">
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort (matSortChange)="ngAfterViewInit()">
   

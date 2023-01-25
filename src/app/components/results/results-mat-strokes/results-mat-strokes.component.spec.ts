@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ResultsMatStrokesComponent } from './results-mat-strokes.component';
+import { Match } from 'src/app/models/match';
 
 describe('ResultsMatStrokesComponent', () => {
   let component: ResultsMatStrokesComponent;
@@ -17,9 +18,10 @@ describe('ResultsMatStrokesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ResultsMatStrokesComponent);
     component = fixture.componentInstance;
-    fixture.whenStable().then(() => 
-    component.match._id =  "63961f72581e925eeb9e6d85"
-  );
+    var match = new Match();
+    // fixture.whenStable().then(() =>  
+    component.match = match
+  // );
     fixture.detectChanges();
   });
 

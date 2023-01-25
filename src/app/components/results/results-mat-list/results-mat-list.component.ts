@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./results-mat-list.component.css'],
 })
 export class ResultsMatListComponent implements OnInit, AfterViewInit {
-  private subscription: Subscription;
+  // private subscription: Subscription;
   @Input() public matches: any[] = [];
   @Output() public SelectMatchEvent = new EventEmitter();
   @Output() public AdjustScoreEvent = new EventEmitter();
@@ -35,13 +35,15 @@ export class ResultsMatListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.data.subscribe((data) => {
-      this.matches = data.matches;
-      console.log('matches2', this.matches);
+    // this.subscription = this.activatedRoute.data.subscribe((data) => {
+      this.activatedRoute.data.subscribe((data) => {
+      // this.matches = data.matches;
+      this.dataSource = new MatTableDataSource<any>(data.matches);
+      // console.log('matches2', this.matches);
     });
   }
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource<any>(this.matches);
+    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

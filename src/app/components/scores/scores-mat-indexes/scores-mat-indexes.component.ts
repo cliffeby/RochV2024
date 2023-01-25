@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Score } from 'src/app/models/score';
+import { PlayerScores, Score } from 'src/app/models/score';
 import { IndexCalcService } from 'src/app/services/index-calc.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { IndexCalcService } from 'src/app/services/index-calc.service';
 export class ScoresMatIndexesComponent implements OnInit {
 
   public scoreForm1: UntypedFormGroup;
-  @Input() public allPlayerScores: { scr: Score, scrArray: any[] };
+  @Input() public allPlayerScores: PlayerScores;
 
   score: Score;
   scores: Score[];

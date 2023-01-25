@@ -7,7 +7,7 @@ import {
   UntypedFormArray,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Score } from 'src/app/models/score';
+import { PlayerScores, Score } from 'src/app/models/score';
 import { Scorecard } from 'src/app/models/scorecard';
 import { ScorecardsService } from 'src/app/services/scorecards.service';
 
@@ -18,7 +18,7 @@ import { ScorecardsService } from 'src/app/services/scorecards.service';
 })
 export class ScoresMatEditComponent implements OnInit {
   public scoreForm1: UntypedFormGroup;
-  @Input() public allPlayerScores: any;
+  @Input() public allPlayerScores: PlayerScores;
   @Output() public UpdateScoreEvent = new EventEmitter();
   @Output() public ReturnScoreEvent = new EventEmitter();
   score:Score;

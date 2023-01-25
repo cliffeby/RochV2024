@@ -29,7 +29,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class IndexListComponent implements OnInit, AfterViewInit, OnChanges {
   // @Input() public scores: Score[];
-  private subscription: Subscription;
+  // private subscription: Subscription;
   todayDate : Date = new Date();
   // indexScore: any[] = [];
   indexScore1: any[] = [];
@@ -51,12 +51,13 @@ export class IndexListComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.subscription = this._activatedRoute.data.subscribe((data) => {
+    this._activatedRoute.data.subscribe((data) => {
+      this.dataSource = new MatTableDataSource<any>(data.members);
       this.indexScore1 = data.members;
     });
   }
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource<any>(this.indexScore1);
+    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -73,9 +74,9 @@ export class IndexListComponent implements OnInit, AfterViewInit, OnChanges {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 }
 
  // getIndex(): any[] {

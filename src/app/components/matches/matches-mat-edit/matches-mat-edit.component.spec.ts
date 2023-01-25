@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatchesMatEditComponent } from './matches-mat-edit.component';
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthModule, AuthService } from '@auth0/auth0-angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('MatchesMatEditComponent', () => {
   let component: MatchesMatEditComponent;
@@ -12,7 +13,10 @@ describe('MatchesMatEditComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ MatchesMatEditComponent ],
       providers: [UntypedFormBuilder, AuthService ],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule,  AuthModule.forRoot({
+        domain: 'Y', clientId: 'Z',
+      })],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   });

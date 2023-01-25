@@ -53,17 +53,17 @@ export class MatchesMatListComponent
 
   ngOnInit() {
     this.subscription = this.activatedRoute.data.subscribe((data) => {
-      this.matches = data.matches;
+      this.dataSource = new MatTableDataSource<any>(data.matches);
     });
   }
 
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource<any>(this.matches);
+    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   ngOnChanges(changes: SimpleChanges) {
-    this.dataSource = new MatTableDataSource<any>(this.matches);
+    // this.dataSource = new MatTableDataSource<any>(this.matches);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     console.log(changes);

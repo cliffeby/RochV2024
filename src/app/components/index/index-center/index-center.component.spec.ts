@@ -3,7 +3,7 @@ import { IndexListComponent } from '../index-list/index-list.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IndexCenterComponent } from './index-center.component';
-import { ActivatedRoute } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 
 describe('IndexCenterComponent', () => {
   let component: IndexCenterComponent;
@@ -13,7 +13,8 @@ describe('IndexCenterComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ IndexCenterComponent, IndexListComponent ],
       imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [ ActivatedRoute]
+      providers: [],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
 

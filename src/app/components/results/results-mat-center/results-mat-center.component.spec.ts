@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { MatchesService } from 'src/app/services/matches.service';
 import { PrinterService } from 'src/app/services/printer.service';
 import { ResultsMatCenterComponent } from './results-mat-center.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ResultsMatCenterComponent', () => {
   let component: ResultsMatCenterComponent;
@@ -13,7 +14,8 @@ describe('ResultsMatCenterComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ResultsMatCenterComponent ],
       imports: [HttpClientTestingModule],
-      providers: [ MatchesService, PrinterService]
+      providers: [ MatchesService, PrinterService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   });

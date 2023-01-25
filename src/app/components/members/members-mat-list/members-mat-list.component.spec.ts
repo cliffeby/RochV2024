@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MembersMatListComponent } from './members-mat-list.component';
 import { AuthService } from '@auth0/auth0-angular';
-import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('MembersMatListComponent', () => {
   let component: MembersMatListComponent;
@@ -11,8 +12,9 @@ describe('MembersMatListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MembersMatListComponent ],
-      imports: [HttpClientTestingModule],
-      providers: [AuthService, ActivatedRoute]
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [AuthService, ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

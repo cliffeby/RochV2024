@@ -31,4 +31,19 @@ export class Score {
          matchId: string;
          datePlayed: string;
          user: string;
+
+         constructor() {
+          this._id = '';
+          this.scores = [];
+          this.usgaIndex = 0;
+        }         
+       }
+       export class PlayerScores {
+        scr: Score;
+        scrArray: Score[];
+
+        constructor() {
+          this.scr = new Score();
+          this.scrArray = [new Score()];
+        }  
        }

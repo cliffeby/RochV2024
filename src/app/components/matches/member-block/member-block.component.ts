@@ -1,15 +1,11 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { Score } from 'src/app/models/score';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, } from 'rxjs';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/services/members.service';
 import { ScoresService } from 'src/app/services/scores.service';
@@ -24,15 +20,13 @@ import { Scorecard } from 'src/app/models/scorecard';
   templateUrl: './member-block.component.html',
   styleUrls: ['./member-block.component.css'],
 })
-export class MemberBlockComponent implements OnInit, OnDestroy {
-  private subscription1: Subscription;
-  private subscription2: Subscription;
+export class MemberBlockComponent implements OnInit{
   public members: Member[];
   public myscore: Score;
   public scores: any[] = [];
   @Output() public pairings: any[] = [];
   queryString: String;
-  @Input() public match: Match; // Model Match contains populated scorecard which is not valid??
+  @Input() public match: Match = {_id: '1'}; // Karma Tessting requires match to be defined. _id is a dummy value.
   score: Score = new Score();
   players: number = 0; //Player count
   scorecards:any[] = [];
@@ -43,7 +37,6 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
     private _scoresService: ScoresService,
     private _matchesService: MatchesService,
     private _scorecardsService: ScorecardsService,
-    private cd: ChangeDetectorRef // ChangeDetectorRef is used to detect changes to the match object so Match-mat-list displays properly.  Not always successful
   ) {
     this.players = 0;
   }
@@ -56,10 +49,6 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
   //  Score record holds ALL data needed for a players match.
 
   ngOnInit() {
-    this.getPlayers();
-  }
-
-  getPlayers(): void {
     this.queryString = '';
     if (this.match._id) {
       //Merge the Member and Scores collections for the match into a new Members collection using FORKJOIN
@@ -67,7 +56,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       //Use the duplicate Member.id property for Members
       //Use the Member._id property for Scores.
 
-      this.subscription1 = forkJoin({
+      forkJoin({
         members: this._membersService.getMembers(), //Get all members
         scores: this._scoresService.getScoresByMatch(this.match._id), //Get only Scores for this match
       })
@@ -190,7 +179,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
         // ' ' +
         // member.handicap;
       // console.log('score', this.score, member);
-      this.subscription2 = this._scoresService
+      this._scoresService
         .createScore(this.score)
         .subscribe((data) => {
           this.score = data;
@@ -201,7 +190,7 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
     } else {
       this.players--;
       this._matchesService.numberPlaying(this.players);
-      this.subscription2 = this._scoresService
+      this._scoresService
         .deleteScore(member._id)
         .subscribe(); //Actually the original score _id
 
@@ -212,10 +201,5 @@ export class MemberBlockComponent implements OnInit, OnDestroy {
       }
       this._matchesService.shapePlayers(this.pairings);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription1.unsubscribe();
-    // this.subscription2.unsubscribe();
   }
 }

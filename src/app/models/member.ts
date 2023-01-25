@@ -26,6 +26,10 @@ export class LineUps {
   teamC: Team;
   teamD: Team;
   lineUpSD: number;
+  constructor() {
+    this.lineUpSD = 0;
+    // this.name = ''
+  }
 }
 export class Foursome {
   partnerIds: string[];

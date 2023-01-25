@@ -48,7 +48,7 @@ import { ResultsMatAdjustComponent } from './components/results/results-mat-adju
 import { ResultsMatStrokesComponent } from './components/results/results-mat-strokes/results-mat-strokes.component';
 import { ScoringUtilitiesService } from './services/scoring-utilities.service';
 import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
-import { MatchesPrintScorecardsComponent } from './components/matches/matches-print-scorecards/matches-print-scorecards.component';
+// import { MatchesPrintScorecardsComponent } from './components/matches/matches-print-scorecards/matches-print-scorecards.component';
 import { NgxPrintModule } from 'ngx-print';
 import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexes/scores-mat-indexes.component';
 import { ScorecardsService } from './services/scorecards.service';
@@ -94,7 +94,7 @@ import { IndexPrintComponent } from './components/index/index-print/index-print.
     ResultsMatAdjustComponent,
     ResultsMatStrokesComponent,
     ResultsMatPrintComponent,
-    MatchesPrintScorecardsComponent,
+    // MatchesPrintScorecardsComponent,
     ScoresMatIndexesComponent,
     IndexCenterComponent,
     IndexListComponent,
