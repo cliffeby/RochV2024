@@ -20,7 +20,7 @@ import { environment as env } from 'src/environments/environment';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
 import { MembersMatListComponent } from './components/members/members-mat-list/members-mat-list.component';
-import { MatTableModule } from '@angular/material/table';
+// import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
@@ -48,7 +48,7 @@ import { ResultsMatAdjustComponent } from './components/results/results-mat-adju
 import { ResultsMatStrokesComponent } from './components/results/results-mat-strokes/results-mat-strokes.component';
 import { ScoringUtilitiesService } from './services/scoring-utilities.service';
 import { ResultsMatPrintComponent } from './components/results/results-mat-print/results-mat-print.component';
-// import { MatchesPrintScorecardsComponent } from './components/matches/matches-print-scorecards/matches-print-scorecards.component';
+import { MatTableModule } from '@angular/material/table';
 import { NgxPrintModule } from 'ngx-print';
 import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexes/scores-mat-indexes.component';
 import { ScorecardsService } from './services/scorecards.service';

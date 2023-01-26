@@ -52,7 +52,7 @@ export class MatchesMatListComponent
   ) {}
 
   ngOnInit() {
-    this.subscription = this.activatedRoute.data.subscribe((data) => {
+    this.activatedRoute.data.subscribe((data) => {
       this.dataSource = new MatTableDataSource<any>(data.matches);
     });
   }
@@ -110,8 +110,5 @@ export class MatchesMatListComponent
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

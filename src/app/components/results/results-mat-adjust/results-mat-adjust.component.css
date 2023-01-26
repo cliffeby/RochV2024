@@ -8,7 +8,7 @@ sub {
   font-size:  8px;
 }
 
-.mat-row:hover {
+.mat-mdc-row:hover {
   background-color: rgb(250, 215, 215);
 }
 .wrap{

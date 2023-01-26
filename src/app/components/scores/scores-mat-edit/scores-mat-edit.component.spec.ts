@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule, } from '@angular/common/http/testing';
 import { ScoresMatEditComponent } from './scores-mat-edit.component';
-import { UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms'
 import { PlayerScores, Score } from 'src/app/models/score';
 
 describe('ScoresMatEditComponent', () => {

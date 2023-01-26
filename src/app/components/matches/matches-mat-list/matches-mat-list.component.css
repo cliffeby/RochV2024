@@ -1,6 +1,6 @@
 
 
-  .mat-row:hover {
+  .mat-mdc-row:hover {
     background-color: rgb(250, 215, 215);
   }
   @media print {
