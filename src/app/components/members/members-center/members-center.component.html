@@ -1,7 +1,8 @@
 <div *ngIf="!hidenewMember">
   <h2>New Member</h2>
   <app-members-mat-edit
-    (submitAddMemberEvent)="onSubmitAddMemberEvent($event)">
+    (submitAddMemberEvent)="onSubmitAddMemberEvent($event)"
+    (cancelMemberEvent)="onCancelMemberEvent()">
   </app-members-mat-edit>
 </div>
 

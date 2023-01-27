@@ -87,5 +87,6 @@ export class MembersCenterComponent implements OnInit {
 
   onCancelMemberEvent(){
     this.selectedMember = null;
+    this.hidenewMember = true;
   }
 }

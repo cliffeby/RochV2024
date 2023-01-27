@@ -47,13 +47,14 @@
     <button mat-raised-button *ngIf="member._id" mat-raised-button color="primary" (click)="updateMemberForm()">
       Update
     </button>
-    <button mat-raised-button *ngIf="member._id" mat-raised-button color="primary" (click)="cancelMemberForm()">
+    <button mat-raised-button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMemberForm()">
+      Add New Member
+    </button>
+    <button mat-raised-button  mat-raised-button color="primary" (click)="cancelMemberForm()">
       Cancel
     </button>
   </div>
-  <button mat-raised-button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMemberForm()">
-    Add New Member
-  </button>
+
   <div class="column" *ngFor="let item of myTees, let j = index">
     {{item.courseTeeName}} <mat-icon (click)="removeScorecard(j)">backspace</mat-icon>
   </div>
