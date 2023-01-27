@@ -32,22 +32,27 @@
       </mat-form-field>
       <mat-form-field class="detail-full-width ">
         <mat-label>Select default tees</mat-label>
-        <mat-select (valueChange) = "scorecardChanged($event)" [formControl]="memberForm1.controls['course']" required >
+        <mat-select (valueChange)="scorecardChanged($event)" [formControl]="memberForm1.controls['course']" required>
           <mat-option class="mat-select-content" *ngFor="let n of scorecards; let i = index" [value]="scorecards[i]">
             {{ n.courseTeeName }}</mat-option>
           <mat-error *ngIf="memberForm1.controls['course'].hasError('required')">Please choose tees</mat-error>
 
         </mat-select>
-      </mat-form-field><mat-icon (click)="addScorecard()">add</mat-icon>
+      </mat-form-field><mat-icon (click)="addScorecard()">add</mat-icon>add
     </div>
   </form>
 
   <!-- Submit & Reset -->
-  <button *ngIf="member._id" mat-raised-button color="primary" (click)="updateMemberForm()">
-    Update
-  </button>
-  <button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMemberForm()">
-    Add
+  <div class="button-row">
+    <button mat-raised-button *ngIf="member._id" mat-raised-button color="primary" (click)="updateMemberForm()">
+      Update
+    </button>
+    <button mat-raised-button *ngIf="member._id" mat-raised-button color="primary" (click)="cancelMemberForm()">
+      Cancel
+    </button>
+  </div>
+  <button mat-raised-button *ngIf="!member._id" id="addbtn1" mat-raised-button color="primary" (click)="addMemberForm()">
+    Add New Member
   </button>
   <div class="column" *ngFor="let item of myTees, let j = index">
     {{item.courseTeeName}} <mat-icon (click)="removeScorecard(j)">backspace</mat-icon>

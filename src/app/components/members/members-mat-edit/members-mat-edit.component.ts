@@ -43,6 +43,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   @Input() public member: Member;
   @Output() public updateMemberEvent = new EventEmitter();
   @Output() public submitAddMemberEvent = new EventEmitter();
+  @Output() public cancelMemberEvent = new EventEmitter();
 
   ngOnInit() {
     this.authSubscription = this.auth.user$.subscribe((profile) => {
@@ -131,6 +132,9 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.getFormData();
     console.log('member myTees/scorecardsId', this.member.scorecardsId, "mmmmmm",this.myTees)
     this.updateMemberEvent.emit(this.member);
+  }
+  cancelMemberForm() {
+    this.cancelMemberEvent.emit();
   }
 
   getScorecardIds(tees:Scorecard[]): string[] {

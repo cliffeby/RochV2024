@@ -9,6 +9,7 @@
   <h2>Edit Member</h2>
   <app-members-mat-edit
     (updateMemberEvent)="onUpdateMemberEvent($event)"
+    (cancelMemberEvent)="onCancelMemberEvent()"
     [member]="selectedMember">
   </app-members-mat-edit>
 </div>

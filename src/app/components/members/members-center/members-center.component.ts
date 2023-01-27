@@ -84,4 +84,8 @@ export class MembersCenterComponent implements OnInit {
     this.selectedMember = null;
     this.members = memberArray;
   }
+
+  onCancelMemberEvent(){
+    this.selectedMember = null;
+  }
 }
