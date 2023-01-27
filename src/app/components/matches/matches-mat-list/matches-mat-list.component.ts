@@ -58,15 +58,14 @@ export class MatchesMatListComponent
   }
 
   ngAfterViewInit() {
-    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   ngOnChanges(changes: SimpleChanges) {
     // this.dataSource = new MatTableDataSource<any>(this.matches);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    console.log(changes);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+    // console.log(changes);
   }
 
   onAdd(mem:any) {

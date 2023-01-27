@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MembersService } from './members.service';
 
-fdescribe('MembersService', () => {
+describe('MembersService', () => {
   let service: MembersService;
   const expectedMembers = [{_id: '63961f34581e925eeb9e6d70', firstName: 'Rich', lastName: 'Acker', usgaIndex: 16, scorecardsId: Array(2),},
   {_id: '63adedeef2c0b0e283d7eec2', firstName: 'London', lastName: 'Catcher', usgaIndex: 4.7, scorecardsId: Array(2),},

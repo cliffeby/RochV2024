@@ -33,7 +33,7 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     'usgaIndex',
     'lastDatePlayed',
     'email',
-    'user',
+    // 'user',
     'action',
   ];
 
@@ -43,14 +43,13 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.subscription = this._activatedRoute.data.subscribe((data) => {
       this.dataSource = new MatTableDataSource<any>(data.members);
+      console.log(data.members)
     });
   }
 
   ngAfterViewInit(): void {
-    // setTimeout(() => {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-    // }, 500);
   }
 
   onAdd(mem:Member): void{
