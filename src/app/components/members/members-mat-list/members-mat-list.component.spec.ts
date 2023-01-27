@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flushMicrotasks,
+  TestBed,
+} from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -11,6 +16,7 @@ import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
 import { HttpClient } from '@angular/common/http';
 import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/services/members.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 fdescribe('Members MatListComponent', () => {
   let component: MembersMatListComponent;
@@ -52,6 +58,7 @@ fdescribe('Members MatListComponent', () => {
     },
   ];
   let router: any;
+  let dataSource = new MatTableDataSource<any>(fakeMembers);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -70,7 +77,9 @@ fdescribe('Members MatListComponent', () => {
     fixture = TestBed.createComponent(MembersMatListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    console.log(component);
     router = jasmine.createSpyObj('router', ['navigate']);
+    dataSource = dataSource;
     service = TestBed.inject(MembersService);
     httpSpy = TestBed.inject<any>(HttpClient);
   });
@@ -115,6 +124,7 @@ fdescribe('Members MatListComponent', () => {
         expect(httpSpy.get.calls.count()).toBe(1);
       });
     };
+
   describe('onDelete(index, member) should pop a confirmation window', function () {
     beforeEach(() => {
       spyOn(window, 'prompt').and.callThrough();
@@ -123,13 +133,23 @@ fdescribe('Members MatListComponent', () => {
       component.onDelete(1, member);
       window.confirm('Cancel');
     });
-
     xit('should generate a window prompt', () => {
       expect(window.prompt).toHaveBeenCalledWith('OK');
     });
-
     it('should generate a confirm dialog', () => {
       expect(window.confirm).toHaveBeenCalledWith('Are you sure');
     });
+  });
+  describe('Check Memebers filter', () => {
+    beforeEach(() => {
+      dataSource.filter = 'Bill';
+      fixture.detectChanges();
+      console.log('component', dataSource);
+    });
+    it('should be able to filter the table contents', fakeAsync(() => {
+      // Change filter to Bob, should match one row/member
+      expect(dataSource.filteredData.length).toBe(1);
+      expect(dataSource.filteredData[0]).toEqual(dataSource.data[1]);
+    }));
   });
 });

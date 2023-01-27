@@ -1,10 +1,10 @@
+import { DataSource } from '@angular/cdk/collections';
 import {
   Component,
   ViewChild,
   OnInit,
   EventEmitter,
   Output,
-  Input,
   AfterViewInit,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -43,7 +43,6 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.subscription = this._activatedRoute.data.subscribe((data) => {
       this.dataSource = new MatTableDataSource<any>(data.members);
-      console.log(data.members)
     });
   }
 

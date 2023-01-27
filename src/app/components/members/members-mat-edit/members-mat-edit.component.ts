@@ -68,9 +68,9 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.memberForm1 = this.fb.group({
       firstName: [
         this.member.firstName,
-        [Validators.required, Validators.minLength(2)],
+        [Validators.required, Validators.minLength(1)],
       ],
-      lastName: [this.member.lastName, [Validators.required]],
+      lastName: [this.member.lastName, [Validators.minLength(2)]],
       usgaIndex: [this.member.usgaIndex, [Validators.required]],
       email: [this.member.email, [Validators.email]],
       user: [this.member.user, [Validators.required]],
@@ -100,6 +100,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   public handleError = (controlName: string, errorName: string) => {
     return this.memberForm1.controls[controlName].hasError(errorName);
   };
+
   // OnClick to add scorecard to member; this function checks if the groupName is already in the member's profile
   // If it is, it will replace that member scorecard.  Players can store many courses (groupNames) but can on have one default set of tees per course.
   addScorecard() {
@@ -114,9 +115,11 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
       this.tempTees = null;
     }
   }
+
   removeScorecard(index: number) {
     this.myTees.splice(index, 1);
   }
+
   // If matselect dropdown is changed, this function will add the new scorecard to tempTees
   scorecardChanged(event: Scorecard) {
     this.tempTees = event;
@@ -153,7 +156,5 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     this.member.user = this.memberForm1.controls['user'].value;
     this.member.scorecardsId = this.getScorecardIds(this.myTees);
   }
-
-  // Identcal to updateMemberForm()???
   
 }
