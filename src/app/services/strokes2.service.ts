@@ -20,6 +20,7 @@ export class Strokes2Service {
       if (i % 4 == 0) {
         lowCap = 999;
         for (let j = i; j < i + 4; j++) {
+          console.log('pa', i, j, pa[j], pa)
           if (pa[j].handicap < lowCap) {
             lowCap = pa[j].handicap;
           }
@@ -43,7 +44,7 @@ export class Strokes2Service {
     var scYards = this._scoresService.stringToArraySC(lineUp[0].playerA.scYardInputString);
     scYards = this.scorecardSplice(scYards); 
     let markup: string[] = [];
-    console.log('foreach playyerArray',playerArray, this.lowCap)
+    console.log('foreach playerArray',playerArray, this.lowCap)
     playerArray.forEach((player, index) => {
       markup = [];
       // markup[0] = '';

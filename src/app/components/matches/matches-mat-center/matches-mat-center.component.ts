@@ -58,7 +58,7 @@ export class MatchesMatCenterComponent implements OnInit {
     console.log('Print Match LineUps', match.lineUps);
     this._printService.lineUpSubject.next(match.lineUps);
     this._printService.scorecardSubject.next(match.lineUps[0].playerA.scorecardId);
-    this._printService.createPdf();
+    this._printService.createPdf(match);
   }
   onPrintSCEvent(match: Match) {
     this.selectedMatch = match;

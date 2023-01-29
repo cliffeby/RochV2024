@@ -1,4 +1,3 @@
-import { DataSource } from '@angular/cdk/collections';
 import {
   Component,
   ViewChild,
@@ -37,8 +36,10 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     'action',
   ];
 
-  constructor(private _membersService: MembersService,
-    private _activatedRoute: ActivatedRoute) {}
+  constructor(
+    private _membersService: MembersService,
+    private _activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this._activatedRoute.data.subscribe((data) => {
@@ -47,11 +48,11 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
-  onAdd(mem:Member): void{
+  onAdd(mem: Member): void {
     this.SelectMemberEvent.emit(mem);
   }
 
@@ -59,7 +60,7 @@ export class MembersMatListComponent implements OnInit, AfterViewInit {
     this.SelectMemberEvent.emit(mem);
   }
 
-  onDelete(index: number, member:Member): void {
+  onDelete(index: number, member: Member): void {
     if (window.confirm('Are you sure')) {
       const data = this.dataSource.data;
       data.splice(

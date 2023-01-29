@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import {  Component,  OnInit,  Input,  OnDestroy,  Output,  EventEmitter,} from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Member } from 'src/app/models/member';
 import { AuthService } from '@auth0/auth0-angular';
@@ -45,12 +38,12 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   @Output() public submitAddMemberEvent = new EventEmitter();
   @Output() public cancelMemberEvent = new EventEmitter();
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authSubscription = this.auth.user$.subscribe((profile) => {
       this.profileJson = JSON.stringify(profile, null, 2);
       this.memberForm1.controls['user'].setValue(profile.email);
     });
-    // Get scorecards for scorecard input dropdown
+    // Get scorecards for scorecard input dropdown.
     this._scorecardsservice.getScorecards().subscribe((resSCData) => {
       this.scorecards = resSCData;
     });
@@ -92,7 +85,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
         });
     }
   }
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.authSubscription.unsubscribe();
   }
 
@@ -103,7 +96,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
 
   // OnClick to add scorecard to member; this function checks if the groupName is already in the member's profile
   // If it is, it will replace that member scorecard.  Players can store many courses (groupNames) but can on have one default set of tees per course.
-  addScorecard() {
+  addScorecard():void {
     if (this.tempTees != null) {
       this.myTees.push(this.tempTees);
       const gn = this.myTees[this.myTees.length - 1].groupName;
@@ -116,27 +109,25 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeScorecard(index: number) {
+  removeScorecard(index: number):void {
     this.myTees.splice(index, 1);
   }
 
   // If matselect dropdown is changed, this function will add the new scorecard to tempTees
-  scorecardChanged(event: Scorecard) {
+  scorecardChanged(event: Scorecard):void {
     this.tempTees = event;
-    console.log(this.tempTees)
   }
 
-  addMemberForm() {
+  addMemberForm(): void {
     this.getFormData();
     this.submitAddMemberEvent.emit(this.member);
   }
 
-  updateMemberForm() {
+  updateMemberForm():void {
     this.getFormData();
-    console.log('member myTees/scorecardsId', this.member.scorecardsId, "mmmmmm",this.myTees)
     this.updateMemberEvent.emit(this.member);
   }
-  cancelMemberForm() {
+  cancelMemberForm():void {
     this.cancelMemberEvent.emit();
   }
 
@@ -148,13 +139,12 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
     return ids
   }
 
-  getFormData():any {
+  getFormData():void {
     this.member.firstName = this.memberForm1.controls['firstName'].value;
     this.member.lastName = this.memberForm1.controls['lastName'].value;
     this.member.usgaIndex = this.memberForm1.controls['usgaIndex'].value;
     this.member.email = this.memberForm1.controls['email'].value;
     this.member.user = this.memberForm1.controls['user'].value;
     this.member.scorecardsId = this.getScorecardIds(this.myTees);
-  }
-  
+  } 
 }

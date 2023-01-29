@@ -18,7 +18,7 @@ import { Member } from 'src/app/models/member';
 import { MembersService } from 'src/app/services/members.service';
 import { MatTableDataSource } from '@angular/material/table';
 
-fdescribe('Members MatListComponent', () => {
+describe('Members MatListComponent', () => {
   let component: MembersMatListComponent;
   let fixture: ComponentFixture<MembersMatListComponent>;
   let httpSpy: Spy<HttpClient>;
@@ -77,7 +77,6 @@ fdescribe('Members MatListComponent', () => {
     fixture = TestBed.createComponent(MembersMatListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    console.log(component);
     router = jasmine.createSpyObj('router', ['navigate']);
     dataSource = dataSource;
     service = TestBed.inject(MembersService);

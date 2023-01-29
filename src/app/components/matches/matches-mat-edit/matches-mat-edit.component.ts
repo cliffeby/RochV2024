@@ -12,7 +12,6 @@ import { Match } from 'src/app/models/match';
 import { ScorecardsService } from '../../../services/scorecards.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Scorecard } from 'src/app/models/scorecard';
-import { distinct } from 'rxjs/operators';
 import { MatchesService } from 'src/app/services/matches.service';
 // import { ControlMessagesComponent } from '../../../helpers/control-messages/control-messages.component';
 

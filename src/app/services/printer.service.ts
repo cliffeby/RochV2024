@@ -79,7 +79,7 @@ export class PrinterService {
       this.data1[fs * j + 3] = this.temp;
       this.data2 = this.data1
 
-      const name1 = pd[0].player[fs*4].fullName + '-'+ pd[0].player[fs*4].usgaIndex;
+      const name1 = pd[0].player[fs*4].fullName + '-'+ Math.round(pd[0].player[fs*4].usgaIndex * 10)/10;
       this.temp = [{ content: name1, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 24; i++) {
         this.temp.push({ content: pd[0].player[fs*4].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right' } })
@@ -87,7 +87,7 @@ export class PrinterService {
       this.temp.push({ content: pd[0].player[fs*4].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 4] = this.temp;
 
-      const name2 = pd[0].player[fs*4+1].fullName + '-'+ pd[0].player[fs*4+1].usgaIndex;
+      const name2 = pd[0].player[fs*4+1].fullName + '-'+ Math.round(pd[0].player[fs*4 +1].usgaIndex * 10)/10;
       this.temp = [{ content: name2, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 24; i++) {
         this.temp.push({ content: pd[0].player[fs*4+1].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right'} })
@@ -108,7 +108,7 @@ export class PrinterService {
       this.data1[fs * j + 7] = this.temp;
       this.data1[fs * j + 8] = this.temp;
       this.data1[fs * j + 9] = this.temp;
-      const name3 = pd[0].player[fs*4 +2].fullName + '-'+ pd[0].player[fs*4+2].usgaIndex;
+      const name3 = pd[0].player[fs*4 +2].fullName + '-'+ Math.round(pd[0].player[fs*4 +2].usgaIndex * 10)/10;
       this.temp = [{ content: name3, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 24; i++) {
         this.temp.push({ content: pd[0].player[fs*4+2].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right' } })
@@ -116,7 +116,7 @@ export class PrinterService {
       this.temp.push({ content: pd[0].player[fs*4+2].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 10] = this.temp;
 
-      const name4 = pd[0].player[fs*4+3].fullName + '-'+ pd[0].player[fs*4 +3].usgaIndex;
+      const name4 = pd[0].player[fs*4+3].fullName + '-'+ Math.round(pd[0].player[fs*4 +3].usgaIndex * 10)/10;
       this.temp = [{ content: name4, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 24; i++) {
         this.temp.push({ content: pd[0].player[fs*4+3].markup[i], colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'right' } })
@@ -133,7 +133,7 @@ export class PrinterService {
     }
     return this.data1
   }
-  createPdf() {
+  createPdf(match) {
     const pdfData = this.createData();
     var doc = new jsPDF();
     var doc = new jsPDF("l", "pt", "letter")
@@ -146,7 +146,7 @@ export class PrinterService {
       console.log('keys', keys);
       var rs: number = 0; //starting row
       var re: number = 13; //ending row
-      var headerText = 'Rochester Golf - ' + new Date(this.lineUpData[0].playerA.datePlayed)
+      var headerText = 'Rochester Golf - ' + match.name + '  ' + new Date(this.lineUpData[0].playerA.datePlayed)
       .toLocaleDateString("en-US", {weekday: 'long', month:'long', day:'numeric', year: 'numeric'});
       for (let i: number = 0; i < keys.length - 1; i++) {  // 4 = number of teams i.e. 8 players
         doc.setFontSize(18);

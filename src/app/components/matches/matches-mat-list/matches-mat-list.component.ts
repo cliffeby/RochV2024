@@ -17,14 +17,13 @@ import { Match } from 'src/app/models/match';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ScoresService } from 'src/app/services/scores.service';
-import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-matches-mat-list',
   templateUrl: './matches-mat-list.component.html',
   styleUrls: ['./matches-mat-list.component.css'],
 })
 export class MatchesMatListComponent
-  implements OnInit, AfterViewInit, OnChanges {
+  implements OnInit, AfterViewInit {
   private subscription: Subscription;
   @Input() public matches: any[] = [];
   @Output() public SelectMatchEvent = new EventEmitter();
@@ -61,12 +60,12 @@ export class MatchesMatListComponent
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  ngOnChanges(changes: SimpleChanges) {
-    // this.dataSource = new MatTableDataSource<any>(this.matches);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-    // console.log(changes);
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   // this.dataSource = new MatTableDataSource<any>(this.matches);
+  //   // this.dataSource.paginator = this.paginator;
+  //   // this.dataSource.sort = this.sort;
+  //   // console.log(changes);
+  // }
 
   onAdd(mem:any) {
     this.SelectMatchEvent.emit(mem);
