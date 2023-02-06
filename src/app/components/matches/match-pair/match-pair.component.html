@@ -1,5 +1,5 @@
 <h2>MatchPair</h2>
-
+{{todaysLineUp[0]| json}}
 <div class="row">
   <div class="column" *ngFor="let item of todaysLineUp[index] | keyvalue">
     <table>
@@ -28,4 +28,5 @@
 <a *ngIf="index==3" color = "warn">No more spins</a>
 <mat-icon *ngIf=" !lineUpLocked" (click)="onLock()">lock</mat-icon>
 <mat-icon *ngIf="lineUpLocked" (click)="onUnLock()">lock_open</mat-icon>
+<mat-icon (click)="onDrag()">drag_handle</mat-icon>
 

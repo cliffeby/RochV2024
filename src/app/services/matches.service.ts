@@ -14,7 +14,7 @@ export class MatchesService {
   private sortByIndexSubject = new BehaviorSubject(null); //Players for match from match-mat-edit
   public playersCountSubject = new BehaviorSubject(null);
   public matchStatusSubject = new BehaviorSubject('open');
-  public matchesSubject = new BehaviorSubject(null);
+  public lineUpSubject = new BehaviorSubject<any[]>([null]);
 
   numberPlaying(data:any) {
     this.playersCountSubject.next(data);
@@ -24,6 +24,9 @@ export class MatchesService {
     this.sortByIndexSubject.next(
       data.sort((a:any, b:any) => a.usgaIndex - b.usgaIndex)
     );
+  }
+  setDraggedMatch(lineUp:any){
+    this.lineUpSubject.next(lineUp);
   }
 
   getShapedPlayers() {

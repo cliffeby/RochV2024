@@ -55,6 +55,9 @@ import { ScorecardsService } from './services/scorecards.service';
 import { IndexCenterComponent } from './components/index/index-center/index-center.component';
 import { IndexListComponent } from './components/index/index-list/index-list.component';
 import { IndexPrintComponent } from './components/index/index-print/index-print.component';
+import { MatchDropDragComponent } from './components/matches/match-drop-drag/match-drop-drag/match-drop-drag.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { EvenOddPipe } from './services/evenodd.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,6 +102,8 @@ import { IndexPrintComponent } from './components/index/index-print/index-print.
     IndexCenterComponent,
     IndexListComponent,
     IndexPrintComponent,
+    MatchDropDragComponent,
+    EvenOddPipe
   ],
   imports: [
     BrowserModule,
@@ -112,6 +117,7 @@ import { IndexPrintComponent } from './components/index/index-print/index-print.
     AngularMaterialModule,
     BrowserAnimationsModule,
     NgxPrintModule,
+    DragDropModule,
     AuthModule.forRoot({
       ...env.auth,
       httpInterceptor: {

@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Member } from 'src/app/models/member';
 import { By } from '@angular/platform-browser';
 
-fdescribe('MembersMatEditComponent', () => {
+describe('MembersMatEditComponent', () => {
   let component: MembersMatEditComponent;
   let fixture: ComponentFixture<MembersMatEditComponent>;
 

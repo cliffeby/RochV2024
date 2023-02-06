@@ -5,6 +5,7 @@ import { MatchesService } from 'src/app/services/matches.service';
 import { Member, Team, LineUps } from 'src/app/models/member';
 import { Match } from 'src/app/models/match';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-match-pair',
@@ -13,10 +14,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MatchPairComponent implements OnInit {
   matchPairings: any;
-  todaysLineUp:any[] = [];
+  todaysLineUp:Subscription[];
   index = 0;
   lineUpLocked = false;
   @Output() public lockMatchEvent = new EventEmitter();
+  @Output() public dragMatchEvent = new EventEmitter();
   @Input() public match: Match;
 
   constructor(
@@ -34,18 +36,25 @@ export class MatchPairComponent implements OnInit {
       this.matchPairings = data;
     });
     this._matchpairService.generateLineUps(this.matchPairings).then((data) => {
-      this.todaysLineUp = data;
+      console.log('DATA', data)
+      this._matchesService.lineUpSubject.next(data);
+      this._matchesService.lineUpSubject.subscribe((data) => this.todaysLineUp = data);
+      // this.todaysLineUp = this._matchesService.lineUpSubject.getValue();
+      // this.match = { ...this.match, lineUps: this.todaysLineUp[0], status: 'open' };
+      // this.lockMatchEvent.emit(this.match);
     });
   }
 
   onSelect() {
     //Counter to limit nimber of spins that modify the lineup
     this.index++;
+    // this.lockMatchEvent.emit(this.match);
   }
 
   onLock() {
     // Locks the lineup for no modification other than printing and recording scores
-    this._matchlockService.lockLineUps(this.todaysLineUp[this.index]);
+    // this._matchlockService.lockLineUps(this.todaysLineUp[this.index]);
+    console.log('from match pair service LOCK', this.index,this.todaysLineUp)
     this.match = { ...this.match, lineUps: this.todaysLineUp[this.index], status: 'locked' };
       this._matchesService
         .updateMatch(this.match)
@@ -55,6 +64,10 @@ export class MatchPairComponent implements OnInit {
   }
   onUnLock() {
     this.lineUpLocked = false;
-    this._matchlockService.unLockLineUps(this.todaysLineUp[this.index]);
+    // this._matchlockService.unLockLineUps(this.todaysLineUp[this.index]);
+    console.log('from match pair service UNLOCK', this.index,this.todaysLineUp)
+  }
+  onDrag(){
+    this.dragMatchEvent.emit(this.match)
   }
 }

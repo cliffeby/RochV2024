@@ -16,6 +16,7 @@ export class MatchesMatCenterComponent implements OnInit {
   public hidenewMatch = true;
   public hideMemberBlock = true;
   public hidePairMatch = true;
+  public hideDrag = true;
   public hideScoreMatch = true;
   public hideSCPrint = true;
   @Output() public matches: Array<Match>;
@@ -84,6 +85,17 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidePairMatch = true;
     this.selectedMatch = null;
   }
+  onDragMatchEvent(match:any){
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = false;
+    this.selectedMatch = match;
+    this.hideDrag = !this.hideDrag;
+    console.log('Drag Match', match)
+  }
+  onDraggedMatchEvent(match:any){
+    this.selectedMatch = match;
+  }
 
   onSubmitAddMatch(match: Match) {
     this._matchesService.createMatch(match).subscribe((resNewMatch) => {
@@ -143,15 +155,15 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = false;
   }
+
   onLockMatchEvent(match: Match) {
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.selectedMatch = null;
+    this.hideDrag = true;
     this._matchesService.getMatches().subscribe((resMatchData) => {
       this.matches = resMatchData;
-
-      this._matchesService.matchesSubject.next(this.matches);
     });
   }
   onUpdateScoresEvent(match: Match) {
@@ -166,7 +178,6 @@ export class MatchesMatCenterComponent implements OnInit {
     });
     this._matchesService.getMatches().subscribe((resMatchData) => {
       this.matches = resMatchData;
-      this._matchesService.matchesSubject.next(this.matches);
     });
   }
 }

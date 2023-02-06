@@ -14,8 +14,12 @@
     </app-member-block>
   </div>
   <div *ngIf=!hidePairMatch>
-    <app-match-pair [match]="selectedMatch" (lockMatchEvent)="onLockMatchEvent($event)">
+    <app-match-pair [match]="selectedMatch"  (lockMatchEvent)="onLockMatchEvent($event)"
+    (dragMatchEvent)="onDragMatchEvent($event)">
     </app-match-pair>
+    <div *ngIf=!hideDrag>
+    <app-match-drop-drag (draggedMatchEvent)="onDraggedMatchEvent($event)" [match]="selectedMatch"></app-match-drop-drag>
+  </div>
   </div>
 </div>
 <div *ngIf=!hideScoreMatch>

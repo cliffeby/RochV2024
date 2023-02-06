@@ -19,13 +19,13 @@ export class Member {
 export class Team {
   playerA: Member;
   playerB: Member;
-  combinedIndex: number;
+  combinedIndex?: number;
 }
 export class LineUps {
-  teamA: Team;
-  teamB: Team;
-  teamC: Team;
-  teamD: Team;
+  teamA?: Team;
+  teamB?: Team;
+  teamC?: Team;
+  teamD?: Team;
   lineUpSD: number;
   constructor() {
     this.lineUpSD = 0;
