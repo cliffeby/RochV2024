@@ -70,18 +70,15 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
       this.done = this.shapePlayers();
       let offset = Math.round(this.done.length/2)
       for (let i=1; i<offset; i++){
-        // let i =1;
-      // moveItemInArray(this.done,i,i+Math.round(this.done.length/2))
       this.done.splice(i,0,this.done[i*2])
       this.done.splice(i*2+1,1)
-      // let cloned = this.done.map(x => Object.assign({}, x));
-      // console.log(i, offset, this.done, cloned)
-    }})
+    }
+  })
   }
 
   shapePlayers() {
-    let players: Team = new Team();
-    var temp:any[] = [new LineUps()];
+    let players: any[] = [];
+    var temp:any;
     temp = this.todaysLineUp;
     console.log('TEMP', temp);
     if (temp[0].lineUpSD) {
@@ -93,18 +90,17 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
         keys.push(Number(key));
       }
     }
+    console.log('Keys - Temp', keys, temp)
     for (let i = 0; i < keys.length; i++) {
       if (!temp[0][i].playerB){
-      players.playerA = temp[i].playerA;
+      players.push(temp[0][i].playerA);
       }
       if (temp[0][i].playerB) {
-        players.playerA = temp[i].playerA;
-        players.playerB = temp[0][i].playerB;
+        players.push([temp[0][i].playerA, temp[0][i].playerB]);
       }
     }
-    temp.unshift(players);
     console.log('shapePlayers', players);
-    return temp;
+    return players;
   }
 
 
@@ -120,23 +116,15 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
     }
     console.log('Eventp', event.previousContainer, event.previousIndex)
     console.log('Eventc', event.container, event.currentIndex);
-    // let x = +event.previousContainer.id *2+ event.previousIndex
-    // let y = +event.container.id*2 + event.currentIndex
-    // this.done.splice(y,0,this.done[x])
-    //   this.done.splice(y,1)
     for (let i=0; i<Math.round(this.done.length); i++){
       console.log(document.getElementById(i.toString()))
       }
       console.log('NewDone', this.done)
-      // this._matchesService.lineUpSubject.next(this.done);
   }
   onDrag(){
     console.log('DRAGGGG1', this.done, this.match)
     this.match = {...this.match, lineUps: this.done};
     console.log('DRAGGGG2', this.done, this.match.lineUps)
-    // this._matchesService.setDraggedMatch(this.match);
-    // this.draggedMatchEvent.emit(this.match);
-    // const newLineUp = this.match.lineUps.unshift(this.done)
     this._matchesService.lineUpSubject.next(this.match.lineUps);
     console.log('DRAGGGG3', this.done, this.match.lineUps)
   }

@@ -1,16 +1,15 @@
-
 <h1>Drag&Drop with a flex-wrap</h1>
-{{done | json}}
-<div cdkDropListGroup class = 'two-column-div'>
+<div cdkDropListGroup class='two-column-div'>
     <div *ngFor="let ind of done; let i = index">
-        <div class="example-container " fxlayout = 'column' flex = '50'>
+        <div class="example-container " fxlayout='column' flex='50'>
             <h2>T2{{i}}</h2>
-            <div id={{i}} cdkDropList #doneList="cdkDropList" [cdkDropListData]="ind"
-                 class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let item of ind, let j = index " cdkDrag>
-                    {{item[j].playerA.fullName}}-{{item[j].playerA.handicap}}</div>
+            <div id={{i}} cdkDropList #doneList="cdkDropList" [cdkDropListData]="ind" class="example-list"
+                (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of ind " cdkDrag>
+                    {{item.fullName}}-{{item.handicap}}</div>
             </div>
         </div>
     </div>
 </div>
 <mat-icon (click)="onDrag()">lock</mat-icon>
+
