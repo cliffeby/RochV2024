@@ -14,8 +14,19 @@ export class MatchesService {
   private sortByIndexSubject = new BehaviorSubject(null); //Players for match from match-mat-edit
   public playersCountSubject = new BehaviorSubject(null);
   public matchStatusSubject = new BehaviorSubject('open');
+  private testSubject = new BehaviorSubject(1);
+  testData = this.testSubject.asObservable();
   public lineUpSubject = new BehaviorSubject<any[]>([null]);
+  currentData = this.lineUpSubject.asObservable();
 
+  setLineUpSubject(data){
+    this.lineUpSubject.next(data);
+    console.log('from service', data, this.currentData);
+  }
+  setTestSubject(data){
+    this.testSubject.next(data);
+  }
+  
   numberPlaying(data:any) {
     this.playersCountSubject.next(data);
   }

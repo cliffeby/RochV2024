@@ -1,5 +1,5 @@
-<h2>MatchPair</h2>
-<!-- {{index}} -->
+<p>match-view works!</p>
+<h2>MatchView</h2>
 <!-- {{todaysLineUp[index]| json}} -->
 <div class="row">
   <div class="column" *ngFor="let item of match.lineUps[index] | keyvalue">
@@ -10,6 +10,7 @@
         <th>Index</th>
         <th>HCap</th>
       </tr>
+
       <tr *ngIf="item.value.playerA">
         <td> {{item.value.playerA.fullName}}</td>
         <td>{{item.value.playerA.usgaIndex | number: '1.1-1'}}</td>
@@ -24,10 +25,8 @@
   </div>
 </div>
 
-<mat-icon *ngIf="index<3" (click)="onSelect()">album</mat-icon>
-<mat-icon *ngIf="index==3" color = "warn">stop</mat-icon>
-<a *ngIf="index==3" color = "warn">No more spins</a>
-<mat-icon *ngIf=" !lineUpLocked" (click)="onLock()">lock</mat-icon>
-<mat-icon *ngIf="lineUpLocked" (click)="onUnLock()">lock_open</mat-icon>
-<mat-icon (click)="onDrag()">drag_handle</mat-icon>
+<!-- <mat-icon (click)="onSelect()">album</mat-icon>
+<mat-icon *ngIf=" !true" (click)="onLock()">lock</mat-icon>
+<mat-icon *ngIf="true" (click)="onUnLock()">lock_open</mat-icon> -->
 
+<mat-icon (click)="onSelect()">album</mat-icon>

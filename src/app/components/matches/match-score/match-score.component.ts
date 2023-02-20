@@ -50,7 +50,12 @@ export class MatchScoreComponent implements OnInit {
     }
   }
   loadItem(player: any, i: number) {
-    let name_Index = player.fullName;
+    var name_Index:string;
+    if (player) {
+    name_Index = player.fullName;
+    }else{
+      return this.fb.group({name: new UntypedFormControl({ value: 'Empty', disabled: true }),});
+    }
     return this.fb.group({
       name: new UntypedFormControl({ value: name_Index, disabled: true }),
       front: new UntypedFormControl({ value: this.frontTot, disabled: true }),
@@ -137,7 +142,8 @@ export class MatchScoreComponent implements OnInit {
       }
     }
     for (let i = 0; i < keys.length; i++) {
-      players.push(temp[i].playerA);
+      if (temp[i]){
+      players.push(temp[i].playerA);}
       if (temp[i].playerB) {
         console.log('playerB', temp[i].playerB);
         players.push(temp[i].playerB);
