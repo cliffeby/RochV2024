@@ -46,6 +46,7 @@ export class PrinterService {
   }
   createData() {
     this.lineUpData = this.lineUpSubject.getValue();
+    console.log('LineUpData in printer service', this.lineUpData)
     // var keys = Object.keys(this.lineUpData); // keys in array   -- used to get array length
     var j: number = 13; // number of rows on scorecard
     const pd = this._strokes2Service.createPlayerArrayfromLineUp(this.lineUpData);  
@@ -116,6 +117,7 @@ export class PrinterService {
       this.temp.push({ content: pd[0].player[fs*4+2].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 10] = this.temp;
 
+      if (pd[0].player[fs*4+3] != undefined){
       const name4 = pd[0].player[fs*4+3].fullName + '-'+ Math.round(pd[0].player[fs*4 +3].usgaIndex * 10)/10;
       this.temp = [{ content: name4, colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 24; i++) {
@@ -123,13 +125,20 @@ export class PrinterService {
       }
       this.temp.push({ content: pd[0].player[fs*4+3].handicap, colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       this.data1[fs * j + 11] = this.temp;
+    } else {
+      this.temp = [{ content: ' Dummy', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
+      for (var i = 1; i < 25; i++) {
+        this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
+      }
+      this.data1[fs * j + 11] = this.temp;
+    }
 
       this.temp = [{ content: 'OneBall', colSpan: 1, rowSpan: 1, styles: { lineWidth: 1, halign: 'left' } }];
       for (var i = 1; i < 25; i++) {
         this.temp.push({ content: '', colSpan: 10, rowSpan: 1, styles: { lineWidth: 1, halign: 'center' } })
       }
       this.data1[fs * j + 12] = this.temp;
-
+   
     }
     return this.data1
   }
@@ -148,7 +157,7 @@ export class PrinterService {
       var re: number = 13; //ending row
       var headerText = 'Rochester Golf - ' + match.name + '  ' + new Date(this.lineUpData[0].playerA.datePlayed)
       .toLocaleDateString("en-US", {weekday: 'long', month:'long', day:'numeric', year: 'numeric'});
-      for (let i: number = 0; i < keys.length - 1; i++) {  // 4 = number of teams i.e. 8 players
+      for (let i: number = 0; i < keys.length - 0; i++) {  // 4 = number of teams i.e. 8 players
         doc.setFontSize(18);
         doc.setTextColor(100);
         doc.autoPrint();

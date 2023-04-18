@@ -21,6 +21,7 @@ export class Strokes2Service {
         lowCap = 999;
         for (let j = i; j < i + 4; j++) {
           console.log('pa', i, j, pa[j], pa)
+          if (pa[j] === undefined) break
           if (pa[j].handicap < lowCap) {
             lowCap = pa[j].handicap;
           }
@@ -33,9 +34,16 @@ export class Strokes2Service {
   createPlayerArrayfromLineUp(lineUp: any[]) {
     var playerArray: any[] = [];
     var keys = Object.keys(lineUp);
-    for (var i = 0; i < keys.length - 1; i++) {
-      playerArray.push(lineUp[i].playerA, lineUp[i].playerB);
+    console.log('lineup and keys', lineUp, keys)
+    for (var i = 0; i < keys.length; i++) {
+      if (lineUp[i].playerB != undefined){
+        console.log('lineup keys',i, keys, keys.length);
+        playerArray.push(lineUp[i].playerA, lineUp[i].playerB);} 
+      else {
+        playerArray.push(lineUp[i].playerA);
+      }
     }
+    console.log('playerArray',playerArray)
     this.lowCap = this.findLowCapPlayer(playerArray);
     var scHCaps = this._scoresService.stringToArraySC(lineUp[0].playerA.scHCapInputString);
     

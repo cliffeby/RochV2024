@@ -3,7 +3,7 @@
   <app-matches-mat-edit (submitAddMatchEvent)="onSubmitAddMatchEvent($event)">
   </app-matches-mat-edit>
 </div>
-
+<ng-container *ngIf="_reload">
 <div *ngIf="selectedMatch && hidenewMatch && hideScoreMatch">
   <h2>Edit Match</h2>
   <app-matches-mat-edit (updateMatchEvent)="onUpdateMatchEvent($event)" [match]="selectedMatch"
@@ -14,24 +14,37 @@
     </app-member-block>
   </div>
   <div *ngIf=!hidePairMatch>
-    <app-match-pair [match]="selectedMatch"  (lockMatchEvent)="onLockMatchEvent($event)"
-    (dragMatchEvent)="onDragMatchEvent($event)">
+    <app-match-pair [match]="selectedMatch" (lockMatchEvent)="onLockMatchEvent($event)"
+      (dragMatchEvent)="onDragMatchEvent($event)">
     </app-match-pair>
-    <div *ngIf=!hideDrag>
-    <app-match-drop-drag (draggedMatchEvent)="onDraggedMatchEvent($event)" [match]="selectedMatch"></app-match-drop-drag>
   </div>
+  <div>
+    <div *ngIf=!hideDrag>
+      <app-match-drop-drag (draggedMatchEvent)="onDraggedMatchEvent($event)" 
+      (lockMatchEvent)="onLockMatchEvent($event)"
+        [match]="selectedMatch">
+      </app-match-drop-drag>
+    </div>
+  </div>
+  <div *ngIf=!hidePairMatch>
+    <app-match-view>1</app-match-view>
   </div>
 </div>
 <div *ngIf=!hideScoreMatch>
   <app-match-score [match]="selectedMatch" (UpdateScoresEvent)="onUpdateScoresEvent($event)">
     ></app-match-score>
 </div>
-<app-matches-mat-list *ngIf="!selectedMatch && hidenewMatch && hideScoreMatch && hideSCPrint"
-  (SelectMatchEvent)="onSelectMatchEvent($event)" (ScoreMatchEvent)="onScoreMatchEvent($event)"
-  (PrintMatchEvent)="onPrintMatchEvent($event)" (PrintSCEvent)="onPrintSCEvent($event)"
-  (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)" [matches]="matches">
-</app-matches-mat-list>
+
+<div *ngIf="!selectedMatch && hidenewMatch && hideScoreMatch && hideSCPrint">
+  <app-matches-mat-list (SelectMatchEvent)="onSelectMatchEvent($event)" (ScoreMatchEvent)="onScoreMatchEvent($event)"
+    (PrintMatchEvent)="onPrintMatchEvent($event)" (PrintSCEvent)="onPrintSCEvent($event)"
+    (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)" [matches]="matches">
+  </app-matches-mat-list>
+</div>
 <div *ngIf="!hideSCPrint">
   <app-matches-print-scorecards [match]="selectedMatch">
   </app-matches-print-scorecards>
+
 </div>
+</ng-container>
+<app-match-view>2</app-match-view>

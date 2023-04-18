@@ -1,0 +1,31 @@
+<p>match-view works!</p>
+<h2>MatchView</h2>
+<!-- {{todaysLineUp[index]| json}} -->
+<div class="row">
+  <div class="column" *ngFor="let item of match.lineUps | keyvalue">
+    <table>
+      <tr *ngIf="item.value.playerA && item.key < 2">
+        <th>Name</th>
+        <th>Index</th>
+        <th>HCap</th>
+      </tr>
+
+      <tr *ngIf="item.value.playerA">
+        <td> {{item.value.playerA.fullName}}</td>
+        <td>{{item.value.playerA.usgaIndex | number: '1.1-1'}}</td>
+        <td>{{item.value.playerA.handicap | number: '1.1-1'}}</td>
+      </tr>
+      <tr *ngIf="item.value.playerB">
+        <td>{{item.value.playerB.fullName}}</td>
+        <td>{{item.value.playerB.usgaIndex | number: '1.1-1'}}</td>
+        <td>{{item.value.playerB.handicap | number: '1.1-1'}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- <mat-icon (click)="onSelect()">album</mat-icon>
+<mat-icon *ngIf=" !true" (click)="onLock()">lock</mat-icon>
+<mat-icon *ngIf="true" (click)="onUnLock()">lock_open</mat-icon> -->
+
+<mat-icon (click)="onSelect()">album</mat-icon>

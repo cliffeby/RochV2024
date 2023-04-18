@@ -43,6 +43,7 @@ const routes: Routes = [
     component: MatchesMatCenterComponent,
     data: { expectedScopes: ['read: matches'] },
     resolve: { matches: MatchResolver },
+    // runGuardsAndResolvers: 'always'
   },
   {
     path: 'members',

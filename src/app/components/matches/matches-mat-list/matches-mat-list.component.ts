@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   OnChanges,
   SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -47,7 +48,7 @@ export class MatchesMatListComponent
   constructor(
     private _matchesService: MatchesService,
     private _scoresService: ScoresService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -60,18 +61,19 @@ export class MatchesMatListComponent
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // this.dataSource = new MatTableDataSource<any>(this.matches);
-  //   // this.dataSource.paginator = this.paginator;
-  //   // this.dataSource.sort = this.sort;
-  //   // console.log(changes);
-  // }
+  
+ onRefresh(){
+    this.dataSource = new MatTableDataSource<any>(this.matches);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
   onAdd(mem:any) {
     this.SelectMatchEvent.emit(mem);
   }
 
   onSelect(mem: any) {
+    this._matchesService.lineUpSubject.next(mem);
     this.SelectMatchEvent.emit(mem);
   }
   onScore(mem: any) {

@@ -42,10 +42,10 @@ export class MatchPairService {
     return pairings;
   }
 
-  async generateLineUps(rPlaying:any) {
+  async generateLineUps(rPlaying: Member[]) {
     let sd: number;
     let foursomeUSGAIndex: number[] = [];
-    let combos:any[] = [];
+    let combos: LineUps[] = [];
     let combo = [];
 
     for (let i = 0; i < 10000; i++) {
@@ -62,6 +62,8 @@ export class MatchPairService {
 
     combos.sort((a, b) => (a.lineUpSD > b.lineUpSD ? 1 : -1));
     combos = this.removeItemsWithDuplicateSD(combos);
+    combos = this.removeSDproperty(combos);
+    // combos = this.addDummy4SomePlaceholders(combos);
     console.log('Combo', combos.slice(0, 4));
     return combos.slice(0, 4);
   }
@@ -71,11 +73,37 @@ export class MatchPairService {
       if (items[i].lineUpSD === items[i - 1].lineUpSD) {
         items.splice(i--, 1);
       }
+      delete items[i].lineUpSD;
     }
     return items;
   }
 
-  standardDeviation(arr:number[]) {
+  removeSDproperty(items: LineUps[]) {
+    for (let i = 0; i < 5; i++) {
+      if (Number.isNaN(items[i].lineUpSD)) {
+        delete items[i]['lineUpSD'];
+        console.log('items', i, items[i])
+      }
+      
+    }
+    console.log('items', items.slice(0,4))
+    return items;
+  }
+
+  addDummy4SomePlaceholders(items) {
+    const keys = Object.keys(items[0]);
+    if (keys.length % 2 == 0) return items;
+    console.log('Size', keys, keys.length % 4, items[0]);
+    if (keys.length % 2 == 1) {
+      // let playerZ = items[0][0].playerA;
+      let playerZ = new Member();
+      // playerZ.fullName = 'Empty'
+      console.log('playerZ', playerZ);
+      items[0][3] = { ...items[0][3], playerA: [playerZ] };
+    }
+    return items;
+  }
+  standardDeviation(arr: number[]) {
     // Creating the mean with Array.reduce
     let mean =
       arr.reduce((acc, curr) => {
@@ -95,5 +123,28 @@ export class MatchPairService {
 
     // Returning the Standered deviation
     return Math.sqrt(sum / arr.length);
+  }
+  regenerateLineUp(players) {
+    const lineUp: any[] = [];
+    for (let j = 0; j < players.length; j++) {
+      this.A = { ...players[j][0] };
+      this.B = { ...players[j][1] };
+      if (this.A.usgaIndex > this.B.usgaIndex) {
+        this.team = {
+          playerA: this.B,
+          playerB: this.A,
+          // combinedIndex: j,
+        };
+      } else {
+        this.team = {
+          playerA: this.A,
+          playerB: this.B,
+          // combinedIndex: null,
+        };
+      }
+      console.log('team', this.team, j, 'players', players);
+      lineUp.push(this.team);
+    }
+    return lineUp;
   }
 }

@@ -1,14 +1,22 @@
 <h2>MatchPair</h2>
-<!-- {{todaysLineUp[0]| json}} -->
+<!-- {{index}} -->
+{{ todaysLineUp[index] |json}}
+<!-- {{match.lineUps[0].playerA.fullName}}
+{{match.lineUps[0].playerB.fullName}}
+{{match.lineUps[1].playerA.fullName}}
+{{match.lineUps[1].playerB.fullName}}
+{{match.lineUps[2].playerA.fullName}}
+{{match.lineUps[2].playerB.fullName}}
+{{match.lineUps[3].playerA.fullName}}
+{{match.lineUps[3].playerB.fullName}} -->
 <div class="row">
-  <div class="column" *ngFor="let item of todaysLineUp[index] | keyvalue">
+  <div class="column" *ngFor="let item of todaysLineUp[1] | keyvalue">
     <table>
       <tr *ngIf="item.value.playerA && item.key < 2">
         <th>Name</th>
         <th>Index</th>
         <th>HCap</th>
       </tr>
-
       <tr *ngIf="item.value.playerA">
         <td> {{item.value.playerA.fullName}}</td>
         <td>{{item.value.playerA.usgaIndex | number: '1.1-1'}}</td>

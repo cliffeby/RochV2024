@@ -15,7 +15,8 @@
   <!-- <p *ngIf="matches.length <= 0" class="no-data">There is no match added yet!</p> -->
 
   <!-- <div class="container" *ngIf="matches.length > 0"> -->
-  <div class="container">
+  <button mat-raised-button color="accent" (click)="onRefresh()">Refresh</button>
+  <div class="container" >
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource " matSort (matSortChange)="ngAfterViewInit()">
 
@@ -59,8 +60,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    
   </div>
 </div>

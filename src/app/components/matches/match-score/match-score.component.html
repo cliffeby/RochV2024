@@ -3,7 +3,7 @@
 <form [formGroup]="scoreForm" >
   <div formArrayName="arr" *ngFor="let a of scoreForm.get('arr')['controls']; let i = index">
     <div [formGroupName]="i" style="margin-bottom: 10px;">
-      <label>{{players[i]['fullName']}}</label>
+      <label>{{a.controls.name.value}}</label>
       <label> Front {{frontTot[i]}}.</label>
       <label> Back {{backTot[i]}}.</label>
       <label> Score {{totTot[i]}}.</label>

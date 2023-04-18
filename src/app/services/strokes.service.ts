@@ -91,6 +91,14 @@ export class StrokesService {
           scoreColor: this._scoringUtilService.initArrayX(22, 'ADFF2F'), //Color 22 match scoring green
         });
       }
+      if (i % 2 ==0  && i % 4 != 0){
+        array.push({
+          // scores: this.teamMatch(a, 0), //Team match result for foursome i in a
+          scores: [,,,,,,,,,,,,,,,,,,,,,,],
+          name: '',
+          scoreColor: this._scoringUtilService.initArrayX(23, '000000'), //Color black
+        });
+      }
       i++; //Advance to players A2 and B2...
     }
     return array;

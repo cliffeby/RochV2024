@@ -28,7 +28,7 @@ import { Subscription } from 'rxjs';
 
 export class MatchDropDragComponent implements OnInit, OnDestroy {
   matchPairings: any;
-  todaysLineUp:LineUps[] = [];
+  todaysLineUp:any[] = [];
   index = 0;
   lineUpLocked = false;
   newPlayers:any[]= [];
@@ -38,7 +38,7 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
   subscription:Subscription;
   @Output() public lockMatchEvent = new EventEmitter();
   @Output() public draggedMatchEvent = new EventEmitter();
-  @Input() public match: Match;
+  @Input() public match: any;
 
 
   // @ViewChild(CdkDropListGroup) listGroup: CdkDropListGroup<CdkDropList>;
@@ -65,9 +65,9 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       // this.todaysLineUp = this.match.lineUps;
-      this.subscription = this._matchesService.lineUpSubject.subscribe((data) => {this.todaysLineUp = data
-      console.log(' lineup', this.todaysLineUp)
-      this.done = this.shapePlayers();
+      this._matchesService.currentData.subscribe((data) => {this.match.lineUps = data
+      console.log(' lineups', this.match.lineUps)
+      this.done = this.shapePlayers(this.match.lineUps);
       let offset = Math.round(this.done.length/2)
       for (let i=1; i<offset; i++){
       this.done.splice(i,0,this.done[i*2])
@@ -76,27 +76,29 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
   })
   }
 
-  shapePlayers() {
+  shapePlayers(temp) {
     let players: any[] = [];
-    var temp:any;
-    temp = this.todaysLineUp;
+    // var temp:any;
+    // temp = this.match.lineUps[0];
     console.log('TEMP', temp);
-    if (temp[0].lineUpSD) {
+    if (temp.lineUpSD) {
       delete temp[0].lineUpSD;
     }
     let keys: number[] = [];
-    for (let key of Object.keys(temp[0])) {
+    for (let key of Object.keys(temp)) {
       if (!isNaN(Number(key))) {
         keys.push(Number(key));
+      // }else{
+      //   keys.push(key);
       }
     }
     console.log('Keys - Temp', keys, temp)
     for (let i = 0; i < keys.length; i++) {
-      if (!temp[0][i].playerB){
+      if (!temp[i].playerB){
       players.push(temp[0][i].playerA);
       }
-      if (temp[0][i].playerB) {
-        players.push([temp[0][i].playerA, temp[0][i].playerB]);
+      if (temp[i].playerB) {
+        players.push([temp[i].playerA, temp[i].playerB]);
       }
     }
     console.log('shapePlayers', players);
@@ -120,16 +122,27 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
       console.log(document.getElementById(i.toString()))
       }
       console.log('NewDone', this.done)
+      // this.onDrag();
   }
-  onDrag(){
-    console.log('DRAGGGG1', this.done, this.match)
-    this.match = {...this.match, lineUps: this.done};
-    console.log('DRAGGGG2', this.done, this.match.lineUps)
-    this._matchesService.lineUpSubject.next(this.match.lineUps);
-    console.log('DRAGGGG3', this.done, this.match.lineUps)
+  onDragLock(){
+    const rLineUp = this._matchpairService.regenerateLineUp(this.done);
+    console.log('DRAGGGG1', this.done, this.match, rLineUp)
+    const newLineUp = { ...this.match.lineUps}
+    this.match = {...this.match, lineUps:rLineUp };
+    console.log('DRAGGGG2', this.done, this.match)
+    this._matchesService.setLineUpSubject(this.match.lineUps);
+    console.log('DRAGGGG3', this.done, this.match)
+
+    this.match.status = 'locked';
+    this._matchesService
+      .updateMatch(this.match)
+      .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
+  this.lockMatchEvent.emit(this.match);
+  this.lineUpLocked = true;
+
   }
   ngOnDestroy(){
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 }
 

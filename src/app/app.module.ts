@@ -58,6 +58,7 @@ import { IndexPrintComponent } from './components/index/index-print/index-print.
 import { MatchDropDragComponent } from './components/matches/match-drop-drag/match-drop-drag/match-drop-drag.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { EvenOddPipe } from './services/evenodd.pipe';
+import { MatchViewComponent } from './components/matches/match-view/match-view.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,7 +104,8 @@ import { EvenOddPipe } from './services/evenodd.pipe';
     IndexListComponent,
     IndexPrintComponent,
     MatchDropDragComponent,
-    EvenOddPipe
+    EvenOddPipe,
+    MatchViewComponent
   ],
   imports: [
     BrowserModule,
