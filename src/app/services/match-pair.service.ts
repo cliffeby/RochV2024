@@ -74,6 +74,7 @@ export class MatchPairService {
         items.splice(i--, 1);
       }
       delete items[i].lineUpSD;
+      delete items[i].lineUpSD;
     }
     return items;
   }

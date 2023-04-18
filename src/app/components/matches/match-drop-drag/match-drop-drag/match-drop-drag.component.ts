@@ -65,7 +65,11 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       // this.todaysLineUp = this.match.lineUps;
+<<<<<<< HEAD
       this._matchesService.currentData.subscribe((data) => {this.match.lineUps = data
+=======
+      this._matchesService.currentData.subscribe((data) => {this.match = data
+>>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
       console.log(' lineups', this.match.lineUps)
       this.done = this.shapePlayers(this.match.lineUps);
       let offset = Math.round(this.done.length/2)
@@ -124,6 +128,7 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
       console.log('NewDone', this.done)
       // this.onDrag();
   }
+<<<<<<< HEAD
   onDragLock(){
     const rLineUp = this._matchpairService.regenerateLineUp(this.done);
     console.log('DRAGGGG1', this.done, this.match, rLineUp)
@@ -140,6 +145,16 @@ export class MatchDropDragComponent implements OnInit, OnDestroy {
   this.lockMatchEvent.emit(this.match);
   this.lineUpLocked = true;
 
+=======
+  onDrag(){
+    const rLineUp = this._matchpairService.regenerateLineUp(this.done);
+    console.log('DRAGGGG1', this.done, this.match, rLineUp)
+    const newLineUp = { ...this.match.lineUps}
+    this.match = {...this.match, lineUps:[rLineUp] };
+    console.log('DRAGGGG2', this.done, this.match)
+    this._matchesService.setLineUpSubject(this.match);
+    console.log('DRAGGGG3', this.done, this.match)
+>>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
   }
   ngOnDestroy(){
     // this.subscription.unsubscribe();

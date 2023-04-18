@@ -18,7 +18,11 @@ export class MatchViewComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.index = 0;
     this._matchesService.currentData.subscribe((data) => {this.match = data;
+<<<<<<< HEAD
     console.log('Current data called from MATCH VIEW', this.match)})
+=======
+    console.log('MATCH VIEW', this.match)})
+>>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
   }
 
   ngOnDestroy(): void {
