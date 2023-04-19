@@ -35,10 +35,12 @@
     ></app-match-score>
 </div>
 
-<div *ngIf="!selectedMatch && hidenewMatch && hideScoreMatch && hideSCPrint">
+<div *ngIf="!selectedMatch && hidenewMatch && hideScoreMatch && hideSCPrint && hideViewMatch">
   <app-matches-mat-list (SelectMatchEvent)="onSelectMatchEvent($event)" (ScoreMatchEvent)="onScoreMatchEvent($event)"
     (PrintMatchEvent)="onPrintMatchEvent($event)" (PrintSCEvent)="onPrintSCEvent($event)"
-    (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)" [matches]="matches">
+    (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)"
+    (ViewMatchEvent)="onViewMatchEvent($event)" 
+    [matches]="matches">
   </app-matches-mat-list>
 </div>
 <div *ngIf="!hideSCPrint">
@@ -46,4 +48,7 @@
   </app-matches-print-scorecards>
 
 </div>
-<!-- <app-match-view></app-match-view> -->
+<!-- <div> -->
+<div *ngIf=" !hideViewMatch">
+<app-match-view (ReturnToListMatchEvent)="onReturnMatchEvent()"></app-match-view>
+</div>

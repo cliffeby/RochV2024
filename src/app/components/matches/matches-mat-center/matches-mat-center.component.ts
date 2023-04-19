@@ -19,13 +19,14 @@ export class MatchesMatCenterComponent implements OnInit {
   public hideDrag = true;
   public hideScoreMatch = true;
   public hideSCPrint = true;
+  public hideViewMatch = true;
   @Output() public matches: Array<Match>;
   @Output() public update;
   public _reload = true;
   private reload() {
-    setTimeout(() => this._reload = false);
-    setTimeout(() => this._reload = true);
-}
+    setTimeout(() => (this._reload = false));
+    setTimeout(() => (this._reload = true));
+  }
 
   constructor(
     private _matchesService: MatchesService,
@@ -48,6 +49,7 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hidenewMatch = true;
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
+      this.hideViewMatch = true;
       console.log('Center2', this.selectedMatch);
     }
   }
@@ -58,14 +60,20 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideScoreMatch = false;
+    this.hideViewMatch = true;
     console.log('Score Match', this.hideScoreMatch, match.lineUps);
   }
 
   onPrintMatchEvent(match: Match) {
     console.log('Print Match LineUps', match.lineUps);
     this._printService.lineUpSubject.next(match.lineUps);
-    this._printService.scorecardSubject.next(match.lineUps[0].playerA.scorecardId);
-    console.log('match.lineUps[0].playerA.scorecardId',match.lineUps[0].playerA.scorecardId)
+    this._printService.scorecardSubject.next(
+      match.lineUps[0].playerA.scorecardId
+    );
+    console.log(
+      'match.lineUps[0].playerA.scorecardId',
+      match.lineUps[0].playerA.scorecardId
+    );
     this._printService.createPdf(match);
   }
   onPrintSCEvent(match: Match) {
@@ -74,12 +82,14 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideSCPrint = false;
+    this.hideViewMatch = true;
   }
 
   onUnLockMatchEvent(match: Match) {
     this.hidenewMatch = true;
     this.hideMemberBlock = false;
     this.hidePairMatch = true;
+    this.hideViewMatch = true;
     match.status = 'open';
     console.log('Open Match', match);
     this._matchlockService.unLockLineUps(match.lineUps);
@@ -91,16 +101,18 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = false;
     this.hidePairMatch = true;
     this.selectedMatch = null;
+    this.hideViewMatch = true;
   }
-  onDragMatchEvent(match:any){
+  onDragMatchEvent(match: any) {
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.selectedMatch = match;
     this.hideDrag = !this.hideDrag;
-    console.log('Drag Match', match)
+    this.hideViewMatch = true;
+    console.log('Drag Match', match);
   }
-  onDraggedMatchEvent(match:any){
+  onDraggedMatchEvent(match: any) {
     this.selectedMatch = match;
   }
 
@@ -111,6 +123,7 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
       this.selectedMatch = null;
+      this.hideViewMatch = true;
     });
     // TODO - Is Pipe better to force sort
     this._matchesService
@@ -136,12 +149,26 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hideMemberBlock = true;
       this.selectedMatch = null;
       this.hidePairMatch = true;
+      this.hideViewMatch = true;
       this._matchesService
         .getMatches()
         .subscribe((resMatchData) => (this.matches = resMatchData));
     });
   }
-
+  onViewMatchEvent(match: Match) {
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.selectedMatch = null;
+    this.hidePairMatch = true;
+    this.hideViewMatch = false;
+  }
+  onReturnMatchEvent(){
+    this.hidenewMatch = true;
+    this.hideMemberBlock = true;
+    this.selectedMatch = null;
+    this.hidePairMatch = true;
+    this.hideViewMatch = true;
+  }
   onDeleteMatchEvent(match: Match) {
     this.selectedMatch = match;
     const matchArray = this.matches;
@@ -161,6 +188,7 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidenewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = false;
+    this.hideViewMatch = true;
   }
 
   onLockMatchEvent(match: Match) {
@@ -169,11 +197,11 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidePairMatch = true;
     this.selectedMatch = null;
     this.hideDrag = true;
+    this.hideViewMatch = true;
     // this.match.status = 'locked';
-    this._matchesService
-      .updateMatch(match)
-      // .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
-      // console.log('refreshed matches',this.matches);
+    this._matchesService.updateMatch(match);
+    // .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
+    // console.log('refreshed matches',this.matches);
     this._matchesService.getMatches().subscribe((resMatchData) => {
       this.matches = resMatchData;
     });
@@ -185,6 +213,7 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideScoreMatch = true;
+    this.hideViewMatch = true;
     this.selectedMatch = null;
     console.log('Scores Updated');
     this._matchesService.updateMatch(match).subscribe((resUpdatedMatch) => {

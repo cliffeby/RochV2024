@@ -36,14 +36,13 @@ export class MatchPairComponent implements OnInit {
   ngOnInit(): void {
     this._matchesService.getShapedPlayers().subscribe((data) => {
       this.matchPairings = data;
-<<<<<<< HEAD
 
       this._matchpairService
         .generateLineUps(this.matchPairings)
         .then((data) => {
           this.todaysLineUp = data;
-          this.match = { ...this.match, lineUps: data[0] };
-          this._matchesService.setLineUpSubject(data[0]);
+          this.match = { ...this.match, lineUps: data[this.index] };
+          this._matchesService.setLineUpSubject(data[this.index]);
 
           // this._matchesService.currentData.subscribe((data) => this.todaysLineUp = data);
           // this.todaysLineUp = this._matchesService.lineUpSubject.getValue();
@@ -51,18 +50,6 @@ export class MatchPairComponent implements OnInit {
           console.log('LU', this.todaysLineUp);
           // this.lockMatchEvent.emit(this.match);
         });
-=======
-    });
-    this._matchpairService.generateLineUps(this.matchPairings).then((data) => {
-      this.match = {...this.match, lineUps:data}
-      this._matchesService.setLineUpSubject(this.match);
-      
-      this._matchesService.currentData.subscribe((data) => this.match = data);
-      // this.todaysLineUp = this._matchesService.lineUpSubject.getValue();
-      // this.match = { ...this.match, lineUps: this.todaysLineUp, status: 'open' };
-      console.log('MATCH', this.match)
-      // this.lockMatchEvent.emit(this.match);
->>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
     });
   }
 
@@ -77,21 +64,12 @@ export class MatchPairComponent implements OnInit {
   onLock() {
     // Locks the lineup for no modification other than printing and recording scores
     // this._matchlockService.lockLineUps(this.todaysLineUp[this.index]);
-<<<<<<< HEAD
     console.log('from match pair service LOCK', this.index, this.match);
     // this.match = { ...this.match, lineUps: this.todaysLineUp[this.index], status: 'locked' };
     this.match.status = 'locked';
     this._matchesService
       .updateMatch(this.match)
       .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
-=======
-    console.log('from match pair service LOCK', this.index,this.match)
-    // this.match = { ...this.match, lineUps: this.todaysLineUp[this.index], status: 'locked' };
-    this.match.status = 'locked';
-      this._matchesService
-        .updateMatch(this.match)
-        .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
->>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
     this.lockMatchEvent.emit(this.match);
     this.lineUpLocked = true;
   }
@@ -104,14 +82,8 @@ export class MatchPairComponent implements OnInit {
       this.todaysLineUp
     );
   }
-<<<<<<< HEAD
   onDrag() {
     this.dragMatchEvent.emit(this.match);
     this._matchesService.setLineUpSubject(this.todaysLineUp[this.index]);
-=======
-  onDrag(){
-    this.dragMatchEvent.emit(this.match)
-    this._matchesService.setLineUpSubject(this.match);
->>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
   }
 }

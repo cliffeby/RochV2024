@@ -1,13 +1,8 @@
 <p>match-view works!</p>
 <h2>MatchView</h2>
-<!-- {{todaysLineUp[index]| json}} -->
+<!-- {{match.lineUps| json}} -->
 <div class="row">
-<<<<<<< HEAD
   <div class="column" *ngFor="let item of match.lineUps | keyvalue">
-=======
-  <div class="column" *ngFor="let item of match.lineUps[index] | keyvalue">
-    {{test}}
->>>>>>> 6d3ec8f2f06c934e14981f75e445807a5381233b
     <table>
       <tr *ngIf="item.value.playerA && item.key < 2">
         <th>Name</th>
@@ -34,3 +29,4 @@
 <mat-icon *ngIf="true" (click)="onUnLock()">lock_open</mat-icon> -->
 
 <mat-icon (click)="onSelect()">album</mat-icon>
+<mat-icon (click)="onSelect()">keyboard_return</mat-icon>

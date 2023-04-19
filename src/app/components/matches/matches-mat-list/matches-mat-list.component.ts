@@ -32,6 +32,7 @@ export class MatchesMatListComponent
   @Output() public PrintMatchEvent = new EventEmitter();
   @Output() public PrintSCEvent = new EventEmitter();
   @Output() public UnLockMatchEvent = new EventEmitter();
+  @Output() public ViewMatchEvent = new EventEmitter();
   @Output() public DeleteMatchEvent = new EventEmitter();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -89,6 +90,10 @@ export class MatchesMatListComponent
   onUnLock(mem: any) {
     this.UnLockMatchEvent.emit(mem);
     this._matchesService.matchStatusSubject.next('open');
+  }
+  onView(mem:any){
+    this._matchesService.lineUpSubject.next(mem);
+    this.ViewMatchEvent.emit(mem);
   }
   onDelete(index:number, match:any) {
     if (window.confirm('Are you sure')) {

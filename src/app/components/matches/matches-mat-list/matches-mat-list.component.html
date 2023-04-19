@@ -53,6 +53,7 @@
             <mat-icon *ngIf="element.status==='locked'" (click)="onPrint(element)">printer</mat-icon>
             <mat-icon *ngIf="element.status==='locked'" (click)="onPrintScorecards(element)">money</mat-icon>
             <mat-icon *ngIf="element.status ==='locked'" (click)="onScore(element)">score</mat-icon>
+            <mat-icon (click)="onView(element)">visibility</mat-icon>
             <mat-icon color="warn" (click)="onDelete(i, element)">delete</mat-icon>
           </td>
         </ng-container>
