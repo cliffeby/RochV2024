@@ -13,7 +13,7 @@ import { MatchLockService } from 'src/app/services/match-lock.service';
 export class MatchesMatCenterComponent implements OnInit {
   selectedMatch: Match;
 
-  public hidenewMatch = true;
+  public hideNewMatch = true;
   public hideMemberBlock = true;
   public hidePairMatch = true;
   public hideDrag = true;
@@ -42,11 +42,11 @@ export class MatchesMatCenterComponent implements OnInit {
 
   onSelectMatchEvent(match: Match) {
     if (match === null) {
-      this.hidenewMatch = false;
-      console.log('Center1', this.selectedMatch, this.hidenewMatch);
+      this.hideNewMatch = false;
+      console.log('Center1', this.selectedMatch, this.hideNewMatch);
     } else {
       this.selectedMatch = match;
-      this.hidenewMatch = true;
+      this.hideNewMatch = true;
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
       this.hideViewMatch = true;
@@ -56,7 +56,7 @@ export class MatchesMatCenterComponent implements OnInit {
 
   onScoreMatchEvent(match: Match) {
     this.selectedMatch = match;
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideScoreMatch = false;
@@ -78,7 +78,7 @@ export class MatchesMatCenterComponent implements OnInit {
   }
   onPrintSCEvent(match: Match) {
     this.selectedMatch = match;
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideSCPrint = false;
@@ -86,25 +86,26 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onUnLockMatchEvent(match: Match) {
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = false;
     this.hidePairMatch = true;
     this.hideViewMatch = true;
     match.status = 'open';
     console.log('Open Match', match);
     this._matchlockService.unLockLineUps(match.lineUps);
+    delete match['lineUps']
     this.onUpdateMatchEvent(match);
   }
 
   onAddMatchEvent() {
-    this.hidenewMatch = false;
+    this.hideNewMatch = false;
     this.hideMemberBlock = false;
     this.hidePairMatch = true;
     this.selectedMatch = null;
     this.hideViewMatch = true;
   }
   onDragMatchEvent(match: any) {
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.selectedMatch = match;
@@ -119,7 +120,7 @@ export class MatchesMatCenterComponent implements OnInit {
   onSubmitAddMatch(match: Match) {
     this._matchesService.createMatch(match).subscribe((resNewMatch) => {
       this.matches.push(resNewMatch);
-      this.hidenewMatch = true;
+      this.hideNewMatch = true;
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
       this.selectedMatch = null;
@@ -145,7 +146,7 @@ export class MatchesMatCenterComponent implements OnInit {
   onSubmitAddMatchEvent(match: Match) {
     this._matchesService.createMatch(match).subscribe((resNewMatch) => {
       this.matches.push(resNewMatch);
-      this.hidenewMatch = true;
+      this.hideNewMatch = true;
       this.hideMemberBlock = true;
       this.selectedMatch = null;
       this.hidePairMatch = true;
@@ -156,14 +157,14 @@ export class MatchesMatCenterComponent implements OnInit {
     });
   }
   onViewMatchEvent(match: Match) {
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.selectedMatch = null;
     this.hidePairMatch = true;
     this.hideViewMatch = false;
   }
   onReturnMatchEvent(){
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.selectedMatch = null;
     this.hidePairMatch = true;
@@ -185,14 +186,14 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onPairMatchEvent() {
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
-    this.hidePairMatch = false;
     this.hideViewMatch = true;
+    this.hidePairMatch = false;
   }
 
   onLockMatchEvent(match: Match) {
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.selectedMatch = null;
@@ -209,7 +210,7 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onUpdateScoresEvent(match: Match) {
-    this.hidenewMatch = true;
+    this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
     this.hideScoreMatch = true;

@@ -6,6 +6,7 @@ import { Member, Team, LineUps } from 'src/app/models/member';
 import { Match } from 'src/app/models/match';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { concatMap, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-match-pair',
@@ -14,7 +15,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class MatchPairComponent implements OnInit {
   matchPairings: any;
-  todaysLineUp: any[];
+  todaysLineUp: LineUps[];
   lineUp: any;
   index = 0;
   lineUpLocked = false;
@@ -34,23 +35,18 @@ export class MatchPairComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._matchesService.getShapedPlayers().subscribe((data) => {
-      this.matchPairings = data;
-
-      this._matchpairService
-        .generateLineUps(this.matchPairings)
-        .then((data) => {
-          this.todaysLineUp = data;
-          this.match = { ...this.match, lineUps: data[this.index] };
-          this._matchesService.setLineUpSubject(data[this.index]);
-
-          // this._matchesService.currentData.subscribe((data) => this.todaysLineUp = data);
-          // this.todaysLineUp = this._matchesService.lineUpSubject.getValue();
-          // this.match = { ...this.match, lineUps: this.todaysLineUp, status: 'open' };
-          console.log('LU', this.todaysLineUp);
-          // this.lockMatchEvent.emit(this.match);
-        });
-    });
+    this._matchesService
+      .getShapedPlayers()
+      .pipe(
+        // tap((value) => console.log('--> sent out', value)),
+        concatMap((value) => this._matchpairService.generateLineUps(value))
+      )
+      .subscribe((value) => {
+        // console.log("<-- received", value)
+        this.todaysLineUp = value;
+        this.match = { ...this.match, lineUps: value[this.index] };
+        this._matchesService.setLineUpSubject(value[this.index]);
+      });
   }
 
   onSelect() {
@@ -71,15 +67,20 @@ export class MatchPairComponent implements OnInit {
       .updateMatch(this.match)
       .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
     this.lockMatchEvent.emit(this.match);
-    this.lineUpLocked = true;
+    // this.lineUpLocked = true;
   }
   onUnLock() {
     this.lineUpLocked = false;
+    this.match = { ...this.match, lineUps: null };
+    this._matchesService
+      .updateMatch(this.match)
+      .subscribe((resUpdatedMatch) => (this.match = resUpdatedMatch));
     // this._matchlockService.unLockLineUps(this.todaysLineUp[this.index]);
     console.log(
       'from match pair service UNLOCK',
       this.index,
-      this.todaysLineUp
+      this.todaysLineUp,
+      this.match
     );
   }
   onDrag() {

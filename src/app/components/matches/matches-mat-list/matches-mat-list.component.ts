@@ -53,9 +53,13 @@ export class MatchesMatListComponent
   ) {}
 
   ngOnInit() {
+    if (this.matches == null){
     this.activatedRoute.data.subscribe((data) => {
       this.dataSource = new MatTableDataSource<any>(data.matches);
-    });
+    })}
+    else{
+      this.dataSource = new MatTableDataSource<any>(this.matches)
+    };
   }
 
   ngAfterViewInit() {
@@ -87,9 +91,14 @@ export class MatchesMatListComponent
   onPrintScorecards(match: Match) {
     this.PrintSCEvent.emit(match);
   }
-  onUnLock(mem: any) {
-    this.UnLockMatchEvent.emit(mem);
+  onUnLock(match: any) {
     this._matchesService.matchStatusSubject.next('open');
+    ({ lineUps: null, status: 'open', ...match });
+    this._matchesService.updateMatch(match)
+    //   .subscribe((resUpdatedMatch) => (match = resUpdatedMatch));
+    
+    this.UnLockMatchEvent.emit(match);
+    
   }
   onView(mem:any){
     this._matchesService.lineUpSubject.next(mem);

@@ -48,7 +48,7 @@ export class MatchPairService {
     let combos: LineUps[] = [];
     let combo = [];
 
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 100; i++) {
       combo = await this.createRandomPairings(rPlaying);
       for (let j = 0; j < 4; j++) {
         if (combo[j]) {
@@ -61,11 +61,10 @@ export class MatchPairService {
     }
 
     combos.sort((a, b) => (a.lineUpSD > b.lineUpSD ? 1 : -1));
-    console.log('Combo', combos.slice(0, 15));
     combos = this.removeItemsWithDuplicateSD(combos);
     combos = this.removeSDproperty(combos);
     // combos = this.addDummy4SomePlaceholders(combos);
-    
+    console.log('Combo', combos.slice(0, 4));
     return combos.slice(0, 4);
   }
 
@@ -74,18 +73,15 @@ export class MatchPairService {
       if (items[i].lineUpSD === items[i - 1].lineUpSD) {
         items.splice(i--, 1);
       }
-      // delete items[i].lineUpSD;  WHY was this here  DragDrop???
-      // delete items[i].lineUpSD;
     }
     return items;
   }
 
   removeSDproperty(items: LineUps[]) {
     for (let i = 0; i < items.length; i++) {
-      if (Number.isNaN(items[i].lineUpSD)) {
+      // if (Number.isNaN(items[i].lineUpSD)) {
         delete items[i]['lineUpSD'];
-        console.log('items', i, items[i])
-      }
+      // }
       
     }
     console.log('items', items.slice(0,4))

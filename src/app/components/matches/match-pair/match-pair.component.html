@@ -1,15 +1,5 @@
 <h2>MatchPair</h2>
-<!-- {{index}} -->
-<!-- {{ todaysLineUp[index] |json}} -->
-<!-- {{match.lineUps[0].playerA.fullName}}
-{{match.lineUps[0].playerB.fullName}}
-{{match.lineUps[1].playerA.fullName}}
-{{match.lineUps[1].playerB.fullName}}
-{{match.lineUps[2].playerA.fullName}}
-{{match.lineUps[2].playerB.fullName}}
-{{match.lineUps[3].playerA.fullName}}
-{{match.lineUps[3].playerB.fullName}} -->
-<div class="row">
+<div class="row" *ngIf="todaysLineUp" > <!-- ngIf waits for observable to complete -->
   <div class="column" *ngFor="let item of todaysLineUp[index] | keyvalue">
     <table>
       <tr *ngIf="item.value.playerA && item.key < 2">
