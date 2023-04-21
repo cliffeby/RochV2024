@@ -46,28 +46,28 @@ export class IndexCalcService {
         .reduce((a, b) => a + b, 0) / 2 - 1;  //sum then average less adjustment 
         console.log('history5', history[0].usgaIndex, history[0].name);
         break;
-      case 7 || 8: history[0].usgaIndex = Math.trunc(Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
+      case 7: case 8: history[0].usgaIndex = Math.trunc(Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
         .slice(0, 2)
         .reduce((a, b) => a + b, 0) / 2 *10)/10
         console.log('history6', history[0].usgaIndex, history[0].name);
         break;
-      case 9 || 10 || 11: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
+        case 9: case 10: case 11: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
         .slice(0, 3)
         .reduce((a, b) => a + b, 0) / 3;
         break;
-      case 12 || 13 || 14: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
+      case 12: case 13: case 14: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
         .slice(0, 4)
         .reduce((a, b) => a + b, 0) / 4;
         break;
-      case 15 || 16: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
+      case 15: case 16: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
         .slice(0, 5)
         .reduce((a, b) => a + b, 0) / 5;
         break;
-      case 17 || 18: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
+      case 17: case 18: history[0].usgaIndex = Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)
         .sort((a, b) => a - b)
         .slice(0, 6)
         .reduce((a, b) => a + b, 0) / 6;
