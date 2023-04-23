@@ -36,7 +36,7 @@
 
 //   public loading$ = this.loadingSubject.asObservable(); //
 //   test$ = of([1, 2, 3]);
-//   newData(data:any) {
+//   (data:any) {
 //     this.matchResultSubject.next(data); //Function to update the dataSource table
 //   }
 //   obData(match:any) {

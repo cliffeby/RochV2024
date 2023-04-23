@@ -38,7 +38,7 @@ export class ResultsMatCenterComponent implements OnInit {
   onStrokeMatchEvent(match: Match) {
     this.selectedMatch1 = match;
 
-    console.log('Center3', this.selectedMatch);
+    console.log('Center3', this.selectedMatch1);
   }
   onPrintMatchEvent(match: Match) {
     // this.hidenewMatch = true;

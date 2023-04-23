@@ -50,7 +50,7 @@ export class MatchPairComponent implements OnInit {
   }
 
   onSelect() {
-    //Counter to limit nimber of spins that modify the lineup
+    //Counter to limit number of spins that modify the lineup
     this.index++;
     this.match = { ...this.match, lineUps: this.todaysLineUp[this.index] };
     this._matchesService.setLineUpSubject(this.todaysLineUp[this.index]);
