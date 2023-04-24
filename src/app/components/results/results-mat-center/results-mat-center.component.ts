@@ -59,4 +59,8 @@ export class ResultsMatCenterComponent implements OnInit {
     this._printService.lineUpSubject.next(results);
     this._printService.printDocument('results');
   }
+  onReturnEvent(){
+    this.selectedMatch = null;
+    this.selectedMatch1 = null;
+  }
 }

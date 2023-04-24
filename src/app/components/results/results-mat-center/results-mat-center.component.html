@@ -4,5 +4,5 @@
 <app-results-mat-adjust *ngIf="selectedMatch" [match]="selectedMatch">
 </app-results-mat-adjust>
 <app-results-mat-strokes *ngIf="selectedMatch1" (PrintResultEvent1)="onPrintResultEvent1($event)"
-  [match]="selectedMatch1">
+(ReturnEvent) = "onReturnEvent()"  [match]="selectedMatch1">
 </app-results-mat-strokes>

@@ -23,6 +23,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   public scores:any;
   public lineUpOrder: string[];
   @Output() public PrintResultEvent1 = new EventEmitter();
+  @Output() public ReturnEvent = new EventEmitter();
   displayedColumns: string[] = [
     'name',
     'scores[0]',
@@ -81,5 +82,8 @@ export class ResultsMatStrokesComponent implements OnInit {
   onPrint() {
     // this.PrintResultEvent1.emit(this.dataSource3);
     window.print();
+  }
+  onReturn(){
+    this.ReturnEvent.emit();
   }
 }
