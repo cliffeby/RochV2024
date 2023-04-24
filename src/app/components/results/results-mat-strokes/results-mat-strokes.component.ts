@@ -21,6 +21,7 @@ export class ResultsMatStrokesComponent implements OnInit {
   public dataSource3 = new ItemsDataSource(this._strokesService); //See ItemsDataSource.ts  It creates a data source for the table
   subscription: Subscription;
   public scores:any;
+  public lineUpOrder: string[];
   @Output() public PrintResultEvent1 = new EventEmitter();
   displayedColumns: string[] = [
     'name',
@@ -61,12 +62,14 @@ export class ResultsMatStrokesComponent implements OnInit {
   ngOnInit(): void {
     this._strokesService.loadingSubject.next(true);
     console.log('ResultsMatStrokesComponent.ngOnInit()', this.loading$);
+    console.log('lineUp', this.match.lineUps)
+    this.lineUpOrder = this._strokesService.createPlayerArrayfromLineUp(this.match.lineUps)
     this.subscription = this._scoresService
       .getScoresByMatch(this.match._id)
       .subscribe(
         (data) => {
           this.scores = data;
-          this._strokesService.createDataSource(this.scores); //Shapes data for use by datasource
+          this._strokesService.createDataSource1(this.scores, this.lineUpOrder); //Shapes data for use by datasource
           this.first3Rows = this._strokesService.createHeaders(this.scores); //creates par and hcap sticky header rows.  TODO add Yards
         },
         (error) => {
