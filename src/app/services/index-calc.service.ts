@@ -12,6 +12,7 @@ export class IndexCalcService {
     console.log('CALC History', history)
     history.sort((a, b) => Number(new Date(b.datePlayed)) - Number(new Date(a.datePlayed))); //Sort player scores by date
     if (history.length > 20) history.slice(0, 20);  // Take most recent 20 scores
+    history[0].usgaIndexPrevious = history[1].usgaIndex;
     switch (history.length) {  //history[0] is the player's most recent round
       case 1: history[0].usgaIndex  =  Array.from(Object.values(history), x => x.usgaIndexForTodaysScore)  //Create an array of score indexes
       .sort((a, b) => a - b)  // Sort ascending - smallest first

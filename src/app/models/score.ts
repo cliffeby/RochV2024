@@ -22,6 +22,7 @@ export class Score {
          handicap: number;
          usgaIndex: number;
          usgaIndexForTodaysScore: number;
+         usgaIndexPrevious: number; //Temp value - not persisted in DB
          coursePlayerHandicap: number;
          wonTwoBall: boolean;
          wonOneBall: boolean;
