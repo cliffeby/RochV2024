@@ -95,7 +95,7 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
   };
 
   // OnClick to add scorecard to member; this function checks if the groupName is already in the member's profile
-  // If it is, it will replace that member scorecard.  Players can store many courses (groupNames) but can on have one default set of tees per course.
+  // If it is, it will replace that member scorecard.  Players can store many courses (groupNames) but can only have one default set of tees per course.
   addScorecard():void {
     if (this.tempTees != null) {
       this.myTees.push(this.tempTees);
@@ -106,6 +106,8 @@ export class MembersMatEditComponent implements OnInit, OnDestroy {
         }
       }
       this.tempTees = null;
+    }else{
+      window.confirm('Select default tees');
     }
   }
 
