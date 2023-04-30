@@ -61,10 +61,10 @@ export class Strokes2Service {
         if (player.handicap >= scHCaps[i]) {
           markup[i] = '*';
         }
-        if (player.handicap - this.lowCap[0] >= scHCaps[i]) {
+        if (player.handicap - this.lowCap[Math.floor(index/4)] >= scHCaps[i]) {
           markup[i] = '/*';
         }
-        console.log(player.handicap, this.lowCap[0], scHCaps[i], markup[i]);
+        console.log(player.handicap, this.lowCap[Math.floor(index/4)], scHCaps[i], markup[i]);
       }
       this.scorecardSplice(markup);
       player = { ...player, markup: markup };
