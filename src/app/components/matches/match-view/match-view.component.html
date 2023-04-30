@@ -1,6 +1,4 @@
-<p>match-view works!</p>
 <h2>MatchView</h2>
-<!-- {{match.lineUps| json}} -->
 <div class="row">
   <div class="column" *ngFor="let item of match.lineUps | keyvalue">
     <table>
@@ -23,4 +21,4 @@
     </table>
   </div>
 </div>
-<mat-icon (click)="onSelect()">keyboard_return</mat-icon>
+<mat-icon (click)="onReturn()">keyboard_return</mat-icon>

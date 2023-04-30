@@ -26,7 +26,7 @@ export class MatchViewComponent implements OnInit, OnDestroy{
     
   }
 
-  onSelect(){
+  onReturn(){
     this.ReturnToListMatchEvent.emit();
   }
 
