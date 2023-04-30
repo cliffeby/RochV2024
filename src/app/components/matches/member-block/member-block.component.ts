@@ -113,7 +113,8 @@ export class MemberBlockComponent implements OnInit{
               scName: psc.courseTeeName,
               scParInputString: psc.parInputString,
               scHCapInputString: psc.hCapInputString,
-              scYardInputString: psc.yardsInputString
+              scYardInputString: psc.yardsInputString,
+              datePlayed: this.match.datePlayed
             };
             this.scplayers.push(player);
           }

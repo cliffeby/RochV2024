@@ -27,7 +27,7 @@
     </div>
   </div>
 </div>
-<div *ngIf=!hideScoreMatch>
+<div *ngIf="!hideScoreMatch">
   <app-match-score [match]="selectedMatch" (UpdateScoresEvent)="onUpdateScoresEvent($event)">
     ></app-match-score>
 </div>

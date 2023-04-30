@@ -156,7 +156,8 @@ export class PrinterService {
       var rs: number = 0; //starting row
       var re: number = 13; //ending row
       var headerText = 'Rochester Golf - ' + match.name + '  ' + new Date(this.lineUpData[0].playerA.datePlayed)
-      .toLocaleDateString("en-US", {weekday: 'long', month:'long', day:'numeric', year: 'numeric'});
+      .toLocaleDateString("en-US", {weekday: 'long', month:'long', day:'numeric', year: 'numeric'}) +
+      '  ' + match.scGroupName;
       for (let i: number = 0; i < keys.length - 0; i++) {  // 4 = number of teams i.e. 8 players
         doc.setFontSize(18);
         doc.setTextColor(100);

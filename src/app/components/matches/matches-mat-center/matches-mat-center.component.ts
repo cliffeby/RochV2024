@@ -65,7 +65,7 @@ export class MatchesMatCenterComponent implements OnInit {
   }
 
   onPrintMatchEvent(match: Match) {
-    console.log('Print Match LineUps', match.lineUps);
+    console.log('Print Match LineUps', match);
     this._printService.lineUpSubject.next(match.lineUps);
     this._printService.scorecardSubject.next(
       match.lineUps[0].playerA.scorecardId
