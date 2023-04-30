@@ -2,13 +2,10 @@
   <form [formGroup]="scoreForm1">
     <div>
       Name: {{score.name}}
-      <mat-form-field class="inputstyle spaceleft5px">
-        <input matInput placeholder="
-        ESA score" formControlName="postedScore" />
-        <mat-error *ngIf="handleError('name', 'required')">
-          You must provide a<strong>score</strong>
-        </mat-error>
-      </mat-form-field>
+      <label> Score: </label>
+      <span class="space5px">{{scoreForm1.value.postedScore}}</span>
+      <label> XPlayed: </label>
+      <span class="space5px">{{scoreForm1.value.TPTY}}</span>
     </div>
   </form>
 
@@ -80,8 +77,7 @@
         <ng-container>
           <span><label class="score-cell cell-td"> Score</label>
             <td formArrayName="scores" *ngFor="let _ of scoreForm1.get('scores')['controls']; let g = index">
-              <input class="score-cell cell-td container" type="number" [formControlName]="g"
-              (input)="changeScore()"/>
+              <input class="score-cell cell-td container" type="number" [formControlName]="g" (input)="changeScore()" />
             </td>
             <td>
               <label class="score-cell center ">{{scoreForm1.value.score}}</label>

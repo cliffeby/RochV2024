@@ -15,6 +15,7 @@ export class Score {
          scPars: number[];
          scHCaps: number[];
          scYards: number[];
+         scName: string;
          lineupIds: string[];
          memberId: string;
          partnerIds: string[];

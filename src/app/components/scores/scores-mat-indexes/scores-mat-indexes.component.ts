@@ -25,6 +25,7 @@ export class ScoresMatIndexesComponent implements OnInit {
   displayedColumns: string[] = [
 
     'datePlayed',
+    'courseName',
     'postedScore',
     'usgaIndexForTodaysScore',
     'usgaIndex'

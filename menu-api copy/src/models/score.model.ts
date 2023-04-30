@@ -10,6 +10,7 @@ type ScoreDocument = Document & {
   scRating: number;
   scPars: number[],
   scHCaps: number[],
+  scName: string,
   lineupIds: string[];
   memberId: string;
   partnerIds: string[];
@@ -38,6 +39,7 @@ type ScoreInput = {
   scRating: ScoreDocument['scRating'];
   scPars: ScoreDocument['scPars'];
   scHCaps: ScoreDocument['scHCaps'];
+  scName: ScoreDocument['scName'];
   lineupIds: ScoreDocument['lineupIds'];
   memberId: ScoreDocument['memberId'];
   partnerIds: ScoreDocument['partnerIds'];
@@ -87,6 +89,7 @@ const ScoreSchema = new Schema(
     scRating: Number,
     scPars: [Number],
     scHCaps: [Number],
+    scName: String,
     datePlayed: Date,
     foursomeIds: [
       {

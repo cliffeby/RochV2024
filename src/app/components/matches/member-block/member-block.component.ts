@@ -110,6 +110,7 @@ export class MemberBlockComponent implements OnInit{
               sc: psc.name,
               scRating: psc.rating,
               scSlope: psc.slope,
+              scName: psc.courseTeeName,
               scParInputString: psc.parInputString,
               scHCapInputString: psc.hCapInputString,
               scYardInputString: psc.yardsInputString
@@ -165,10 +166,11 @@ export class MemberBlockComponent implements OnInit{
       this.score.scHCaps = this._scoresService.stringToArray(member.scHCapInputString);
       this.score.scPars = this._scoresService.stringToArray(member.scParInputString);
       this.score.scYards = this._scoresService.stringToArray(member.yardsInputString);
+      this.score.scName = member.scName
       // USGA method to determine course handicap from a player's USGAIndex
       // Course handicap = Handicap Index X Slope Rating/113 + (Course Rating-Par) divided by 113
       this.score.handicap = Math.round(
-        member.usgaIndex * member.scSlope / 113 + (member.scRating - 72));
+        member.usgaIndex * member.scSlope / 113 + (member.scRating - 72));  // 72 s/b course par???  TODO
       member.handicap = this.score.handicap;
       this.score.name =
         // this.match.name +
