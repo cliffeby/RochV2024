@@ -29,7 +29,6 @@ export class LineUps {
   lineUpSD: number;
   constructor() {
     this.lineUpSD = 0;
-    // this.name = ''
   }
 }
 export class Foursome {

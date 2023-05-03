@@ -23,20 +23,18 @@ export class StrokesService {
 
   public matchResultSubject = new BehaviorSubject(null); //Shaped datastore for the dataSource table
   public loadingSubject = new BehaviorSubject<boolean>(false); //Is data being loaded and calculated?
-
   public loading$ = this.loadingSubject.asObservable(); //
 
   newData(data: any) {
     this.matchResultSubject.next(data); //Function to update the dataSource table
   }
 
-  // jsObjects.find(x => x.b === 6)
   createDataSource1(scs: Score[], lineUpOrder: string[]) {
     //Shapes the data for the dataSource table.  scs is the scores:Scores[] for the match
     for (let i = 0; i < lineUpOrder.length; i++) {
       //length is the number of players in the match
       let temp:any; 
-      temp = scs.find(x => x.memberId == lineUpOrder[i]);
+      temp = scs.find(x => x.memberId == lineUpOrder[i]); //find the scores of a player in lineup order
       this._scorecardsService
         .getScorecard(temp.scorecardId) //Get the scorecard in the Score record for the match.  Players are on the same course, but may play different tees
         .subscribe((data) => {
@@ -44,7 +42,6 @@ export class StrokesService {
           this.results[i] = new Results(); //Create a consolidated data sources of scores, scorecard and match data to determine results.
           this.results[i].scores = temp.scores; // Players scores for each hole.
           this.results[i].scores = this.fb18(temp.scores, temp.handicap); // Add front 9 and back 9 and 18 totals to the array at [18], [19] and [20]
-          // this.results[i]._id = scs[i].playerId; //Not used
           this.results[i].name = temp.name; //Player name
           this.results[i].score = temp.score; //Player total score
           this.results[i].course = data.scorecard.courseTeeName; //tee name
@@ -57,7 +54,7 @@ export class StrokesService {
           );
           this.results[i].pars = this.fb18(this.results[i].pars, 0);
           this.results[i].handicaps = []; //Init Hole handicaps
-          this.results[i].handicaps = this.stringToNumArray(
+          this.results[i].handicaps = this.stringToNumArray( //parse hcap sting to an array
             data.scorecard.hCapInputString
           );
           this.results[i].usgaIndex = temp.usgaIndex; //Player USGA Index
@@ -403,7 +400,7 @@ export class StrokesService {
     //Create a row that shows the fourball match status.  Assume auto presses when two down and 18-hole press when closed out
     let nassau = this._scoringUtilService.fourBallAutoNassau(foursome, j, 0); //Utility to calculate the fourball match status hole by hole
     const front =
-      nassau[8].split('+').length - 1 - (nassau[8].split('-').length - 1); //counts the number of +'s  and -'sat nine to determine the front differential
+      nassau[8].split('+').length - 1 - (nassau[8].split('-').length - 1); //counts the number of +'s  and -' at nine to determine the front differential
     const back =
       nassau[17].split('+').length - 1 - (nassau[17].split('-').length - 1); //counts the number of +'s and -'s at eighteen to determine the back differential
     const tempPress = this.matchPress(foursome, 0); //result of the 18-hole press
