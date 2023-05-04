@@ -24,8 +24,8 @@ export class Team {
 export class LineUps {
   teamA?: Team;
   teamB?: Team;
-  teamC?: Team;
-  teamD?: Team;
+  // teamC?: Team;
+  // teamD?: Team;
   lineUpSD: number;
   constructor() {
     this.lineUpSD = 0;

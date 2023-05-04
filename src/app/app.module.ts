@@ -59,6 +59,7 @@ import { MatchDropDragComponent } from './components/matches/match-drop-drag/mat
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { EvenOddPipe } from './services/evenodd.pipe';
 import { MatchViewComponent } from './components/matches/match-view/match-view.component';
+import { MatchScoreESATotalComponent } from './src/app/components/matches/match-score-esa-total/match-score-esa-total.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,7 +106,8 @@ import { MatchViewComponent } from './components/matches/match-view/match-view.c
     IndexPrintComponent,
     MatchDropDragComponent,
     EvenOddPipe,
-    MatchViewComponent
+    MatchViewComponent,
+    MatchScoreESATotalComponent
   ],
   imports: [
     BrowserModule,

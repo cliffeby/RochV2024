@@ -13,13 +13,13 @@ export class MatchPairService {
 
   constructor() {}
 
-  async createRandomPairings(rPlaying: Member[]) {
+  async createRandomPairingswithCombinedIndex(rPlaying: Member[]) {
     const pairings: Team[] = [];
     const randomPlayers: Member[] = rPlaying.sort(() => Math.random() - 0.5);
     for (let j = 0; j < randomPlayers.length; j = j + 2) {
       this.A = { ...randomPlayers[j] };
       this.B = { ...randomPlayers[j + 1] };
-      if (this.A.usgaIndex > this.B.usgaIndex) {
+      if (this.A.usgaIndex > this.B.usgaIndex) { //Make Player A the low handicap
         this.team = {
           playerA: this.B,
           playerB: this.A,
@@ -34,7 +34,7 @@ export class MatchPairService {
       }
       pairings.push(this.team);
     }
-    for (let i = 0; i < pairings.length; i++) {
+    for (let i = 0; i < pairings.length; i++) {  //Add combinedIndex property to Team
       let combinedIndex =
         pairings[i].playerA.usgaIndex + pairings[i].playerB.usgaIndex;
       pairings[i] = { ...pairings[i], combinedIndex };
@@ -46,10 +46,10 @@ export class MatchPairService {
     let sd: number;
     let foursomeUSGAIndex: number[] = [];
     let combos: LineUps[] = [];
-    let combo = [];
+    let combo:Team[] = [];
 
     for (let i = 0; i < 100; i++) {
-      combo = await this.createRandomPairings(rPlaying);
+      combo = await this.createRandomPairingswithCombinedIndex(rPlaying);
       for (let j = 0; j < 4; j++) {
         if (combo[j]) {
           foursomeUSGAIndex.push(combo[j].combinedIndex);

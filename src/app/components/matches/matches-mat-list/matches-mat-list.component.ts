@@ -45,6 +45,7 @@ export class MatchesMatListComponent
     'status',
     'action',
   ];
+  page:number = 0;
 
   constructor(
     private _matchesService: MatchesService,
@@ -94,15 +95,14 @@ export class MatchesMatListComponent
   onUnLock(match: any) {
     this._matchesService.matchStatusSubject.next('open');
     ({ lineUps: null, status: 'open', ...match });
-    this._matchesService.updateMatch(match)
-    //   .subscribe((resUpdatedMatch) => (match = resUpdatedMatch));
-    
+    this._matchesService.updateMatch(match)    
     this.UnLockMatchEvent.emit(match);
     
   }
   onView(mem:any){
     this._matchesService.lineUpSubject.next(mem);
     this.ViewMatchEvent.emit(mem);
+    this.page = this.dataSource.paginator.pageIndex
   }
   onDelete(index:number, match:any) {
     if (window.confirm('Are you sure')) {
@@ -121,7 +121,7 @@ export class MatchesMatListComponent
       this.dataSource = this.dataSource;
     }
   }
-  applyFilter(event: Event) {
+  applyFilter1(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

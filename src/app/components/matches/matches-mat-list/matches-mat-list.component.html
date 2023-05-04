@@ -8,14 +8,13 @@
     </a>
     <mat-divider fxFlex="1 0"></mat-divider>
   </div>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
-  <!-- <p *ngIf="matches.length <= 0" class="no-data">There is no match added yet!</p> -->
 
-  <!-- <div class="container" *ngIf="matches.length > 0"> -->
-  <button mat-raised-button color="accent" (click)="onRefresh()">Refresh</button>
+  <mat-form-field>
+    <mat-label>General Filter</mat-label>
+    <input matInput (keyup)="applyFilter1($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+
+  <button mat-raised-button color="gray" (click)="onRefresh()">Refresh</button>
   <div class="container" >
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource " matSort (matSortChange)="ngAfterViewInit()">
@@ -61,6 +60,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[2, 5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 </div>
