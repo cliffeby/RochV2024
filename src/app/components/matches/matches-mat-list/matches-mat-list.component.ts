@@ -30,7 +30,7 @@ export class MatchesMatListComponent
   @Output() public SelectMatchEvent = new EventEmitter();
   @Output() public ScoreMatchEvent = new EventEmitter();
   @Output() public PrintMatchEvent = new EventEmitter();
-  @Output() public PrintSCEvent = new EventEmitter();
+  @Output() public ScoreESATotalEvent = new EventEmitter();
   @Output() public UnLockMatchEvent = new EventEmitter();
   @Output() public ViewMatchEvent = new EventEmitter();
   @Output() public DeleteMatchEvent = new EventEmitter();
@@ -89,8 +89,9 @@ export class MatchesMatListComponent
     console.log('Match for Printing', mem);
     this.PrintMatchEvent.emit(mem);
   }
-  onPrintScorecards(match: Match) {
-    this.PrintSCEvent.emit(match);
+  onScoreESATotal(match: Match) {
+    console.log('emitted')
+    this.ScoreESATotalEvent.emit(match);
   }
   onUnLock(match: any) {
     this._matchesService.matchStatusSubject.next('open');

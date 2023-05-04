@@ -4,7 +4,7 @@
   </app-matches-mat-edit>
 </div>
 <ng-container *ngIf="_reload">
-<div *ngIf="selectedMatch && hideNewMatch && hideScoreMatch">
+<div *ngIf="selectedMatch && hideNewMatch && hideScoreMatch && hideScoreESATotal">
   <h2>Edit Match</h2>
   <app-matches-mat-edit (updateMatchEvent)="onUpdateMatchEvent($event)" [match]="selectedMatch"
     (pairMatchEvent)="onPairMatchEvent()">
@@ -31,11 +31,15 @@
   <app-match-score [match]="selectedMatch" (UpdateScoresEvent)="onUpdateScoresEvent($event)">
     ></app-match-score>
 </div>
+<div *ngIf="!hideScoreESATotalMatch">
+  <app-match-score-esa-total [match]="selectedMatch" >
+    ></app-match-score-esa-total>
+</div>
 </ng-container>
 
 <div *ngIf="!selectedMatch && hideNewMatch && hideScoreMatch && hideSCPrint && hideViewMatch">
   <app-matches-mat-list (SelectMatchEvent)="onSelectMatchEvent($event)" (ScoreMatchEvent)="onScoreMatchEvent($event)"
-    (PrintMatchEvent)="onPrintMatchEvent($event)" (PrintSCEvent)="onPrintSCEvent($event)"
+    (PrintMatchEvent)="onPrintMatchEvent($event)" (ScoreESATotalEvent)="onScoreESATotalEvent($event)"
     (UnLockMatchEvent)="onUnLockMatchEvent($event)" (DeleteMatchEvent)="onDeleteMatchEvent($event)"
     (ViewMatchEvent)="onViewMatchEvent($event)" 
     [matches]="matches">

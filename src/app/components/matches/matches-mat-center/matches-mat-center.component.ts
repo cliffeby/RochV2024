@@ -20,6 +20,7 @@ export class MatchesMatCenterComponent implements OnInit {
   public hideScoreMatch = true;
   public hideSCPrint = true;
   public hideViewMatch = true;
+  public hideScoreESATotalMatch = true;
   @Output() public matches: Array<Match>;
   @Output() public update;
   public _reload = true;
@@ -76,13 +77,15 @@ export class MatchesMatCenterComponent implements OnInit {
     );
     this._printService.createPdf(match);
   }
-  onPrintSCEvent(match: Match) {
+  onScoreESATotalEvent(match: Match) {
     this.selectedMatch = match;
     this.hideNewMatch = true;
     this.hideMemberBlock = true;
     this.hidePairMatch = true;
-    this.hideSCPrint = false;
+    this.hideSCPrint = true;
+    this.hideScoreESATotalMatch = false;
     this.hideViewMatch = true;
+    console.log('Score MatchESA', this.hideScoreESATotalMatch, match.lineUps);
   }
 
   onUnLockMatchEvent(match: Match) {
