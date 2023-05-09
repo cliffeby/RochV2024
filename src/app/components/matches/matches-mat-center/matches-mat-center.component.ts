@@ -51,6 +51,7 @@ export class MatchesMatCenterComponent implements OnInit {
       this.hideMemberBlock = false;
       this.hidePairMatch = true;
       this.hideViewMatch = true;
+      this.hideScoreESATotalMatch = true;
       console.log('Center2', this.selectedMatch);
     }
   }
@@ -62,6 +63,7 @@ export class MatchesMatCenterComponent implements OnInit {
     this.hidePairMatch = true;
     this.hideScoreMatch = false;
     this.hideViewMatch = true;
+    this.hideScoreESATotalMatch = true;
     console.log('Score Match', this.hideScoreMatch, match.lineUps);
   }
 
@@ -76,6 +78,15 @@ export class MatchesMatCenterComponent implements OnInit {
       match.lineUps[0].playerA.scorecardId
     );
     this._printService.createPdf(match);
+  }
+
+  onPrintSCEvent(match: Match) {
+    this.selectedMatch = match;
+    this.hideNewMatch = true;
+    this.hideMemberBlock = true;
+    this.hidePairMatch = true;
+    this.hideSCPrint = false;
+    this.hideViewMatch = true;
   }
   onScoreESATotalEvent(match: Match) {
     this.selectedMatch = match;

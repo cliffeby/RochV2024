@@ -1,0 +1,11 @@
+.ESAscore-cell {
+    width:50px;
+    margin: 3px;
+   }
+
+   .mat-grid-tile .mat-figure {
+    justify-content: left !important;
+  }
+  .col{
+    display:flex;
+  }

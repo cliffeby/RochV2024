@@ -1,2 +1,23 @@
-<p>match-score-esa-total works!</p>
-{{match.lineUps | json}}
+<h2>Match Score Totals- {{match.name}}-{{match.datePlayed | date: 'EEE MMM dd yyyy'}}</h2>
+
+<!-- <div formArrayName="controlArray" *ngFor="let t of playerScoresForm.controls; let i = index">
+    <input formControlName='name' id="{{'name'+i}}" type="text" class="form-control mb-4" placeholder="Enter Name" />
+    <input formControlName='age' id="{{'age' + i}}" type="number" class="form-control mb-4"
+    placeholder="Enter Age " />
+  </div> -->
+
+<form [formGroup]="scoreForm">
+    <div formArrayName="arr" *ngFor="let a of scoreForm.get('arr')['controls']; let i = index">
+        <div [formGroupName]="i" style="margin-bottom: 10px;" layout="row" layout-align="center center">
+            <div flex="60">
+                <label>{{a.controls.name.value}}</label>
+            </div>
+            <div flex="30">
+                <input matInput class="ESAscore-cell" type="number" min="50" a.controls.ESATotalScore.value />
+            </div>
+            
+        </div>
+    </div>
+    <br>
+    <button type="button" (click)="save()">Submit</button>
+</form>
