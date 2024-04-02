@@ -1,4 +1,4 @@
-import info from '../../auth_config.json';
+import info from '../auth_config.json';
 
 export const environment = {
   production: false,
