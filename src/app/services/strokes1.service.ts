@@ -1,6 +1,6 @@
 // import { splitClasses } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { BehaviorSubject, forkJoin, merge, Observable, of } from 'rxjs';
 import {
   bufferCount,

@@ -21,7 +21,7 @@ import { environment as env } from 'src/environments/environment';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
 import { MembersCenterComponent } from './components/members/members-center/members-center.component';
 import { MembersMatListComponent } from './components/members/members-mat-list/members-mat-list.component';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { AngularMaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembersMatEditComponent } from './components/members/members-mat-edit/members-mat-edit.component';
