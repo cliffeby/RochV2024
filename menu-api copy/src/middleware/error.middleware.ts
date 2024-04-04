@@ -8,6 +8,6 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   const status = error.statusCode || error.status || 500;
-  console.log("Middleware error", error.message)
+  console.log("Middleware error", error.message, error)
   response.status(status).send(error);
 };

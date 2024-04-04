@@ -105,7 +105,7 @@ import { ScoresMatIndexesComponent } from './components/scores/scores-mat-indexe
     MatTableModule,
     AngularMaterialModule,
     BrowserAnimationsModule,
-    NgxPrintModule,
+    // NgxPrintModule,
     AuthModule.forRoot({
       ...env.auth,
       httpInterceptor: {
